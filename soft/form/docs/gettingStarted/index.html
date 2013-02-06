@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Java Development Standards</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0002.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a></FONT></TD><TD align=right>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0002.html">Next</A>&nbsp;<A href="part0002.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<H1 ALIGN=CENTER>
+<CENTER><B>Getting Started with FORM</B></CENTER></H1>
+<H2 ALIGN=CENTER>
+<CENTER><B><I>R1.0</I></B></CENTER></H2>
+
+<A NAME="E9E1"></A>
+<H1>
+<FONT COLOR="#000080"><B>Introduction</B></FONT></H1>
+<P>Thank you for purchasing FORM.  FORM is a superior object-relational mapping framework for Java and it will help you build better applications faster.  This document describes the FORM release, its components, and how those components are installed on your system.  It also describes how to setup FORM&#146;s examples to work with your system and database.
+<A NAME="E10E1"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Distribution and Installation</I></B></FONT></H2>
+<P>FORM is currently shipped as one &#145;zip&#146; file, which will expand into a single root directory named &#145;chimu&#146; with multiple subdirectories containing the FORM Components.  This root directory can be placed anywhere, but the paths to the executables and the java class files must be set appropriately.  We will refer to the full path of the root directory as &#145;&#133;/chimu&#146;.
+<P>Currently manual installation is required for Class Path and Executable Path updates.  This will be changed in future releases.
+
+<A NAME="TOC"></A>
+<H2><FONT COLOR="#000080"><I>Table of Contents</I></FONT></H2>
+<UL>
+<LI><A HREF="#E9E1">Introduction</A>
+<UL>
+<LI><A HREF="#E10E1">Distribution and Installation</A></UL>
+<LI><A HREF="#E9E2">FORM Components</A>
+<UL>
+<LI><A HREF="part0002.html#E10E2">Java Classes</A>
+<LI><A HREF="part0002.html#E10E3">Documentation</A>
+<LI><A HREF="part0002.html#E10E4">Examples</A>
+<LI><A HREF="part0002.html#E10E5">Included Source</A>
+<LI><A HREF="part0002.html#E10E6">Shell/Batch files</A>
+<LI><A HREF="part0002.html#E10E7">Component Directory Summary</A>
+<LI><A HREF="part0002.html#E10E8">Distribution Map</A></UL>
+<LI><A HREF="part0003.html#E9E3">Required Manual Installation</A>
+<UL>
+<LI><A HREF="part0003.html#E10E9">Jar files and Class Paths</A>
+<LI><A HREF="part0003.html#E10E10">Shell/Batch files and Executable Paths</A></UL>
+<LI><A HREF="part0004.html#E9E4">Setting up the Examples</A>
+<UL>
+<LI><A HREF="part0004.html#E10E11">Using the ExampleRunner</A>
+<LI><A HREF="part0004.html#E10E12">Creating Databases for the Examples </A>
+<UL>
+<LI><A HREF="part0004.html#E11E1">Creating on the Server</A>
+<LI><A HREF="part0004.html#E11E2">Creating an ODBC source (if needed)</A>
+<LI><A HREF="part0004.html#E11E3">Testing the FormExampleDatabase</A></UL>
+<LI><A HREF="part0004.html#E10E13">Choosing Schemes and Database Population</A>
+<LI><A HREF="part0004.html#E10E14">Running the Examples</A>
+<UL>
+<LI><A HREF="part0004.html#E11E4">Tracing</A></UL>
+<LI><A HREF="part0004.html#E10E15">Using the Local Examples</A>
+<LI><A HREF="part0004.html#E10E16">You are Done</A></UL>
+<LI><A HREF="part0005.html#E9E5">Setting up the Examples-2</A>
+<UL>
+<LI><A HREF="part0005.html#E10E17">Using the DatabaseTester</A>
+<UL>
+<LI><A HREF="part0005.html#E11E5">ODBC Driver and Database</A>
+<LI><A HREF="part0005.html#E11E6">Direct JDBC URL</A></UL>
+<LI><A HREF="part0005.html#E10E18">Creating Databases for the Examples </A>
+<UL>
+<LI><A HREF="part0005.html#E11E7">Creating on the Server</A>
+<LI><A HREF="part0005.html#E11E8">Creating an ODBC source (if needed)</A>
+<LI><A HREF="part0005.html#E11E9">Testing the FormExampleDatabase</A></UL>
+<LI><A HREF="part0005.html#E10E19">Setup of a FormExampleDatabase</A>
+<LI><A HREF="part0005.html#E10E20">Running the Examples</A>
+<UL>
+<LI><A HREF="part0005.html#E11E10">Recompiling the examples</A></UL>
+<LI><A HREF="part0005.html#E10E21">You are Done</A>
+<LI><A HREF="part0005.html#E10E22">Other Topics</A>
+<UL>
+<LI><A HREF="part0005.html#E11E11">Using the FormDatabaseTester</A>
+<LI><A HREF="part0005.html#E11E12">Running Examples from you own program</A></UL></UL>
+<LI><A HREF="part0006.html#E9E6">Where to go next</A>
+<UL>
+<LI><A HREF="part0006.html#E10E23">ChiMu Corporation References</A></UL></UL>
+
+<H2><FONT SIZE="+2" COLOR="#000080"><B><I>Other Versions</I></B></FONT></H2>
+<UL NOBULLET>
+<LI><a href="../JavaStandards.pdf">PDF Format</a>
+</UL>
+
+
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<B>Getting Started with FORM</B></TD>
+<TD valign=top>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0002.html">Next</A>&nbsp;<A href="part0002.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD>
+</TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

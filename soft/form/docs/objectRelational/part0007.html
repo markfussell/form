@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Client-Server Object Issues</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0008.html">
+    <LINK REL="Prev" HREF="part0006.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html">Object-Relational Mapping</FONT></A></TD><TD valign=top align=right><A href="part0006.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0006.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0008.html">Next</A>&nbsp;<A href="part0008.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E7"></A>
+<H1>
+<FONT COLOR="#000080"><B>Client-Server Object Issues</B></FONT></H1>
+
+<P>
+<CENTER><TABLE ><TR>
+<TD VALIGN=top ><A HREF="part0007.html#E10E16">ObjectSpaces</A></TD>
+<TD VALIGN=top ><A HREF="part0007.html#E10E17">Client-Server ObjectSpaces</A></TD>
+<TD VALIGN=top ><A HREF="part0007.html#E10E18">Concurrency and Conflicts</A></TD>
+<TD VALIGN=top ><A HREF="part0007.html#E10E19">Summary</A>
+</TD></TR></TABLE>
+</CENTER>
+<P>Object-relational mapping intrinsically brings in client-server issues because a relational server is separated from the client application.  The client-server issues are nonetheless independent of relational mapping.  This conveniently divides the problems into more manageable pieces.  This chapter will discuss client-server issues solely in terms of objects.  The next chapter can then focus on the specifics of relational mapping.
+<P>The problems when dealing with client-server objects is to be able to manage the identity and state of objects on each of the client and the server, and then handle the relationships between the two systems&#146; objects.  This is different from the relational approach where everything is just a value.  The client is only getting a simple snapshot of the server state and then must state explicitly how it wants to change it.  The object model tries to provide a more transparent interface for the client, but this actually causes a more complex model and a more sophisticated framework.
+<P> 
+<A NAME="E10E16"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>ObjectSpaces</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD WIDTH=355 VALIGN=top >
+<P>To help describe these independent states we will define the term ObjectSpace.  An ObjectSpace is a closed collection of objects based on a single (possibly very large) scheme.  An ObjectSpace is self-contained and isolated from other ObjectSpaces: two ObjectSpaces can be based on the same scheme but they have no references to each other and changes to either ObjectSpaces&#146;s state will not impact the other.
+</TD><TD WIDTH=234 VALIGN=top >
+<P>
+<IMG SRC="image0004.gif" WIDTH = 213 HEIGHT = 143 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E11E20"></A>
+<H3>
+<FONT COLOR="#000080">ObjectSpace Example</FONT></H3>
+<P>Scheme-1 shows a scheme for a simple business model.  ObjectSpace-1 shows one complete state of a business model: it represents the model of interest to Purrfect Analysis.  ObjectSpace-2 shows a second, independent, but also complete state of the same scheme.  ObjectSpace-1 and ObjectSpace-2 are completely independent even though they have compatible (actually equivalent) models.
+<P>
+<IMG SRC="image0005.gif" WIDTH = 270 HEIGHT = 170 ALT="Undisplayed Graphic">
+<P>
+<IMG SRC="image0006.gif" WIDTH = 281 HEIGHT = 164 ALT="Undisplayed Graphic">
+<IMG SRC="image0007.gif" WIDTH = 281 HEIGHT = 134 ALT="Undisplayed Graphic">
+<A NAME="E10E17"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Client-Server ObjectSpaces</I></B></FONT></H2>
+<P>ObjectSpaces are by default unrelated.  A simple application could &quot;load&quot; all the objects from one ObjectSpace, modify them, and then save them back (similar to working with a document).  At the same time a different application could work with a different ObjectSpace.  Neither application would have an impact on the other.
+<P>Client-Server applications can not work this way.  The basic model for client-server applications is a single central server with multiple clients that can connect to that server.  The ObjectSpaces for these different applications are not independent, but are instead interlinked by the state of the server&#146;s ObjectSpace.
+<A NAME="E11E21"></A>
+<H3>
+<FONT COLOR="#000080">True ObjectSpace is on the Server</FONT></H3>
+
+<CENTER><TABLE >
+<TR>
+<TD WIDTH=253 VALIGN=top >
+<P>For client-server applications the &quot;true&quot; ObjectSpace is located on the Server.  This is where the one true state of the business model is kept for everyone to see and modify.  If each client connected to the server&#146;s ObjectSpace (locking out all other clients for that time period) and made changes we would again return to the simple, single ObjectSpace model.  Unfortunately this would prevent any type of concurrency among different users of the application.  Instead each client will also have its own ObjectSpace that is replicated from the servers true ObjectSpace.
+</TD><TD WIDTH=348 VALIGN=top >
+<P>
+<IMG SRC="image0008.gif" WIDTH = 321 HEIGHT = 158 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E11E22"></A>
+<H3>
+<FONT COLOR="#000080">Proxies and Replicates</FONT></H3>
+<P>A <B>Proxy</B> is an object that stands in for another object (the RealSubject) and manages the client interaction with the RealSubject.  A proxy pretends to be the RealSubjectto make life easy on the client: a client does not need to consider all the issues involved with talking to the RealSubjectwhich may be on a different machine or could change in different contexts.  A <B>Replicate</B> is a Proxy which holds local state and performs local operations which are later propagated to the RealSubject.  This is as opposed to a <B>Forwarder</B>, which holds no local state and which immediately propagates all operations to the RealSubject.
+<P>Proxies must be able to find and pretend to be their RealSubject.  This causes a Proxy to have two identities: their local identity and their &quot;real&quot; (pretend) identity.  The RealSubject must have some type of <B>IdentityKey</B>, a value that uniquely identitifies the RealSubject for its proxies.  Each proxy can then hold onto the RealSubject&#146;s IdentityKey for later use in finding and interacting with the RealSubject.
+<A NAME="E11E23"></A>
+<H3>
+<FONT COLOR="#000080">Replicated ObjectSpaces are on the Clients</FONT></H3>
+<P>Each client has its own ObjectSpace but this is only a temporary working-copy of the server&#146;s true ObjectSpace.  Each object in a client&#146;s ObjectSpace is a replicate of a server object, and the whole client ObjectSpace forms a partial or complete replicate of the server&#146;s ObjectSpace.
+<P>
+<IMG SRC="image0009.gif" WIDTH = 558 HEIGHT = 444 ALT="Undisplayed Graphic">
+<A NAME="E10E18"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Concurrency and Conflicts</I></B></FONT></H2>
+<P>If each client deals with a non-intersecting subset of the servers ObjectSpace then we can have easy and &quot;perfect&quot; concurrency: clients can cause changes to their ObjectSpace replicates and propogate these to the server without worry about a conflict with another client.  For our example, changes to &quot;Diego Jablonski&quot; will not conflict with changes to &quot;Lino Buchanan&quot;.
+<P>For most applications it is very unlikely that clients will always using non-intersecting subsets.  For the cases where the ObjectSpaces on clients overlap there must be some type of concurrency control between the clients and the server.  Concurrency controls can vary on granularity, visibility, pessimism, functional dependency, and many other axes.  There are too many variations of concurrency control to be discussed here, but I will include a couple examples.
+<H4>
+<FONT COLOR="#000080"><A NAME="I2"></A>Approach-1</FONT></H4>
+<P>A client can &quot;check-out&quot; a collection of objects from the server and no other client can see these objects until they are checked back in.  For our example, client-1 can check-out Comfy Cat and all its employees and projects.  Then client-2 could work with &quot;Red Hot Hat&quot; but not do anything with Comfy Cat.  This automatically causes each client to have non-intersecting subsets.
+<H4>
+<FONT COLOR="#000080"><A NAME="I3"></A>Approach-2</FONT></H4>
+<P>A client can either read &quot;check-out&quot; or write &quot;check-out&quot; objects from the server.  Two clients can check-out the same object as long as they are not both trying to write to it.  Alternatively we can prevent dirty-reads as well: a client can only check out an object if there are no write-locks on it and can only write-lock an object if no other client has checked it out.
+<H4>
+<FONT COLOR="#000080"><A NAME="I4"></A>Approach-3</FONT></H4>
+<P>A client can replicate any object from the server but will only be able to write changes back to the server if the server object has not changed since the client produced the replicate.  This is the standard optimistic locking.
+<A NAME="E10E19"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Summary</I></B></FONT></H2>
+<P>Because relational mapping intrinsically involves a client-server system we need to be able to handle the issues with that system.  Most of the issues have nothing to do with relational mapping but are instead involved with having multiple ObjectSpaces between a Server and its Client applications.  We need to recognize that the client objects are Replicates of the server objects, that they must keep track of the IdentityKey of their server object, and that there are many issues and approaches for handling concurrency between the multiple clients.  
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html"><B>Object-Relational Mapping</B></A></TD><TD valign=top><A href="part0006.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0006.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0008.html">Next</A>&nbsp;<A href="part0008.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Creating Databases for the Examples</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0017.html">
+    <LINK REL="Prev" HREF="part0015.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html">Getting Started with FORM</FONT></A></TD><TD valign=top align=right><A href="part0015.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0015.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0017.html">Next</A>&nbsp;<A href="part0017.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E10E12"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Creating Databases for the Examples</I></B><B><I> </I></B></FONT></H2>
+<P>Once you have the ExampleRunner working with you database server and an existing database, you can create one or more databases to hold the FORM example schemes and data.  The examples use several different schemes that are different from each other, so you can either use and reuse a single database for all the examples or setup multiple databases with one database for each example scheme.  FORM handles the scheme creation and population for you, so reusing a single database only has the disadvantage that examples from different scheme can not be run at the same time.  We will assume you are using a single database for all the examples that is named &#145;FormExampleDatabase&#146;.
+<A NAME="E11E1"></A>
+<H3>
+<FONT COLOR="#000080"><B>Creating on the Server</B></FONT></H3>
+<P>You will need to create a new database &#145;FormExampleDatabase&#146; on your database server and specify a user with the abilities to create scheme objects (e.g. Tables) within that database.  See you database product manual for more information on creating databases and user login accounts.
+<A NAME="E11E2"></A>
+<H3>
+<FONT COLOR="#000080"><B>Creating an ODBC source (if needed)</B></FONT></H3>
+<P>ODBC requires creating a source for any database you need to access.  If you are using ODBC then you must create an ODBC source &#145;FormExampleDatabase&#146; that connects to the database you created above.  This is normally done through the ODBC Control Panel.
+<A NAME="E11E3"></A>
+<H3>
+<FONT COLOR="#000080"><B>Testing the FormExampleDatabase</B></FONT></H3>
+<P>To make sure the database is working and accessible you can now try to login to it through the ExampleRunner.  Specify the DatabaseName and your login information and then press the &#145;Test Login&#146; button.  If the login is successful this will return database catalog information.  
+<P> If the login is not successful, check to make sure you have the right login name and password.  You will also be given information on the full JDBC URL that was used to log in and the Database driver.  This will allow you to verify that the ExampleRunner is producing the connection that you want. JDBC drivers can be especially finicky.
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html"><B>Getting Started with FORM</B></A></TD><TD valign=top><A href="part0015.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0015.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0017.html">Next</A>&nbsp;<A href="part0017.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

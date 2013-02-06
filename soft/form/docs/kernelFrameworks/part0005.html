@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Functors</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0006.html">
+    <LINK REL="Prev" HREF="part0004.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html">Kernel Frameworks</FONT></A></TD><TD valign=top align=right><A href="part0004.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0004.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0006.html">Next</A>&nbsp;<A href="part0006.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E5"></A>
+<H1>
+<FONT COLOR="#000080"><B>Functors</B></FONT></H1>
+
+<P>
+<CENTER><TABLE ><TR>
+<TD VALIGN=top ><A HREF="part0005.html#E10E5">Basic Functors</A></TD>
+<TD VALIGN=top ><A HREF="part0005.html#E10E6">Functor recompiler</A></TD>
+<TD VALIGN=top ><A HREF="part0005.html#E10E7">Smart Functors</A></TD>
+<TD VALIGN=top ><A HREF="part0005.html#E10E8">Notation</A>
+</TD></TR></TABLE>
+</CENTER>
+<P>Functors are objects that model operations that can be performed.  In their simplest form they are somewhat like function pointers: they allow a client to call an unknown method with a standard interface.  Because functors are full-blown objects they can do quite a bit more than function pointers: they can record and take advantage of their own state as well as allowing references to other objects be used in the method execution.  &quot;Smart&quot; functors can also allow the client to ask questions about what operations are available and what the functor requires for proper execution.  Basic functors don&#146;t provide this functionality but are easier to create which makes them more useful.
+<A NAME="E10E5"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Basic Functors</I></B></FONT></H2>
+<P>The basic functors are Interfaces with a single-method protocol that makes them easy to implement.  They are about as close to having Smalltalk block simplicity as is possible with Java right now.  Functors vary on two axes: what type of value they return and how many arguments they take.  There are three types of Functors based on return value:
+
+<CENTER><TABLE >
+<TR>
+<TD WIDTH=138 VALIGN=top >
+<P><B>Type</B>
+</TD><TD WIDTH=186 VALIGN=top >
+<P><B>Returns</B>
+</TD><TD WIDTH=114 VALIGN=top >
+<P><B>Method Prefix</B></TD>
+</TR>
+<TR>
+<TD WIDTH=138 VALIGN=top >
+<P>Procedure
+</TD><TD WIDTH=186 VALIGN=top >
+<P>nothing (void)
+</TD><TD WIDTH=114 VALIGN=top >
+<P>execute</TD>
+</TR>
+<TR>
+<TD WIDTH=138 VALIGN=top >
+<P>Function
+</TD><TD WIDTH=186 VALIGN=top >
+<P>An Object
+</TD><TD WIDTH=114 VALIGN=top >
+<P>value</TD>
+</TR>
+<TR>
+<TD WIDTH=138 VALIGN=top >
+<P>Predicate
+</TD><TD WIDTH=186 VALIGN=top >
+<P>A boolean
+</TD><TD WIDTH=114 VALIGN=top >
+<P>isTrue</TD></TR></TABLE></CENTER><P>There can be any number of parameters, but currently there is support for only 0, 1, and 2 argument functors.  All functors only take Objects as parameters.
+
+<CENTER><TABLE >
+<TR>
+<TD WIDTH=36 VALIGN=top >
+<P><B>#</B>
+</TD><TD WIDTH=102 VALIGN=top >
+<P><B>Type Suffix</B>
+</TD><TD WIDTH=234 VALIGN=top >
+<P><B>Method Suffix</B></TD>
+</TR>
+<TR>
+<TD WIDTH=36 VALIGN=top >
+<P>0
+</TD><TD WIDTH=102 VALIGN=top >
+<P>0Arg
+</TD><TD WIDTH=234 VALIGN=top >
+<P>() [none]</TD>
+</TR>
+<TR>
+<TD WIDTH=36 VALIGN=top >
+<P>1
+</TD><TD WIDTH=102 VALIGN=top >
+<P>1Arg
+</TD><TD WIDTH=234 VALIGN=top >
+<P>With(Object arg1)</TD>
+</TR>
+<TR>
+<TD WIDTH=36 VALIGN=top >
+<P>2
+</TD><TD WIDTH=102 VALIGN=top >
+<P>2Arg
+</TD><TD WIDTH=234 VALIGN=top >
+<P>With_with(Object arg1, Object arg2)</TD></TR></TABLE></CENTER><A NAME="E11E7"></A>
+<H3>
+<FONT COLOR="#000080">Examples</FONT></H3>
+<P>The following are some declarations of the different basic functors.
+<PRE>
+<FONT FACE="Courier">    public interface Procedure0Arg {
+         public void execute();
+    }</FONT></PRE>
+<P>    
+<PRE>
+<FONT FACE="Courier">    public interface Function1Arg {
+         public Object valueWith(Object arg1);
+    }</FONT></PRE>
+<P>    
+<PRE>
+<FONT FACE="Courier">    public interface Predicate2Arg{
+         public boolean isTrueWith_with(Object arg1, Object arg2);
+    }</FONT></PRE>
+<P>Calling the above functors might look like this:
+<PRE>
+<FONT FACE="Courier">    boolean exampleMethod (Procedure0Arg procedure, Function1Arg function, Predicate2Arg predicate) {
+        procedure.execute();
+        return predicate.isTrueWith_with(&quot;Hi There&quot;, function.valueWith(&quot;  Hi  &quot;))
+    }</FONT></PRE>
+<A NAME="E11E8"></A>
+<H3>
+<FONT COLOR="#000080">Using a BasicFunctor</FONT></H3>
+<P>To use a BasicFunctor you can either implement the functor&#146;s interface in a standard Class or use Java 1.1&#146;s anonymous classes to create functors where you need them.  
+<H4>
+<FONT COLOR="#000080"><A NAME="I2"></A>Named Functor Creation</FONT></H4>
+<P>Using the standard Class implementation looks like this:
+<PRE>
+<FONT FACE="Courier">    class MyProcedure implements Procedure0Arg {
+        public void execute() {
+            System.out.println(&quot;We're here&quot;);  
+        }
+    }</FONT></PRE>
+<P>    
+<PRE>
+<FONT FACE="Courier">    class MyTrimFunction implements Function1Arg {
+        public Object valueWith(Object arg1) {
+            return ((String) arg1).trim();
+        }
+    }</FONT></PRE>
+<P>    
+<PRE>
+<FONT FACE="Courier">    class MyStartsWithPredicate implements Predicate2Arg {
+        public boolean isTrueWith_with(Object arg1, Object arg2) {
+            return ((String) arg1).startsWith((String) arg2);
+        }
+    }</FONT></PRE>
+<P>And creating one of these functors would look like this:
+<PRE>
+<FONT FACE="Courier">    Procedure0Arg myProcedure1 = new MyProcedure();</FONT></PRE>
+<H4>
+<FONT COLOR="#000080"><A NAME="I3"></A>Anonymous Functor Creation</FONT></H4>
+<P>Using the anonymous class method to define and create the Functors in one statement is a bit more obscure but is also much shorter and more convenient.  It looks like this:
+<PRE>
+<FONT FACE="Courier">    new Procedure0Arg () {public void execute() {
+           System.out.println(&quot;We&#146;re here&quot;);
+    }};</FONT></PRE>
+<P>    
+<PRE>
+<FONT FACE="Courier">    new Function1Arg () {public Object valueWith(Object arg1) {
+           return ((String) arg1).trim();
+    }};</FONT></PRE>
+<P>    
+<PRE>
+<FONT FACE="Courier">    new Predicate2Arg () {public boolean isTrueWith_with(Object arg1, Object arg2) {
+           return ((String) arg1).startsWith((String) arg2);
+    }};</FONT></PRE>
+<A NAME="E10E6"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Functor recompiler</I></B></FONT></H2>
+<P>Because using anonymous classes for Functors is still a bit noisy, we have a recompiler for Java that allows you to use &quot;Blocks&quot; (very similar to Smalltalk blocks) as a more concise functor creation expression.  A block&#146;s syntax is:
+<PRE>
+<FONT FACE="Courier">    &#145;[&#146; FunctorArgumentList &#145;|&#146; BlockStatements &#145;]&#146; </FONT></PRE>
+<P>where a &#145;^&#146; in front of an argument specification indicates the return type of the &quot;block&quot;.  
+<P>Returning to the above examples, we could call the original &quot;exampleMethod&quot; as follows:
+<PRE>
+<FONT FACE="Courier">    if (exampleMethod (
+            [^void | System.out.println(&quot;We're here&quot;);],
+            [String arg1 | return arg1.trim();],
+            [^boolean, String arg1, String arg2 | return arg1.startsWith(arg2)]
+            )
+       ) System.out.println(&quot;Found the string!&quot;);</FONT></PRE>
+<P>where each block would expand to the above anonymous functor creation statement respectively (except there is some auto casting going on).
+<A NAME="E10E7"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Smart Functors</I></B></FONT></H2>
+<P>Smart functors have the same basic abilities as basic functors but have a richer protocol that allows the client of the functor to inquire about the functors capabilities and requirements.  For example, a SmartFunctor can answer the question of how many arguments it requires and whether it returns a value.
+<A NAME="E10E8"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Notation</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD WIDTH=379 VALIGN=top >
+<P>Since functors are a combination of an object and a function (block of code), the notation for a functor should be a combination of an object and a block of code.  Because the function is within the object we get the notation to the right.  
+<P>The first text line describes the Class (the functionality) of the Functor and the second line describes the parent type (the protocol) of the Functor.  This symbol is frequently unwieldy because it is large to begin with and enlarges significantly as text is added.  
+</TD><TD WIDTH=192 VALIGN=top >
+<P>
+<IMG SRC="image0001.gif" WIDTH = 151 HEIGHT = 73 ALT="Undisplayed Graphic"></TD>
+</TR>
+<TR>
+<TD WIDTH=379 VALIGN=top >
+<P>The second notation to the right is also acceptable.  For this notation the objectness of the functor is visible but less dominant in area.  This is generally a better symbol because it is more visually distinct and scales much better.  The &#145;object&#146; can be moved around along the edge of the &#145;function&#146;.
+</TD><TD WIDTH=192 VALIGN=top >
+<P>
+<IMG SRC="image0002.gif" WIDTH = 151 HEIGHT = 49 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER>
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html"><B>Kernel Frameworks</B></A></TD><TD valign=top><A href="part0004.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0004.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0006.html">Next</A>&nbsp;<A href="part0006.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

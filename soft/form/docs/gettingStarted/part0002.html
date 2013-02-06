@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>FORM Components</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0003.html">
+    <LINK REL="Prev" HREF="part0001.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html">Getting Started with FORM</FONT></A></TD><TD valign=top align=right><A href="part0001.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0001.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0003.html">Next</A>&nbsp;<A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E2"></A>
+<H1>
+<FONT COLOR="#000080"><B>FORM Components</B></FONT></H1>
+<P>The FORM product includes the following components: 
+<OL>
+<LI>Java Classes
+<LI>Documentation
+<LI>Examples
+<LI>Java Source
+<LI>Shell/Batch files
+</OL>
+<A NAME="E10E2"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Java Classes</I></B></FONT></H2>
+<P>FORM is a Java based product and all of FORM&#146;s classes are packaged into two &#145;jar&#146; files: &#145;Form.jar&#146; and &#145;FormTools.jar&#146;.  &#145;Form.jar&#146; contains the main FORM functionality and will be required by your deployed application. &#145;FormTools.jar&#146; contains classes that are development tools and can not be released with the deployed application.  The two jar files together comprise the development environment for FORM and must be located in your Java classpath (or similar configuration for you development environment).  FORM&#146;s Jar files are located in &#145;&#133;/chimu/lib&#146;.
+<A NAME="E10E3"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Documentation</I></B></FONT></H2>
+<P>FORM comes with manuals, supporting documentation, and Javadoc API documentation.  The following list some of the documentation included with FORM:
+<OL>
+<LI>Getting Started with FORM (this document)
+<LI>Introduction to FORM
+<LI>Learning FORM
+<LI>FORM Tools
+<LI>Kernel Frameworks
+<LI>FORM, Dome, Kernel API (Javadoc format)
+<LI>ChiMu&#146;s Java Development Standards
+<LI>Foundations for Object-Relational Mapping
+</OL>
+<P>All the documentation is in &#145;&#133;/chimu/docs/&#146;.  The manuals and supporting documentation is in PDF format and HTML format [Some HTML versions are currently not included].  The Javadoc API is in &#145;&#133;/chimu/docs/api/&#146; in HTML format. 
+<A NAME="E10E4"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Examples</I></B></FONT></H2>
+<P>FORM is distributed with multiple example programs that demonstrate using FORM.  These programs are located in &#145;&#133;/chimu/examples/form&#146; and setting up and running these examples is discussed in a later chapter.
+<A NAME="E10E5"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Included Source</I></B></FONT></H2>
+<P>Besides the Example source code, the FORM standard distribution includes source to some of FORM&#146;s functionality that you may want to modify.  The source code is included in the directory &#145;&#133;/chimu/src&#146; under the &#145;COM/chimu/&#146; subdirectory.  See your licensing agreement for restrictions on source use and alteration.
+<A NAME="E10E6"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Shell/Batch files</I></B></FONT></H2>
+<P>The FORM distribution includes shell/batch programs to simplify the command line typing when using FORM tools.  These are only convenience programs which call the Java VM to do all the work.  The batch programs currently include:
+
+<CENTER><TABLE >
+<TR>
+<TD WIDTH=156 VALIGN=top >
+<P>FormVersion
+</TD><TD WIDTH=324 VALIGN=top >
+<P>Prints the version numbers of the FORM subsystems.  </TD>
+</TR>
+<TR>
+<TD WIDTH=156 VALIGN=top >
+<P>FormDatabaseTester
+</TD><TD WIDTH=324 VALIGN=top >
+<P>Logs into the database and runs examples and tests.</TD>
+</TR>
+<TR>
+<TD WIDTH=156 VALIGN=top >
+<P>FormPreprocessor
+</TD><TD WIDTH=324 VALIGN=top >
+<P>Runs the FORM Preprocessor </TD></TR></TABLE></CENTER><P>See the FORM Tools manual for more information on this functionality.
+<A NAME="E10E7"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Component Directory Summary</I></B></FONT></H2>
+<P>Summarizing the above, FORM&#146;s components are placed in the following locations:
+
+<CENTER><TABLE >
+<TR>
+<TD WIDTH=156 VALIGN=top >
+<P>&#133;/chimu/bin
+</TD><TD WIDTH=144 VALIGN=top >
+<P>Shell/Batch files</TD>
+</TR>
+<TR>
+<TD WIDTH=156 VALIGN=top >
+<P>&#133;/chimu/docs
+</TD><TD WIDTH=144 VALIGN=top >
+<P>Documentation</TD>
+</TR>
+<TR>
+<TD WIDTH=156 VALIGN=top >
+<P>&#133;/chimu/docs/api
+</TD><TD WIDTH=144 VALIGN=top >
+<P>API Javadoc</TD>
+</TR>
+<TR>
+<TD WIDTH=156 VALIGN=top >
+<P>&#133;/chimu/examples/form
+</TD><TD WIDTH=144 VALIGN=top >
+<P>Examples</TD>
+</TR>
+<TR>
+<TD WIDTH=156 VALIGN=top >
+<P>&#133;/chimu/lib
+</TD><TD WIDTH=144 VALIGN=top >
+<P>JAR files</TD>
+</TR>
+<TR>
+<TD WIDTH=156 VALIGN=top >
+<P>&#133;/chimu/src
+</TD><TD WIDTH=144 VALIGN=top >
+<P>Included Source</TD></TR></TABLE></CENTER><A NAME="E10E8"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Distribution Map</I></B></FONT></H2>
+<P>Collecting most of the pieces of FORM into a single diagram looks like this:
+<P>
+<IMG SRC="image0000.gif" WIDTH = 557 HEIGHT = 327 ALT="Undisplayed Graphic">
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html"><B>Getting Started with FORM</B></A></TD><TD valign=top><A href="part0001.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0001.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0003.html">Next</A>&nbsp;<A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

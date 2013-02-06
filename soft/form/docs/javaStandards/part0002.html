@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Objects and Object-Orientation</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0003.html">
+    <LINK REL="Prev" HREF="index.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Publications</a>&nbsp;&nbsp;<A href="index.html">ChiMu OO and Java Development</FONT></A></TD><TD valign=top align=right><A href="index.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="index.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0003.html">Next</A>&nbsp;<A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E2"></A>
+<H1>
+<FONT COLOR="#000080"><B>Objects and Object-Orientation</B></FONT></H1>
+<P>This chapter introduces core concepts to OO and defines terms to provide a common foundation for reading the rest of the resources in this document.  OO concepts and terms have been unifying over the last few years, but there are still differences and imprecisions in meanings.  This chapter introduces the definitions and priorities for OO concepts that are used in this document and on ChiMu projects.  See the resources mentioned in the Overview for a full introduction to OO concepts.
+<A NAME="E10E4"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Objects</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>The core concept to OO is Objects.  Objects are encapsulated entities that can be interacted with only by sending them messages.  A Message is a stimulus sent to an object with a name and any parameters (as Objects) that the message requires.  A message will cause the receiving Object to return an answer or possibly return nothing.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0000.gif" WIDTH = 279 HEIGHT = 115 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><P>Because Objects are encapsulated they have a visible exterior (that to which you can send messages and from which answers are returned) and a hidden interior (the implementation of the functionality).  Object&#146;s can also be viewed as having two core properties: Identity and Behavior.
+<UL>
+<LI><B>Identity</B>  is the ability to tell one object from another object independently of whether they currently appear to be the same (i.e. have the same behavior).
+<LI><B>Behavior</B>  is the response of an object to a stimulus.  The only stimulus you can send to an object is a Message, so the behavior of an object is the answers it gives to the current and future messages.
+</UL>
+<P>The above are the two core properties to an Object, but it is convenient to add a third (derived) property:
+<UL>
+<LI><B>State</B>  is an abstraction to describe and simplify understanding an object&#146;s behavior.  An object&#146;s behavior can be described as the answer it gives to the current message (which is determined by the current State) and the change to its State caused by the current message.
+</UL>
+<P>
+<IMG SRC="image0001.gif" WIDTH = 569 HEIGHT = 136 ALT="Undisplayed Graphic">
+<H3><A NAME="I2"></A><A NAME="I3"></A><A NAME="I4"></A><A NAME="I5"></A><A NAME="I6"></A><B>Summary</B></H3>
+<P>OO is building software out of Objects that send Messages to each other.
+<P>
+<IMG SRC="image0002.gif" WIDTH = 312 HEIGHT = 218 ALT="Undisplayed Graphic">
+<P>All the other concepts in OO are to make understanding, managing, or implementing these Object systems easier.  Two of the most important concepts are Types and Classes, but there are many other important concepts, techniques, views, and methodologies that can help in the construction of Object software systems.  Types and Classes will be discussed next and some of the other concepts are detailed in the Definitions chapter.
+<A NAME="E10E5"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Types</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>Although OO systems can be built out of objects sending messages, any significant sized system would require so many objects that it would be impossible to understand them all individually.  To handle this problem we can consider commonality of objects.  The most important commonality to identify is a common exterior.  This is important because Objects can have many clients (senders of messages) and a simplification of exteriors will benefit them all as well as the implementers of the objects.
+<P>A Type describes a common exterior of a set of Objects.  A Type makes understanding objects easier because their are much fewer Types than Objects (objects are mostly similar to each other), and objects can be grouped and understood by their similar behavior.  A Type defines Operations for its set of Objects.  An Operation specifies that the object has an ability to respond to a particular message and specifies the contract/requirement for that message (for both the sender and the receiver).  An Interface is a description of a Type that only focuses on Operations.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0003.gif" WIDTH = 211 HEIGHT = 259 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E10E6"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Classes</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>Where Types describe common exteriors of objects, Classes provide a common implementation for similar objects.  Classes make it is easier to develop and manage the interiors of objects.
+<P>A Class has Methods that provide implementations for operations.  These methods are shared among all objects (called Instances) that are implemented by that Class.  A Class also has Instance Variables, which provide a way to store encapsulated state information for a particular object.  Instance variables are completely hidden within the Object, but they enable two objects of the same Class to have different external Behavior.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0004.gif" WIDTH = 189 HEIGHT = 205 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E10E7"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Types vs. Classes</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>It is important to conceptually separate Classes from Types even though it is a common (bad) practice to use the term Class for both ideas.  Types describe common exteriors of objects, classes provide a common implementation of objects.  Neither of these are required for OO systems (some OO languages have one, the other, or neither), but both can be very useful for both understanding and managing a system&#146;s design and implementation.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0005.gif" WIDTH = 278 HEIGHT = 210 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E10E8"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Java</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>Java supports both Types and Classes through Java interfaces and Java classes.  Java interfaces are a close equivalent to a Type: They specify the operations an Object understands, but do not restrict how those operations are implemented.  Java interfaces support multiple inheritance and a Java class can implement multiple interfaces at one time.
+<P>Java classes are a Type (an exterior) combined with a Class (an implementation): A Java class can be used to specify the operations an object understands, but it also provides an implementation of the operations (or restricts the implementations to inherit from the specifying Java class).  Java classes only support single inheritance and Java interfaces can not &quot;extend&quot; a Java class.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0006.gif" WIDTH = 185 HEIGHT = 225 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><P>Java does not have a very sophisticated OO type model (no covariant or contravariant overrides) and Java also incorporates many non-OO features like primitive data types and static (compile-time bound) &quot;methods&quot;.  These limitations and non-OO features can distract or interfere with building good OO systems, so developers have to make extra efforts.
+<A NAME="E10E9"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Other Concepts</I></B></FONT></H2>
+<P>The above is meant to be some basic definitions for OO that are very important and make understanding the subsequent guidelines and other resources a bit easier.  For more information about other important OO concepts and more detailed explanations of the above concepts, see the references in the Guidelines, Definitions, and the References chapters.
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Publications</a>&nbsp;&nbsp;<A href="index.html"><B>ChiMu OO and Java Development</B></A></TD><TD valign=top><A href="index.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="index.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0003.html">Next</A>&nbsp;<A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR><TD width="100%" align=left>&nbsp;&nbsp;&nbsp;&nbsp;<FONT SIZE="-1"><A href="http://www.chimu.com/copyright.html">Copyright (c) 1997</A>, ChiMu Corporation. All Rights Reserved.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

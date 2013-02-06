@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Setting up the Examples</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0005.html">
+    <LINK REL="Prev" HREF="part0003.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html">Getting Started with FORM</FONT></A></TD><TD valign=top align=right><A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0003.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0005.html">Next</A>&nbsp;<A href="part0005.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E4"></A>
+<H1>
+<FONT COLOR="#000080"><B>Setting up the Examples</B></FONT></H1>
+<P>FORM includes example programs that can be run from a command line or any program that calls the Java VM with arguments.  Because FORM is a database product, it will need a database to use for its examples.  To work with you database FORM will need two things: (1) A database area to put the example scheme and data into, and (2) a JDBC connection to that database.  FORM uses JDBC and has a database product configuration layer on top of JDBC, so it can create a scheme within and populate most database products.
+<P>There are two approaches to interacting with FORM&#146;s examples.  You can either use the command line based FormDatabaseTester or a GUI application ExampleRunner.  The ExampleRunner is simpler and the DatabaseTester is more flexible.  The actual examples and the concepts for using the examples are the same no matter which program you use.
+<A NAME="E10E11"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Using the ExampleRunner</I></B></FONT></H2>
+<P>The ExampleRunner is a GUI application to work with examples.  It allows you to connect to the database and run FORM examples within a single window.  To launch the ExampleRunner use:
+<PRE>
+<FONT>&gt; FormExampleRunner </FONT></PRE>
+<P>or if you do not have &#145;&#133;/chimu/bin&#146; in your path:
+<PRE>
+<FONT>&gt; java com.chimu.formTools.examples.ExampleRunner</FONT></PRE>
+<P>This will bring up the main ExampleRunner window:
+<P>The window is divided into four sections: Database and Driver information, User login information, Example selection, and the Results pane.
+<A NAME="E10E12"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Creating Databases for the Examples</I></B><B><I> </I></B></FONT></H2>
+<P>Once you have the ExampleRunner working with you database server and an existing database, you can create one or more databases to hold the FORM example schemes and data.  The examples use several different schemes that are different from each other, so you can either use and reuse a single database for all the examples or setup multiple databases with one database for each example scheme.  FORM handles the scheme creation and population for you, so reusing a single database only has the disadvantage that examples from different scheme can not be run at the same time.  We will assume you are using a single database for all the examples that is named &#145;FormExampleDatabase&#146;.
+<A NAME="E11E1"></A>
+<H3>
+<FONT COLOR="#000080"><B>Creating on the Server</B></FONT></H3>
+<P>You will need to create a new database &#145;FormExampleDatabase&#146; on your database server and specify a user with the abilities to create scheme objects (e.g. Tables) within that database.  See you database product manual for more information on creating databases and user login accounts.
+<A NAME="E11E2"></A>
+<H3>
+<FONT COLOR="#000080"><B>Creating an ODBC source (if needed)</B></FONT></H3>
+<P>ODBC requires creating a source for any database you need to access.  If you are using ODBC then you must create an ODBC source &#145;FormExampleDatabase&#146; that connects to the database you created above.  This is normally done through the ODBC Control Panel.
+<A NAME="E11E3"></A>
+<H3>
+<FONT COLOR="#000080"><B>Testing the FormExampleDatabase</B></FONT></H3>
+<P>To make sure the database is working and accessible you can now try to login to it through the ExampleRunner.  Specify the DatabaseName and your login information and then press the &#145;Test Login&#146; button.  If the login is successful this will return database catalog information.  
+<P> If the login is not successful, check to make sure you have the right login name and password.  You will also be given information on the full JDBC URL that was used to log in and the Database driver.  This will allow you to verify that the ExampleRunner is producing the connection that you want. JDBC drivers can be especially finicky.
+<A NAME="E10E13"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Choosing Schemes and Database Population</I></B></FONT></H2>
+<P>After you can successfully log in, you can then focus on running Examples.  By default, you will be running the examples included in the FormTools.jar.  This will have several schemes, which have different database tables and different population data.  Choose one of the schemes from the drop-down list, and click &#145;Populate Database&#146;.  This will remove any previously existing example tables from the database, put the new tables into the scheme, and populate the database. 
+<A NAME="E10E14"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Running the Examples</I></B></FONT></H2>
+<P>After you have populated the scheme you can select one or more examples from the right hand list and run them with &#145;Run Examples&#146;.  If you select &#145;scheme1&#146; and &#145;PersonRetrieval_1&#146; you should get the following output:
+<PRE>
+<FONT>Test: ---- Ex1_PersonRetrieval_1 ----
+&lt;Person#99 Regina Cramer&gt;
+Regina Cramer is 64 inches tall and can be contacted at cramere@org.com</FONT></PRE>
+<P>The actual data may be different because the Person selected is arbitrary.  
+<A NAME="E11E4"></A>
+<H3>
+<FONT COLOR="#000080"><B>Tracing</B></FONT></H3>
+<P>You can turn on tracing to get more information about the execution of FORM for a particular example (except PersonRetrieval_1, which has tracing disabled).  Turning tracing to &#145;Level 2&#146; [Be somewhat careful about over-tracing (especially level 3 with large result sets)] produces the following output for PersonRetrieval_3:
+<PRE>
+<FONT>  Test: ---- class scheme1.Ex1_PersonRetrieval_3 ----
+  Test: **875613401393**
+Driver Product   = JDBC-ODBC Bridge (SQLSRV32.DLL) [1.1001 (02.65.0213)]
+Database Product = microsoft sql server [06.50.0201]
+Recognized Database Product is: Microsoft SQL Server
+FORM: Build ObjectInitializer From slots: [0:oid][1:name][2:email][3:height]done.
+Initialized: &lt;Person#11 Patricio Steel&gt;
+Patricio Steel is 70 inches tall and can be contacted at steelpa@org.com</FONT></PRE>
+<A NAME="E10E15"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Using the Local Examples</I></B></FONT></H2>
+<P>By default the ExampleRunner uses examples that are stored in the FormTools.jar file.  You can also tell the ExampleRunner to use local examples by specifying a &#145;root directory&#146;.  The root directory is the directory above each of the example directories, so should be &#145;&#133;/chimu/examples/&#146; for the default installation.  You must also have the root directory in you class path for it to find and execute the examples.
+<A NAME="E10E16"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>You are Done</I></B></FONT></H2>
+<P>You are done.  The examples work and FORM is working.  You can now test out more examples, read the FORM manuals (see the final chapter), look through the example source, and create your own test examples.
+<P>If you have any problems with the above, try to make sure each step is working before going to the next.  For example, you can use JDBC to talk to the database, you have a FormExampleDatabase with sufficient privileges to create tables, and you can login to the FormExampleDatabase.  If you continue to have difficulties, please contact us.
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html"><B>Getting Started with FORM</B></A></TD><TD valign=top><A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0003.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0005.html">Next</A>&nbsp;<A href="part0005.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

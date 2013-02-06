@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Kernel</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0004.html">
+    <LINK REL="Prev" HREF="index.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html">Kernel Frameworks</FONT></A></TD><TD valign=top align=right><A href="index.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="index.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0004.html">Next</A>&nbsp;<A href="part0004.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E3"></A>
+<H1>
+<FONT COLOR="#000080"><B>Kernel</B></FONT></H1>
+
+<P>
+<CENTER><TABLE ><TR>
+<TD VALIGN=top ><A HREF="part0003.html#E10E1">Library</A></TD>
+<TD VALIGN=top ><A HREF="part0003.html#E10E2">Package</A>
+</TD></TR></TABLE>
+</CENTER>
+<P>Almost all the functionality in the Kernel Framework is in the sub-frameworks discussed in the subsequent chapters.  The Kernel package itself contains just two concepts: Libraries and Packages.  These are important to define now because they are useful in discussing the functionality of all Packages.  Every ChiMu package has a &quot;Pack&quot; class that documents the functionality of that package.
+<A NAME="E10E1"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Library</I></B></FONT></H2>
+<P>A Library is a Java &quot;Class&quot; that never has instances, so all functionality is in static members.  A Library is really not a class at all, but Java combines object (non-static) and non-object (static) functionality into a single unit of a Class.  The Library throws away the object portion of this and only uses the &quot;Class&quot; as a unit of modularity.
+<P>Libraries do not have &quot;methods&quot;, they have &quot;procedures&quot; and &quot;functions&quot;.  The distinguishing property is that method calls are bound to methods at runtime but procedures are completely bound at compile time.  This is true of static members.
+<P>By default, all Libraries are suffixed with Lib to distinguish them from interfaces (no suffix) and normal classes (which are suffixed with &quot;Class&quot;).
+<A NAME="E10E2"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Package</I></B></FONT></H2>
+<P>A Package is an object that understands the functionality of a Java Package (which is not an object).  This is useful for consistency (everything &quot;should&quot; be an object), but more importantly it provides an entity that can:
+<OL>
+<LI>Document the functionality of the Package as a whole
+<LI>Provide Package scoped Singleton objects
+<LI>Create Objects of the Types (Interfaces) specified in the package
+</OL>
+<P>Of these, probably only the last might be considered strange: Why not just use the Class to create objects of that Class&#146;s type?  The reasons are:
+<OL>
+<LI><B>A Package creation method or function can be more intelligent than a constructor can be.</B>  A Package can reuse an existing object if needed, and can branch on the creation parameters to select the appropriate class to use.  Although this could also be done with a Class static method, it does not make as much sense (why branch to a different class) and does not work as well because the static functionality will be inherited by subclasses even when it is not appropriate.
+<LI><B>If you expose the Class for creation, you expose the class.</B>  All the public methods are now visible even if some of them are only for intra-subsystem functionality.
+<LI><B>This produces a nice separation</B> of instance behavior (via types) of existing objects and creation behavior (via Packages or other objects) to make those objects.
+<LI><B>This also produces a nice cohesion</B>: all the creation methods of similar types can be placed together or separated (if multiple Packages are used).
+</OL>
+<A NAME="E11E1"></A>
+<H3>
+<FONT COLOR="#000080">Approaches</FONT></H3>
+<P>After deciding to use Package objects there are two approaches to implementing them.  Either use a real singleton object that implements the Package interface or create a pseudo-singleton object via a Library (a Pack).  Although ChiMu uses primarily the latter approach, we will cover the real object approach first (Package and PackageClasses).
+<A NAME="E11E2"></A>
+<H3>
+<FONT COLOR="#000080">Package</FONT></H3>
+<P>Package defines an interface that all Package objects should be able to support.  Each package can add a new subtype to Package if they want to specify new functionality beyond the standard Package functionality.  They could also subclass to document the Package although that would more likely be done in either the Pack or the PackageClass.
+<A NAME="E11E3"></A>
+<H3>
+<FONT COLOR="#000080">PackageClass</FONT></H3>
+<P>To implement a Package interface requires a class.  PackageAbsClass provides some inheritable functionality to build the standard Package interface and can be extended to provide the rest of the functionality for your specific package.  You can also use this class to manage your Singleton Package object, although we normally use a Pack to do that.
+<A NAME="E11E4"></A>
+<H3>
+<FONT COLOR="#000080">Pack (PackageLibrary)</FONT></H3>
+<P>A Pack (short for PackageLibrary) is a simplification and &quot;cheat&quot; for creating a Package object: use a Library to simulate a singleton object.  This is far easier to use for most clients.  Instead of trying to find the Singleton object (&quot;somebody.soleKernelPack().doSomething()&quot;), clients can directly refer to the Pack class in their code (&quot;KernelPack.doSomething()&quot;).
+<P>The trade off is flexibility: you can not pass around the &quot;KernelPack&quot; library to other parts of the system for them to work with.  You also can&#146;t &quot;alias&quot; a Pack so either the Pack name does not collide with other Pack names (used by a particular client) or you have to refer to the Pack class using the full path name.
+<P>All Packs should be suffixed with &quot;Pack&quot;.  This documents that they are a Package Library and prevents name collisions with the normal types and classes within the package.
+<A NAME="E11E5"></A>
+<H3>
+<FONT COLOR="#000080">ChiMu Standard Approach for Packages</FONT></H3>
+<P>ChiMu code standardizes on having Packs in all Packages and only providing real Package objects when it is necessary.  Documentation is placed on the Packs.
+<A NAME="E11E6"></A>
+<H3>
+<FONT COLOR="#000080">Examples</FONT></H3>
+<P>Using PackageLibs for documentation is shown in COM.chimu.kernel.KernelPack itself.  Using PackageLibs to provide package functionality is shown in COM.chimu.kernel.collections.impl.CollectionsImplPack.  Almost all ChiMu classes are invisible outside the package (unless they can be inherited from), so all object constructions are done through &quot;Pack&quot; libraries.
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html"><B>Kernel Frameworks</B></A></TD><TD valign=top><A href="index.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="index.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0004.html">Next</A>&nbsp;<A href="part0004.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>ChiMu Kernel Frameworks</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0003.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a></FONT></TD><TD align=right>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0003.html">Next</A>&nbsp;<A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<H1 ALIGN=CENTER>
+<CENTER><B>ChiMu Kernel Frameworks</B></CENTER></H1>
+<H2 ALIGN=CENTER>
+<CENTER><B><I>v0_5 [970616]</I></B></CENTER></H2>
+
+<H1>
+<FONT COLOR="#000080"><B>Overview</B></FONT></H1>
+<P>This document describes ChiMu&#146;s Kernel frameworks.  These frameworks provide basic functionality that should be available to any part of any application.  Although ChiMu considers the Kernel to be a product, it is both open and free.  You can do anything you want with the Kernel&#146;s design and code as long as you maintain the copyright and warranty notices.
+<P>ChiMu&#146;s Java Development Standards [Fussell-1] is a prerequisite for understanding some of the naming conventions and notations used in this document.
+
+<A NAME="E9E1"></A>
+<H1>
+<FONT COLOR="#000080"><B>Introduction</B></FONT></H1>
+<P>There are many packages within Kernel and they extend the base functionality of Java in very general and useful ways.  The sub-packages within Kernel build upon each other and are also expected to be &quot;very public&quot; (highly referenced) throughout other subsystems.  The current documentation is incomplete, but it includes some information on Kernel itself (Library and Package), Exceptions, Functors, Streams, Utilities, and Collections.
+<P ALIGN=CENTER><CENTER>
+<IMG SRC="image0000.gif" WIDTH = 477 HEIGHT = 233 ALT="Undisplayed Graphic"></CENTER></P>
+
+<A NAME="TOC"></A>
+<H2><FONT COLOR="#000080"><I>Table of Contents</I></FONT></H2>
+<UL>
+<LI><A HREF="part0001.html#E9E1">Overview</A>
+<LI><A HREF="part0002.html#E9E2">Introduction</A>
+<LI><A HREF="part0003.html#E9E3">Kernel</A>
+<UL>
+<LI><A HREF="part0003.html#E10E1">Library</A>
+<LI><A HREF="part0003.html#E10E2">Package</A>
+<UL>
+<LI><A HREF="part0003.html#E11E1">Approaches</A>
+<LI><A HREF="part0003.html#E11E2">Package</A>
+<LI><A HREF="part0003.html#E11E3">PackageClass</A>
+<LI><A HREF="part0003.html#E11E4">Pack (PackageLibrary)</A>
+<LI><A HREF="part0003.html#E11E5">ChiMu Standard Approach for Packages</A>
+<LI><A HREF="part0003.html#E11E6">Examples</A></UL></UL>
+<LI><A HREF="part0004.html#E9E4">Exceptions</A>
+<UL>
+<LI><A HREF="part0004.html#E10E3">Development Exceptions</A>
+<LI><A HREF="part0004.html#E10E4">ThrowableWrapper and WrappedExceptions</A></UL>
+<LI><A HREF="part0005.html#E9E5">Functors</A>
+<UL>
+<LI><A HREF="part0005.html#E10E5">Basic Functors</A>
+<UL>
+<LI><A HREF="part0005.html#E11E7">Examples</A>
+<LI><A HREF="part0005.html#E11E8">Using a BasicFunctor</A></UL>
+<LI><A HREF="part0005.html#E10E6">Functor recompiler</A>
+<LI><A HREF="part0005.html#E10E7">Smart Functors</A>
+<LI><A HREF="part0005.html#E10E8">Notation</A></UL>
+<LI><A HREF="part0006.html#E9E6">Streams</A>
+<LI><A HREF="part0007.html#E9E7">Utilities</A>
+<LI><A HREF="part0008.html#E9E8">Collections</A>
+<UL>
+<LI><A HREF="part0008.html#E10E9">Concepts</A>
+<LI><A HREF="part0008.html#E10E10">Collection Types</A></UL>
+<LI><A HREF="part0009.html#E9E9">Definitions</A>
+<LI><A HREF="part0010.html#E9E10">References</A>
+</UL>
+
+
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<B>Kernel Frameworks</B></TD>
+<TD valign=top>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0003.html">Next</A>&nbsp;<A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD>
+</TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Collections</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0009.html">
+    <LINK REL="Prev" HREF="part0007.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html">Kernel Frameworks</FONT></A></TD><TD valign=top align=right><A href="part0007.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0007.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0009.html">Next</A>&nbsp;<A href="part0009.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E8"></A>
+<H1>
+<FONT COLOR="#000080"><B>Collections</B></FONT></H1>
+
+<P>
+<CENTER><TABLE ><TR>
+<TD VALIGN=top ><A HREF="part0008.html#E10E9">Concepts</A></TD>
+<TD VALIGN=top ><A HREF="part0008.html#E10E10">Collection Types</A>
+</TD></TR></TABLE>
+</CENTER>
+<P>The first question to ask would be &quot;Why does ChiMu have its own set of collection classes?&quot;  There are several reasons: other collection classes have poor separation of Type from Class, other collection classes have very poor naming habits, we have experience with good collection classes in Smalltalk (and so are spoiled), and we do not wish to get coupled into one company&#146;s licensed product.  We have no desire to have to develop collection classes, but there is no way to enhance existing collection classes to have an independent and cleaner type system.  To make that happen requires modifying source files, which violates the standard license of most companies and loses the benefits of common collections anyway.
+<P>A final reason for having our own set of collection classes is that collection classes really are not very hard.  The algorithms are all well documented as well as the code to implement them.  The only problem is adding to the amount of necessary maintenance, but that is exchanged with having less maintenance on the framework&#146;s clients side (that is, we expect ourselves to be much more responsive to our own demands than a vendor would be).  Since the collection framework can be a real time-saver if it grows to what you need, this is a real advantage.
+<P>The ChiMu collections have many classes that wrap licensed classes (JDK, JGL, or CAL) or are transformations of public domain classes (Doug Lea&#146;s) to conform to the type system.
+<A NAME="E10E9"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Concepts</I></B></FONT></H2>
+<P>The main concept for the Collection framework is that clients should only be concerned with the Type hierarchy when specifying functionality.  All client typing of objects (classes, methods, and variables) should be done in terms of the type hierarchy.  Choosing which implementations of the types is only relevant at object creation time and should only consider performance and code-base preference.
+<A NAME="E10E10"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Collection Types</I></B></FONT></H2>
+<P>
+<IMG SRC="image0003.gif" WIDTH = 622 HEIGHT = 374 ALT="Undisplayed Graphic">
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html"><B>Kernel Frameworks</B></A></TD><TD valign=top><A href="part0007.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0007.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0009.html">Next</A>&nbsp;<A href="part0009.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

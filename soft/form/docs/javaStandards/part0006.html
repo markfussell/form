@@ -1,0 +1,183 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Notation</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Prev" HREF="part0005.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Publications</a>&nbsp;&nbsp;<A href="index.html">ChiMu OO and Java Development</FONT></A></TD><TD valign=top align=right><A href="part0005.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0005.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;</TD></TR>
+</TABLE>
+<A NAME="E9E6"></A>
+<H1>
+<FONT COLOR="#000080"><B>Notation</B></FONT></H1>
+<P>Within this document and other ChiMu documents, some additions and modifications to UML notation are used.  This chapter describes those modifications.
+<P>Design notation enhances communication among people.  It is an important tool for both the design process itself and for communicating the finished design to clients and maintainers.  Design notation needs to be standardized because it is shared among many people who must all interpret it consistently.  On the other hand, the notation needs flexibility to grow and support the expression of newer ideas.
+<P>ChiMu uses a design notation based on UML (see [Rational-1 http://www.rational.com/uml/]), but it has some variations that are improvements, additions, or legacies from other notations.  For example, we consider the work by Kilov and Ross on information modeling [Kilov+R 94] to be very useful and important.  Although [Kilov+R 94] does not require a specific visual notation, they do suggest one, which we merged into our common notation.
+<P>The following describes our notation&#146;s differences from UML.  If something is not mentioned it should be assumed that the UML notation is the correct notation.  Also, at no point is UML notation interpreted differently: UML notation is interpreted just as in UML.  The notation below augments and can override UML but does not conflict with it.  All of the items below could be described as stereotypes within UML.
+<A NAME="E10E22"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Objects and Classes</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>The most obvious difference between UML and our notation is that we normally use hexagons instead of rectangles to identify objects and classes.  This is to maintain the property from Booch notation of objects being distinctly recognizable and visible in diagrams.  UML/OMT rectangles are neither distinct (other notations use rectangles to indicate tables, rows, layers, etc.) nor particularly visible in complex diagrams.  These properties are very important for us.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0007.gif" WIDTH = 103 HEIGHT = 79 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><P>Rumbaugh did have a legitimate argument that Booch clouds were difficult to draw and even to electronically use (because they are hard to connect to).  Booch and Rumbaugh came up with a very good (synergistic) solution of using hexagons in early versions of the UML, but later versions of the UML abandoned them.  This was unfortunate and we decided to reverse that mistake.
+<A NAME="E11E45"></A>
+<H3>
+<FONT COLOR="#000080"><B>Methods</B></FONT></H3>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>The &quot;compartment&quot; for methods extends beyond the edge of the hexagon because methods are potentially publicly visible.  Methods can either all be in one compartment, or separated into different compartments for the different interfaces to the class.
+<P>If placed within one compartment, different protocols (groups of methods) are organized like lists are in UML.
+<P>We use standard UML method annotations.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0008.gif" WIDTH = 135 HEIGHT = 139 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E11E46"></A>
+<H3>
+<FONT COLOR="#000080"><B>Attributes</B></FONT></H3>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>An attribute is a public property of an object that shows the state of the object.  We do not make any distinction between attributes and other methods other than possibly showing them as a separate protocol from other methods.  If attributes are independently changable, they will have a corresponding &#145;set&#146; method.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0009.gif" WIDTH = 135 HEIGHT = 127 ALT="Undisplayed Graphic">
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0010.gif" WIDTH = 138 HEIGHT = 127 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><P>Frequently there is a minimal collection of attributes that uniquely determine the state of the object, but this should not be confused with the instance variables which may be used to store that state.
+<A NAME="E11E47"></A>
+<H3>
+<FONT COLOR="#000080"><B>Instance Variables</B></FONT></H3>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>Instance variables are private to a class and a shown in a compartment completely within the hexagon and (usually) below the methods.  This is inverted from UML where frequently instance variables are considered attributes and are shown before the methods.  Stylistically they are centered and italicized.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0011.gif" WIDTH = 129 HEIGHT = 154 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E11E48"></A>
+<H3>
+<FONT COLOR="#000080"><B>Message Sends</B></FONT></H3>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>Inter-class interfaces and message sends can be shown by connecting arrows to the appropriate method of a class.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0012.gif" WIDTH = 280 HEIGHT = 181 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E11E49"></A>
+<H3>
+<FONT COLOR="#000080"><B>Shorthand for hand drawings</B></FONT></H3>
+<P>It is acceptable to fall back on just using a rectangle with three compartments (but having instance variables at the bottom) when drawing classes by hand.
+<A NAME="E10E23"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Types</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>We use a separate notation for Types than for classes.  Types are shown with a &quot;Set-like&quot; notation of a curly edged box.  This distinguishes them from classes and makes them more distinct then just a rectangle again.  Otherwise they have the same meaning as the rectangles in [Kilov+R 94].
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0013.gif" WIDTH = 139 HEIGHT = 79 ALT="Undisplayed Graphic"></TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>Method (and Attribute) compartments can be specified for a Type, but instance variables can not be.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0014.gif" WIDTH = 102 HEIGHT = 52 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER>
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>A Class (or Object) can be shown to implement a Type by an arrow pointing from the Class to the Type.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0015.gif" WIDTH = 208 HEIGHT = 157 ALT="Undisplayed Graphic"></TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>When the class is not important enough to be very large, its symbol can be shrunk and the name placed outside.  This is frequently useful for giving example implementations of a Type in a complicated diagram.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0016.gif" WIDTH = 289 HEIGHT = 123 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E11E50"></A>
+<H3>
+<FONT COLOR="#000080"><B>Shorthand for hand drawings</B></FONT></H3>
+<P>It is acceptable to draw types as straight rectangles instead of the curly rectangles.  It is also acceptable to use a Class notation to indicate a Type when doing Conceptual or Design model diagrams.  This is the result of an inherent property of UML that during Conceptual and Design phases all models are external specification models.
+<A NAME="E10E24"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Relationships</I></B></FONT></H2>
+<P>Generally we use UML notation when possible.  <I>Information Modeling</I> [Kilov+R 94] has a richer set of relationships than UML and a cleaner decomposition of them, so in certain diagrams we will use them instead of the less precise UML notations.
+<A NAME="E11E51"></A>
+<H3>
+<FONT COLOR="#000080"><B>Kilov and Ross relationship types</B></FONT></H3>
+<P>
+<IMG SRC="image0017.gif" WIDTH = 259 HEIGHT = 175 ALT="Undisplayed Graphic">
+<A NAME="E10E25"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Code Blocks</I></B></FONT></H2>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>We use the same dog-eared notation as <I>Design Patterns</I> [Gamma+HJV 95] for methods and other code annotations
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0018.gif" WIDTH = 115 HEIGHT = 49 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E10E26"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Other Notations</I></B></FONT></H2>
+<P>This section shows some other more unusual notations that are also interesting.
+<A NAME="E11E52"></A>
+<H3>
+<FONT COLOR="#000080"><B>Functor</B></FONT></H3>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>Functors are objects that model operations that can be performed.  Their notation is interesting because of its distinctive combination of other notations already existing: hexagons for classes and dog-eared notes for Code blocks.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0019.gif" WIDTH = 151 HEIGHT = 49 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E11E53"></A>
+<H3>
+<FONT COLOR="#000080"><B>Enhancement</B></FONT></H3>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>An enhancement to a class is an added piece of functionality beyond the core class functionality.  Enhancements allow you to manage portions of functionality of a cClass individually while still having all that functionality directly available on instance of the class.  For example, you might want your presentation logic to be separate from your true (presentation independent) business domain logic.  You could make the ability to create user-readable information an enhancement of your domain class.  Since Java doesn&#146;t support enhancements this notation is only useful for conceptual modeling.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0020.gif" WIDTH = 120 HEIGHT = 157 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER><A NAME="E11E54"></A>
+<H3>
+<FONT COLOR="#000080"><B>Private Functionality</B></FONT></H3>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P>A class can be considered to have a public interface that talks to an inner class that manages the state of the object.  This means all communication from the public interface will go through private methods to access state information, which allows the object to change its state representation (e.g. delegating to another object) without impacting the public methods.
+</TD><TD VALIGN=top >
+<P>
+<IMG SRC="image0021.gif" WIDTH = 150 HEIGHT = 151 ALT="Undisplayed Graphic"></TD></TR></TABLE></CENTER>
+
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Publications</a>&nbsp;&nbsp;<A href="index.html"><B>ChiMu OO and Java Development</B></A></TD><TD valign=top><A href="part0005.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0005.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;</TD></TR>
+<TR><TD width="100%" align=left>&nbsp;&nbsp;&nbsp;&nbsp;<FONT SIZE="-1"><A href="http://www.chimu.com/copyright.html">Copyright (c) 1997</A>, ChiMu Corporation. All Rights Reserved.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

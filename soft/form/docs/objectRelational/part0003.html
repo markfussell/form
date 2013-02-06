@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Object Modeling</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0004.html">
+    <LINK REL="Prev" HREF="index.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html">Object-Relational Mapping</FONT></A></TD><TD valign=top align=right><A href="index.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="index.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0004.html">Next</A>&nbsp;<A href="part0004.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E3"></A>
+<H1>
+<FONT COLOR="#000080"><B>Object Modeling</B></FONT></H1>
+
+<P>
+<CENTER><TABLE ><TR>
+<TD VALIGN=top ><A HREF="part0003.html#E10E1">Basic Concepts</A></TD>
+<TD VALIGN=top ><A HREF="part0003.html#E10E2">Higher-level Concepts</A></TD>
+<TD VALIGN=top ><A HREF="part0003.html#E10E3">Summary</A>
+</TD></TR></TABLE>
+</CENTER>
+<P>Object modeling describes systems as built out of objects: programming abstractions that have identity, behavior, and state.  Objects are an abstraction beyond abstract data types (ADTs), where data and variables are merged into a single unifying concept.  As such they object modeling includes many other concepts: abstraction, similarity, encapsulation, inheritance, modularity, and so on.  See references for Object-Oriented design ([Booch 95], [Rumbaug+BPEL 91], [Kilov+R 94]) for more information on the concepts of object modeling.
+<P>For this paper, we will be concerned with the basic object concepts of identity, behavior, state, and encapsulation.   We will also need some higher level concepts of type, association, class, and inheritance.  Each of these will be defined below.
+<A NAME="E10E1"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Basic Concepts</I></B></FONT></H2>
+<A NAME="E11E1"></A>
+<H3>
+<FONT COLOR="#000080">Identity</FONT></H3>
+<P>Objects have <B>identity</B>, which distinguishes them from all other objects. This is the crucial step for describing how objects are different from ADTs.  When an object is created it is distinguishable from all other objects whether its state (or &quot;value&quot;) happens to be equal
+<A NAME="E11E2"></A>
+<H3>
+<FONT COLOR="#000080">State</FONT></H3>
+<P>Because an object can be distinguished independently of its &quot;value&quot;, it has a <B>state</B>: the current value associated with this identity.  Objects can have a single state through their whole life (which would make them degenerately like ADTs) or can go through many state transitions.  Because objects are encapsulated, the state is an abstraction and is only visible by examining the behavior of the object.
+<A NAME="E11E3"></A>
+<H3>
+<FONT COLOR="#000080">Behavior</FONT></H3>
+<P>Objects provide an abstraction that clients can interact with.  The <B>behavior</B> of an object is the collection of provided interactions (called methods or operations and, collectively, an interface) and the response to these method calls (or &quot;messages&quot;).  All interactions with an object must be through its interface and all knowledge about an object is from its behavior (returned values or side effects) to the interface interaction.
+<A NAME="E11E4"></A>
+<H3>
+<FONT COLOR="#000080">Encapsulation</FONT></H3>
+<P><B>Encapsulation</B> provides an abstraction and prevents external parties from seeing the implementation details for that abstraction.  For objects, clients can interact with the public behavior of the object (and by so doing identify the state of an object) but they can not see how the behavior and the state are implemented.
+<A NAME="E10E2"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Higher-level Concepts</I></B></FONT></H2>
+<A NAME="E11E5"></A>
+<H3>
+<FONT COLOR="#000080">Type</FONT></H3>
+<P>A <B>type</B> is the specification of an interface that objects will support.  An object implements a (is a) type if it provides the interface described by the type.  All object of the same type can be interacted with through the same interface.  An object can implement multiple types at the same time.
+<A NAME="E11E6"></A>
+<H3>
+<FONT COLOR="#000080">Associations</FONT></H3>
+<P>Types can be <B>associated</B> with other types, which specifies that the objects of one type can be <B>linked</B> to objects of the other type.  Having a link provides the ability to traverse from one object to the other objects involved in the link.
+<A NAME="E11E7"></A>
+<H3>
+<FONT COLOR="#000080">Class</FONT></H3>
+<P>One approach for implementing objects is to have a <B>class</B>, which defines the implementation for multiple objects.  A class defines what types the objects will implement, how to perform the behavior required for the interface and how to remember state information.  Each object will then only need to remember its individual state.  Although using classes is by far the most common object approach, it is not the only approach (using prototypes is another approach) and is really peripheral to the core concepts of object-oriented modeling.
+<A NAME="E11E8"></A>
+<H3>
+<FONT COLOR="#000080">Inheritance</FONT></H3>
+<P><B>Inheritance</B> can apply to types or to classes.  When applied to types, inheritance specifies that object of &#145;Type B&#146; that inherits from &#145;Type A&#146; can be used just like an object of &#145;Type A&#146;.  Type B is said to <B>conform</B> <B>to</B> Type A and all objects that are Type Bs are also Type As.
+<P>When applied to Classes, inheritance specifies that a class uses the implementation of another class with possible overriding modification.  This frequently implies type inheritance also but that is not always the case.
+<A NAME="E10E3"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Summary</I></B></FONT></H2>
+<P>Object models are different from other modeling techniques because they have merged the concept of variables and abstract data types into an abstract variable type: an object.  Objects have identity, state, and behavior and object models are built out of systems of these objects.  To make object modeling easier, there are concepts of type, inheritance, association, and possibly class.  Although object modeling is only a small step from data type oriented programming, it produces a significantly different feel and structure for programs.  Object modeling&#146;s focus on identity and behavior is completely different from the relational model&#146;s focus on information.
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html"><B>Object-Relational Mapping</B></A></TD><TD valign=top><A href="index.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="index.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0004.html">Next</A>&nbsp;<A href="part0004.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

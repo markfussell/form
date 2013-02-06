@@ -1,0 +1,1159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Guidelines</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0004.html">
+    <LINK REL="Prev" HREF="part0002.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Publications</a>&nbsp;&nbsp;<A href="index.html">ChiMu OO and Java Development</FONT></A></TD><TD valign=top align=right><A href="part0002.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0002.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0004.html">Next</A>&nbsp;<A href="part0004.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E3"></A>
+<H1>
+<FONT COLOR="#000080"><B>Guidelines</B></FONT></H1>
+<P>This chapter contains guidelines that progress from very general OO guidelines to more Java specific development guidelines.  Many of these guidelines are extracted from or based on other sources and the source to the guideline is noted immediately below the guideline or in footnotes.  
+<A NAME="E10E10"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Introduction</I></B></FONT></H2>
+<P>Development guidelines provide two high-level benefits: they reinforce techniques to design and code better and they provide consistency even when there is no clear best choice.  This chapter provides guideline recommendations that focus on the first of these benefits: all of the guidelines in here are meant to help build better software.  A separate (Standards) document can then chose which of these guidelines a team would like to use or the consistency can be more informally maintained by team interaction and code reviews.
+<P>These guidelines are simply recommendations.  A particular guideline may be extremely beneficial for some teams and counter-productive for others.  Try the guidelines out to see how well they work for your team&#146;s particular needs.  Sometimes the guidelines conflict because they have advantages in different contexts.  A standards document would be expected to define which guidelines a team chooses, or which are acceptable depending on the circumstance.  Or the standards could be determined by the team&#146;s experiences and culture.
+<A NAME="E11E1"></A>
+<H3>
+<FONT COLOR="#000080"><B>Sources of </B><B>Guidelines</B></FONT></H3>
+<P>The guidelines documented here are summaries and extractions from more general guidelines, design principles, methodologies, and development experiences.  The following sources document these general &quot;software engineering&quot; practices.
+<P>Software design and object oriented design are enormous subjects and there are numerous books and other resources covering them.  See the References chapter of this document for a good collection of sources and the Definitions chapter for some discussions of what they focus on.  The following list contains a few good introductions to OO related design:
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><I>Object-Oriented Analysis and Design with Applications</I>
+</TD><TD VALIGN=top >
+<P>Booch 94</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Designing Object-Oriented Software</I>
+</TD><TD VALIGN=top >
+<P>Wirfs-Brock+WW 90</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Object-Oriented Modeling and Design</I>
+</TD><TD VALIGN=top >
+<P>Rumbaugh+BPEL 91  </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Design Patterns</I>
+</TD><TD VALIGN=top >
+<P>Gamma+HJV 95</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Information Modeling</I>
+</TD><TD VALIGN=top >
+<P>Kilov+R 94</TD></TR></TABLE></CENTER><P>For Java development guidelines, we recommend the following resources from the Java, Smalltalk, and Eiffel literature.  We chose these other languages because Java is best thought of as simplified Smalltalk with interfaces and bare-bones compile-time typing added to it.  The syntax looks like &#145;C&#146; or &#145;C++&#146;, but the semantics are much closer to a cross between a very diluted Eiffel and Smalltalk.  The literature of good design techniques for Eiffel and Smalltalk is also more mature than Java literature.
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><I>Java Design: Building Better Apps &amp; Applets</I>
+</TD><TD VALIGN=top >
+<P>Coad+M 96</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Doug Lea's Java coding standards </I>
+</TD><TD VALIGN=top >
+<P>Lea-1</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Smalltalk Best Practice Patterns: Coding </I>
+</TD><TD VALIGN=top >
+<P>Beck 96</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Code Complete </I>
+</TD><TD VALIGN=top >
+<P>McConnell 93</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Object-Oriented Software Construction, 2</I><I><SUP>nd</SUP></I><I> Edition </I>
+</TD><TD VALIGN=top >
+<P>Meyer 97</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Eiffel, The Language</I>
+</TD><TD VALIGN=top >
+<P>Meyer 92</TD></TR></TABLE></CENTER><P><A NAME="I2"></A>A major part of all standards and guidelines are good definitions for terms.  See the chapter &quot;Definitions&quot; later in this document and the following for suggestions:
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><I>Directory of Object Technology</I>
+</TD><TD VALIGN=top >
+<P>Firesmith+E 95</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><I>Analysis Patterns: Reusable Object Models.</I>
+</TD><TD VALIGN=top >
+<P>Fowler 97</TD></TR></TABLE></CENTER><A NAME="E10E11"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Overall Concepts</I></B></FONT></H2>
+<P>The following are three different perspectives on overall principles to good design and implementation for OO.  None of these are a panacea: OO is a simple concept, but good design takes lots of learning and experience.  These are meant to bring out some simple concepts that sometimes get lost.
+<A NAME="E11E2"></A>
+<H3>
+<FONT COLOR="#000080"><B>Objects: The Core Concept of OO</B></FONT></H3>
+<P>The core concept of OO is that systems are built out of Objects with a clearly defined exterior and a completely opaque implementation.  Objects are just like Cells, Computer Components, and People.  Objects can only be interacted with by sending them messages, and a system performs its operations through the behavior associated with those messages.  Sometimes just remembering this core metaphor can radically improve a design.  Techniques like CRC sessions and anthropomorphizing can especially help.
+<A NAME="E11E3"></A>
+<H3>
+<FONT COLOR="#000080"><B>Two Principles</B></FONT></H3>
+<P>Two important principles to consider for high-quality software development are to:
+<UL>
+<LI><B>Think from the client&#146;s point of view</B>
+<LI><B>Think from the maintainer&#146;s point of view</B>
+</UL>
+<P>Understanding and considering these two customers&#146; needs during development makes most of the difference between poorly designed and very nicely designed systems.  Object-oriented techniques can help support both of these customers&#146; needs, but the principles must always be on your mind.  As the developer yourself, you will rarely forget your own needs.
+<A NAME="E11E4"></A>
+<H3>
+<FONT COLOR="#000080"><B>Kent Beck</B></FONT></H3>
+<P>The following maxims are from Kent Beck&#146;s Smalltalk Best Practice Patterns [Beck 96].  These describe properties that should be in good OO designs and good OO code:
+<UL>
+<LI><B>Once and only once</B> In a program written with good style, everything is said once and only once.
+<LI><B>Lots of little pieces</B> Good code invariably has small methods and small objects.
+<LI><B>Replaceable objects</B> Good style leads to easily replaceable objects.
+<LI><B>Movable objects</B> &#133;objects can be easily moved to new contexts.
+<LI><B>Isolated rates of change</B> &#133;don&#146;t put two rates of change together.
+</UL>
+<A NAME="E10E12"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Guidelines Summary</I></B></FONT></H2>
+<P>The following table summarizes the guidelines for easier reference
+<UL>
+<LI><B><I>General OO Guidelines</I></B><B><I> </I></B><A NAME="I3"></A>
+<UL>
+<LI><B>Types</B><B> </B>
+<UL>
+<LI>Name Types Well 
+<LI>Only Expose Responsibilities 
+</UL>
+<LI><B>Operations</B><B> </B>
+<UL>
+<LI>Choose Intention Revealing Operation Names 
+<LI>Have Uniquely Named Signatures 
+<LI>Standardize Naming Patterns 
+<LI>Categorize your Operations 
+</UL>
+<LI><B>Classes</B><B> </B>
+<LI><B>Methods</B><B> </B>
+<UL>
+<LI>Compose Your Methods 
+<LI>Make Execution Structure Obvious 
+</UL></UL>
+<LI><B><I>Java-Oriented Guidelines</I></B><B><I> </I></B>
+<UL>
+<LI><B>Types, Interfaces, and Classes: Design</B><B> </B>
+<UL>
+<LI>Interface with Interfaces 
+<LI>Create Different Interfaces for Different Types of Clients 
+<LI>Use Interfaces over Abstract Classes 
+<LI>Rarely declare a class final 
+<LI>Consider writing template files 
+</UL>
+<LI><B>Operation and Method Design</B><B> </B>
+<UL>
+<LI>Weave Parameters Positions into the Operation Name 
+<LI>Define return types as void 
+<LI>Avoid overloading methods on argument type 
+<LI>Write methods that only do &quot;one thing&quot; 
+</UL>
+<LI><B>Packages and Modularity</B><B> </B>
+<UL>
+<LI>Have a &quot;Pack&quot; Class for all Packages 
+<LI>Use Factories for Creating Objects 
+<LI>Minimize * forms of import 
+<LI>When sensible, consider writing a main for the principal class 
+<LI>The class with main should be separate from those containing normal classes. 
+</UL>
+<LI><B>Method Implementation</B><B> </B>
+<UL>
+<LI>Declare a local variable where you know its initial value 
+<LI>Use a new local variable 
+<LI>Assign null to any reference variable that is no longer being used 
+<LI>Avoid assignments (``='') inside if and while conditions 
+<LI>Ensure that there is ultimately a catch for all unchecked exceptions 
+<LI>Embed casts in conditionals 
+</UL>
+<LI><B>Documentation</B><B> </B>
+<UL>
+<LI>Make code self documenting before commenting it 
+<LI>Provide comments that augment, not repeat, program code 
+<LI>Use Interfaces for Public Documentation 
+<LI>Specify a standard keyword order 
+<LI>Augment javadoc keywords 
+</UL>
+<LI><B>Class Implementation</B><B> </B>
+<UL>
+<LI>Never declare instance variables as public 
+<LI>Minimize statics 
+<LI>Prefer protected to private 
+<LI>Minimize reliance on implicit initializers 
+<LI>Prefer abstract methods to those with default no-op implementations 
+<LI>Avoid giving a variable the same name as one in a superclass 
+<LI>Use final and/or comment conventions for instance variables 
+<LI>Avoid unnecessary instance variable access and update methods 
+<LI>Minimize direct internal access to instance variables inside methods 
+<LI>Ensure that non-private statics have sensible values 
+<LI>Consider whether any class should implement Cloneable and/or Serializable. 
+<LI>Whenever reasonable, define a default (no-argument) constructor 
+</UL>
+<LI><B>Overriding</B><B> </B>
+<UL>
+<LI>If you override Object.equals, also override Object.hashCode 
+<LI>Override readObject and WriteObject if a Serializable class relies on process state 
+<LI>Explicitly define clone() 
+</UL>
+<LI><B>Miscellaneous</B><B> </B>
+<UL>
+<LI>Generally prefer long to int, and double to float 
+<LI>Use method equals instead of operator == when comparing objects 
+<LI>Prefer declaring arrays as Type[] arrayName rather than Type arrayName[]. 
+</UL>
+<LI><B>Concurrent Programming</B><B> </B>
+<UL>
+<LI>Declare all public methods as synchronized 
+<LI>Prefer synchronized methods to synchronized blocks. 
+<LI>Always embed wait statements in while loops that re-wait 
+<LI>Use notifyAll instead of notify or resume. 
+<LI>Always document the fact that a method invokes wait 
+</UL></UL>
+<LI><B><I>Methodology, Notation, and CASE Guidelines</I></B><B><I> </I></B>
+<UL>
+<UL>
+<LI>Use UML 
+<LI>Go beyond UML 
+<LI>Use a smart drawing tool 
+<LI>Link your  design diagrams to javadoc <A NAME="I4"></A>
+<LI>Don&#146;t draw models for everything 
+<LI>Use a CASE tool 
+<LI>Avoid taking liberties with a CASE tool 
+<LI>Recognize the limits of CASE tools 
+<LI>Drive CASE tools from the appropriate direction 
+</UL></UL>
+<LI><B><I>Final Guidelines</I></B><B><I> </I></B>
+<UL>
+<UL>
+<LI>Try it out 
+<LI>Prove Performance 
+<LI>Take out the trash 
+<LI>Do not require 0% conformance to rules of thumb! 
+</UL></UL></UL>
+<A NAME="E10E13"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>General OO Guidelines</I></B></FONT></H2>
+<P>The following guidelines are statements of very general OO principles that provide overall guidance.  These principles should help produce more specific guidelines and can be used as the restarting point if a particular guideline does not seem to work very well for a team.
+<A NAME="E11E5"></A>
+<H3>
+<FONT COLOR="#000080"><B>Types</B></FONT></H3>
+<P>Types categorize and describe the exteriors of objects.  In Java, a Type is represented as either an interface (a pure Type) or a class (a Type combined with an implementation).  This document will use the term Type when considering the exterior properties of a class or an interface.
+<H4>
+<FONT COLOR="#000080"><A NAME="I5"></A><A NAME="I6"></A><A NAME="I7"></A><B><I>Name Types Well</I></B></FONT></H4>
+<UL>
+<P>Spend the time to name a Type correctly and concisely.  The name should match the range of usage for the Type: if it is very general, choose a very simple name; and if it is only applicable in a specific context, qualify it to describe that limitation.  Sometimes naming a Type can be very easy because it exists as part of the business concepts (an Employee) or part of the solution (a Window).  But always make sure the name really matches the concept.  And really care about the name: &quot;Be a poet for a moment.&quot;  
+</UL>
+<P><I>Rationale</I>
+<P>Type names provide the main glossary and conceptual skeleton for any OO system.
+<P><I>Details and Examples </I>
+<P>You should also try names out and fix them if they don&#146;t work well in actual use or if they do not fit well with names in the system.  This is especially valuable in the earlier stages of a project &#150; before the team has mentally and programmatically committed to a name.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e, Beck 96</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I8"></A><A NAME="I9"></A><A NAME="I10"></A><B><I>Only Expose Responsibilities</I></B></FONT></H4>
+<P>Only expose the features that you want to be responsible for.  A Type provides a contract to all its customers that it will need to maintain &quot;for life&quot;, so never publicly expose something you do not want to be responsible for maintaining.  Make sure all instance variables and implementation specific methods are hidden from clients and do not become part of your responsibilities.
+<P><I>Rationale</I>
+<P>This is one of the foundations of OO and software engineering.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<A NAME="E11E6"></A>
+<H3>
+<FONT COLOR="#000080"><B>Operations</B></FONT></H3>
+<P>Operations formally define the exterior of an Object: what messages it can understand and the contract it agrees to if you send it that message.  Operations must be understandable in the context of the current Type (Interface or Class) and should be consistent across multiple Types.  This requires continuous OO thinking, strong efforts toward standardization, and vigilant semantic verification.  There are many more operations than their are Types, so it is a much more difficult task to name and organize them well.
+<H4>
+<FONT COLOR="#000080"><A NAME="I11"></A><A NAME="I12"></A><A NAME="I13"></A><B><I>Choose Intention Revealing Operation Names</I></B></FONT></H4>
+<UL>
+<P>Choose &quot;intention revealing operation names&quot; is the primary rule for naming operations.  Always create a name that suggests what the operation &quot;provides for the caller&quot;, not how a method could accomplish this service.  
+</UL>
+<P><I>Rationale </I>
+<P>The clearer you describe the behavior of the operation within its name, the easier it is for the clients (who repeatedly use those operations) to understand your class or interface.  This is one of the many incarnations of thinking from the client&#146;s perspective.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e, Beck 96</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I14"></A><A NAME="I15"></A><A NAME="I16"></A><B><I>Have Uniquely Named Signatures</I></B></FONT></H4>
+<UL>
+<P>Ideally, make each operation have a unique name if it has different behavior or a different number or parameters.  This will allow a client to know what this particular operation does and how many parameters it requires simply from the operation name.  Especially avoid creating operations with the same name and the same number of arguments but different argument types.  
+</UL>
+<P><I>Rationale </I>
+<P>Otherwise, the human reader has to act like a compiler and figure out which operation (of several identically named ones) is the proper one to call given all the variable types involved.  Because this is all done at compile-time, usually the result is not what anyone would want.  See &quot;Avoid overloading methods on argument type&quot; for a good example in Java.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I17"></A><A NAME="I18"></A><A NAME="I19"></A><B><I>Standardize Naming Patterns</I></B></FONT></H4>
+<UL>
+<P>Standardize the vocabulary used in operation names.  As much as possible, words should be used consistently and uniquely when part of an operation.  
+</UL>
+<P><I>Rationale</I>
+<P>This makes understanding operations easier and supports precisely describing new functionality.  These benefits become especially important as a system grows. 
+<P><I>Details and Examples </I>
+<P>The following is an example subset of the standard meanings for operation name parts and operation categories (see the Source code format section below). 
+<P>The following are common operation prefixes
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Prefixes</B>
+</TD><TD VALIGN=top >
+<P><B>Category</B>
+</TD><TD VALIGN=top >
+<P><B>Description</B></TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>is, can, has, will
+</TD><TD VALIGN=top >
+<P>Testing
+</TD><TD VALIGN=top >
+<P>Return a Boolean and test the state of the object</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>new
+</TD><TD VALIGN=top >
+<P>Creating
+</TD><TD VALIGN=top >
+<P>Create and return a new object from a factory that creates only a single type of object</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>init, setup
+</TD><TD VALIGN=top >
+<P>Initializing
+</TD><TD VALIGN=top >
+<P>These methods are called before you can use an object.  Only a single init function should be called which can then be followed by whatever setup methods you need to change the default configuration of the object.  </TD></TR></TABLE></CENTER><P>A few Type specific prefixes are:
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Prefixes</B>
+</TD><TD VALIGN=top >
+<P><B>Category</B>
+</TD><TD VALIGN=top >
+<P><B>Description</B></TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>find
+</TD><TD VALIGN=top >
+<P>Searching
+</TD><TD VALIGN=top >
+<P>Retrieve a single object or null if unsuccessful</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>select
+</TD><TD VALIGN=top >
+<P>Searching
+</TD><TD VALIGN=top >
+<P>Retrieve multiple objects or an empty collection</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>add
+</TD><TD VALIGN=top ><BR></TD>
+<TD VALIGN=top >
+<P>Add an object to a collection</TD></TR></TABLE></CENTER><P> 
+<P>Non-prefix operation name patterns
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Prefixes</B>
+</TD><TD VALIGN=top >
+<P><B>Description</B></TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>any
+</TD><TD VALIGN=top >
+<P>Return any object that satisfies the request (findAny)</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P>all
+</TD><TD VALIGN=top >
+<P>Return all objects that satisfy the request (selectAll)</TD></TR></TABLE></CENTER><P>Within each Type or domain area (Collections, Functors, SQL, Mapping, Domain models) there will be both reused vocabulary and new vocabulary.  Try to manage these forces well.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I20"></A><A NAME="I21"></A><A NAME="I22"></A><B><I>Categorize your Operations</I></B></FONT></H4>
+<UL>
+<P>Group operations into Categories and reflect those categories in your Interfaces.  If a language or tool does not support operation categories, use whatever documentation is available (comment dividers, notes, etc.).
+</UL>
+<P><I>Rationale </I>
+<P>By grouping operations into meaningful categories it will be easier to understand the operations and to read the implementations.  This organizational assistance is something akin to &quot;subtyping&quot; of operations.  Some example categories are:
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Constructing</B>
+</TD><TD VALIGN=top >
+<P>A section and category.  The constructors for the class.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B> </B><B> </B><B>Initializing</B>
+</TD><TD VALIGN=top >
+<P>An additional method that should be applied directly after constructing the object.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B> </B><B> </B><B>Setup</B>
+</TD><TD VALIGN=top >
+<P>Methods that can optionally be applied to an object but must be done immediately after construction and initialization and before using the object normally.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B> </B><B> </B><B>Validating</B>
+</TD><TD VALIGN=top >
+<P>Check whether the current object is in an acceptable state (could also be under asking if this is possible after construction is finishing).</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Asking</B>
+</TD><TD VALIGN=top >
+<P>Asking the state of the current object without causing any (visible) side effects.  A pure function.  ISE Eiffel &#145;Query&#146;.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B> </B><B> </B><B>Testing</B>
+</TD><TD VALIGN=top >
+<P>An asking method that returns a Boolean value</TD></TR></TABLE></CENTER><P>These categories should align with and reinforce operation naming patterns.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<A NAME="E11E7"></A>
+<H3>
+<FONT COLOR="#000080"><B>Classes</B></FONT></H3>
+<P>Classes provide an implementation for a Type, so they should focus on the needs of implementers and maintainers
+<A NAME="E11E8"></A>
+<H3>
+<FONT COLOR="#000080"><B>Methods</B></FONT></H3>
+<P>Methods implement operations within a given class.  As such, the rules for operations determine the name and other externally visible properties of a method.  The rest of the 
+<H4>
+<FONT COLOR="#000080"><A NAME="I23"></A><A NAME="I24"></A><A NAME="I25"></A><B><I>Compose Your Methods</I></B></FONT></H4>
+<P>After you have defined the public operations that a class has to perform, you will need to implement those operations with methods.  Focus on communication and maintainability when implementing methods.  &quot;Divide your program into methods that perform one identifiable task.  Keep all of the operations in a method at the same level of abstraction.  This will naturally result in programs with many small methods, each a few lines long.&quot;  
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e, [Beck 96]</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I26"></A><A NAME="I27"></A><A NAME="I28"></A><B><I>Make Execution Structure Obvious</I></B></FONT></H4>
+<P>Try to make the execution structure of your method visible when looked at quickly.  Standardize on a few good structures so a reader will quickly be able to survey the functionality and identify where to look for interesting features.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<A NAME="E10E14"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Java-Oriented Guidelines</I></B></FONT></H2>
+<P>The following guidelines are more Java specific but also try to expose the general principles as much as possible.
+<A NAME="E11E9"></A>
+<H3>
+<FONT COLOR="#000080"><B>Types, Interfaces, and Classes: Design</B></FONT></H3>
+<H4>
+<FONT COLOR="#000080"><A NAME="I29"></A><A NAME="I30"></A><A NAME="I31"></A><B><I>Interface with Interfaces</I></B></FONT></H4>
+<UL>
+<P>Use interfaces as the glue throughout your code instead of classes: define interfaces to describe the exterior of objects (i.e. their Type) and type all variables, parameters, and return values to interfaces.  
+</UL>
+<P><I>Rationale </I>
+<P>The most important reason to do this is that interfaces focus on the client&#146;s needs: interfaces define what functionality a client will receive from an Object without coupling the client to the Object&#146;s implementation.   This is one of the core concepts to OO.  
+<P><I>Details and Examples </I>
+<P>There are many benefits to using interfaces as the glue throughout your systems, the following are just two of the most important benefits.  First, clients will not be coupled to the specific implementation, so you can have much more flexibility in evolving the implementation plus you can provide alternative implementations to support proxies, tracing, and performance variations.  Second, you can use multiple inheritance among interfaces and between interfaces and classes, which can help with OO modeling and can support different access views of the same class (see below).
+<P>Interfaces should be given no suffixes or prefixes: they have the &quot;normal&quot; name space.  Classes are given a suffix of &quot;Class&quot; if they are meant to be instantiated or are given a suffix of &quot;AbsClass&quot; if they are an abstract class that provides inheritable implementation but is not complete and instantiable by itself.  Java classes then become implementations of Java interfaces and should provide no public behavior beyond the interface itself (other than how to create and initialize an object of that class).  Avoid exposing classes except when you want to provide the ability for a client to subclass.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I32"></A><A NAME="I33"></A><A NAME="I34"></A><B><I>Create Different Interfaces for Different Types of Clients</I></B></FONT></H4>
+<UL>
+<P>Provide different interfaces to support different types of clients and to prevent exposing responsibilities to clients who should not see it.  
+</UL>
+<P><I>Rationale </I>
+<P>Provides a more understandable system for a particular client&#146;s perspective and makes maintenance impacts more visible.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I35"></A><A NAME="I36"></A><A NAME="I37"></A><B><I>Use Interfaces over Abstract Classes</I></B></FONT></H4>
+<UL>
+<P>If you can conceive of someone else implementing a class's functionality differently, define an interface, not an abstract class. Generally, use abstract classes only when they are ``partially abstract''; i.e., they implement some functionality that must be shared across all subclasses. 
+</UL>
+<P><I>Rationale </I>
+<P>Interfaces are more flexible than abstract classes. They support multiple inheritance and can be used as `mixins' in otherwise unrelated classes. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I38"></A><A NAME="I39"></A><A NAME="I40"></A><B><I>Rarely declare a class final</I></B></FONT></H4>
+<UL>
+<P>Declare a class as final only if it is a subclass or implementation of a class or interface declaring all of its non-implementation-specific methods. (And similarly for final methods). 
+</UL>
+<P><I>Rationale </I>
+<P>Making a class final means that no one ever has a chance to reimplement functionality. Defining it instead to be a subclass of a base that is not final means that someone at least gets a chance to subclass the base with an alternate implementation. Which will essentially always happen in the long run. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I41"></A><A NAME="I42"></A><A NAME="I43"></A><B><I>Consider writing template files</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Consider writing template files for the most common kinds of class files you create: Applets, library classes, application classes. 
+</UL>
+<P><I>Rationale </I>
+<P>Simplifies conformance to coding standards. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<A NAME="E11E10"></A>
+<H3>
+<FONT COLOR="#000080"><B>Operation and Method Design</B></FONT></H3>
+<P>The terms &quot;operation&quot; and &quot;method&quot; are used interchangeably (when referring to external specification) depending on who produced the guideline.
+<H4>
+<FONT COLOR="#000080"><A NAME="I44"></A><A NAME="I45"></A><A NAME="I46"></A><B><I>Weave Parameters Positions into the Operation Name</I></B></FONT></H4>
+<UL>
+<P>Put underscores &quot;_&quot; into operation names as placeholders for where a particular parameter is woven into the message send.  Leave off any trailing underscores.  
+</UL>
+<P><I>Examples and Details </I>
+<P>For example:
+<PRE>   at_put(key,value)</PRE>
+<P>would read as at_(first parameter)put(second parameter) or &quot;at (key) put (value)&quot;.  A second example would be:
+<PRE>   setIndex_to_asType(index,value,type)</PRE>
+<P>or &quot;set index (index) to (value) as type (type)&quot;.  This does a good job of specifying the meaning of the message, the number of parameters, and the specific positions of all the parameters.  If you have a large number of parameters that you do not want to specifically mention/weave into the operation name, they can be added at the end.  For example:
+<PRE>   at_putStuff(key,value1,value2,value3)</PRE>
+<P><I>Rationale </I>
+<P>This improves operation/method names and helps clients know what order to put parameters into the parenthesis.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I47"></A><A NAME="I48"></A><A NAME="I49"></A><B><I>Define return types as void</I></B></FONT></H4>
+<UL>
+<P>Define return types as void unless they return results that are not (easily) accessible otherwise (i.e., hardly ever write &quot;return this&quot;). 
+</UL>
+<P><I>Rationale </I>
+<P>While convenient, the resulting method cascades (a.meth1().meth2().meth3()) can be the sources of synchronization problems and other failed expectations about the states of target objects. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I50"></A><A NAME="I51"></A><A NAME="I52"></A><B><I>Avoid overloading methods on argument type</I></B></FONT></H4>
+<UL>
+<P>Avoid overloading methods on argument type. (Overriding on arity is OK, as in having a one-argument version versus a two-argument version).   If you need to specialize behavior according to the class of an argument, consider instead choosing a general type for the nominal argument type (often Object) and using conditionals checking instanceof. Alternatives include techniques such as double-dispatching, or often best, reformulating methods (and/or those of their arguments) to remove dependence on exact argument type. 
+</UL>
+<P><I>Rationale </I>
+<P>Java method resolution is static; based on the listed types, not the actual types of argument. This is compounded in the case of non-Object types with coercion charts. In both cases, most programmers have not committed the matching rules to memory. The results can be counterintuitive; thus the source of subtle errors. For example, try to predict the output of this. Then compile and run. 
+<PRE>
+<FONT FACE="Courier">class Classifier {
+    String identify(Object x)  { return &quot;object&quot;; }
+    String identify(Integer x) { return &quot;integer&quot;; }
+}</FONT></PRE>
+<P>  
+<PRE>
+<FONT FACE="Courier">class Relay {
+    String relay(Object obj) { 
+        return (new Classifier()).identify(obj); 
+    }
+}</FONT></PRE>
+<P>  
+<PRE>
+<FONT FACE="Courier">public class App {
+    public static void main(String[] args) {
+        Relay relayer = new Relay();
+        Integer i = new Integer(17);
+        System.out.println(relayer.relay(i));
+    }
+}</FONT></PRE>
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I53"></A><A NAME="I54"></A><A NAME="I55"></A><B><I>Write methods that only do &quot;one thing&quot;</I></B></FONT></H4>
+<UL>
+<P>Write methods that only do &quot;one thing&quot;.  In particular, separate out methods that change object state from those that just rely upon it. For a classic example in a Stack, prefer having two methods Object top() and void removeTop() versus the single method Object pop() that does both. 
+</UL>
+<P><I>Rationale </I>
+<P>This simplifies (sometimes, makes even possible) concurrency control and subclass-based extensions. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<A NAME="E11E11"></A>
+<H3>
+<FONT COLOR="#000080"><B>Packages and Modularity</B></FONT></H3>
+<H4>
+<FONT COLOR="#000080"><A NAME="I56"></A><A NAME="I57"></A><A NAME="I58"></A><B><I>Have a &quot;Pack&quot; Class for all Packages</I></B></FONT></H4>
+<UL>
+<P>Create a Class named &quot;&lt;packageName&gt;Pack&quot; for each Java package.  Put documentation about the Package and any functionality that applies to the package as a whole into the Pack.
+</UL>
+<P><I>Rationale </I>
+<P>Packages are not represented in Java in any tangible manner: they are more a hierarchical naming convention.  By having a real Class for each package you have a standard place to put package documentation and functionality.  This makes understanding a package easier and can also support better encapsulation of the package&#146;s functionality.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I59"></A><A NAME="I60"></A><A NAME="I61"></A><B><I>Use Factories for Creating Objects</I></B></FONT></H4>
+<P>Use Factories and Factory methods for &quot;public&quot; object construction: have an object be responsible for construction instead of having clients directly call &quot;new AClass()&quot;.  
+<P><I>Rationale </I>
+<P>The reason to use factory creation methods instead of straight constructors is because they: 
+<UL>
+<LI>Allow more flexibility in &quot;creating&quot; a new object: the implementation can just reuse an existing object if the semantics make sense.
+<LI>Can have better names: &quot;newTimeNow()&quot; and &quot;newTimeFromSeconds(...)&quot; instead of &quot;new Time()&quot; and &quot;new Time(...)&quot;
+<LI>Provide better separation between interface and implementation: we can document the factory method in an interface
+<LI>Naturally flow into more sophisticated factory designs (See [Gamma+HJV 95])
+<LI>The implementation can take advantage of inheritance since it is a &quot;normal&quot; object method.
+</UL>
+<P>The Factory can either be an existing appropriate object (e.g. a database object is the factory for database Tables), or a specific Factory type.  For classes that have no other appropriate factory object we use the &#145;Pack&#146; object as the factory.  
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I62"></A><A NAME="I63"></A><A NAME="I64"></A><B><I>Minimize * forms of import</I></B></FONT></H4>
+<UL>
+<P>Minimize * forms of import. Be precise about what you are importing. Check that all declared imports are actually used. 
+</UL>
+<P><I>Rationale </I>
+<P>Otherwise readers of your code will have a hard time understanding its context and dependencies. Some people even prefer not using import at all (thus requiring that every class reference be fully dot-qualified), which avoids all possible ambiguity at the expense of requiring more source code changes if package names change. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I65"></A><A NAME="I66"></A><A NAME="I67"></A><B><I>When sensible, consider writing a main for the principal class</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>When sensible, consider writing a main for the principal class in each program file. The main should provide a simple unit test or demo. 
+</UL>
+<P><I>Rationale </I>
+<P>Forms a basis for testing. Also provides usage examples. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I68"></A><A NAME="I69"></A><A NAME="I70"></A><B><I>The class with main should be separate from those containing normal classes.</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>For self-standing application programs, the class with main should be separate from those containing normal classes. 
+</UL>
+<P><I>Rationale </I>
+<P>Hard-wiring an application program in one of its component class files hinders reuse. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<A NAME="E11E12"></A>
+<H3>
+<FONT COLOR="#000080"><B>Method Implementation</B></FONT></H3>
+<H4>
+<FONT COLOR="#000080"><A NAME="I71"></A><A NAME="I72"></A><A NAME="I73"></A><B><I>Declare a local variable where you know its initial value</I></B></FONT></H4>
+<UL>
+<P>Declare a local variable only at that point in the code where you know what its initial value should be.<I> </I>
+</UL>
+<P><I>Rationale </I>
+<P>Minimizes bad assumptions about values of variables. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I74"></A><B><I>Use a new local variable</I></B></FONT></H4>
+<UL>
+<P>Declare and initialize a new local variable rather than reusing (reassigning) an existing one whose value happens to no longer be used at that program point. 
+</UL>
+<P><I>Rationale </I>
+<P>Minimizes bad assumptions about values of variables. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I75"></A><B><I>Assign null to any reference variable that is no longer being used</I></B></FONT></H4>
+<UL>
+<P>Assign null to any reference variable that is no longer being used. (This includes, especially, elements of arrays.) 
+</UL>
+<P><I>Rationale </I>
+<P>Enables garbage collection. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I76"></A><A NAME="I77"></A><A NAME="I78"></A><B><I>Avoid assignments (``='') inside if and while conditions</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Avoid assignments (``='') inside if and while conditions. 
+</UL>
+<P><I>Rationale </I>
+<P>They are almost always typos. The java compiler catches cases where ``='' should have been ``=='' except when the variable is a boolean. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I79"></A><A NAME="I80"></A><A NAME="I81"></A><B><I>Ensure that there is ultimately a catch for all unchecked exceptions</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Ensure that there is ultimately a catch for all unchecked exceptions that can be dealt with. 
+</UL>
+<P><I>Rationale </I>
+<P>Java allows you to not bother declaring or catching some common easily-handlable exceptions, for example java.util.NoSuchElementException. Declare and catch them anyway. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I82"></A><A NAME="I83"></A><A NAME="I84"></A><B><I>Embed casts in conditionals</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Embed casts in conditionals.  
+</UL>
+<P><I>Details and Examples </I>
+<P>For example: 
+<PRE>
+<FONT FACE="Courier">C cx = null;
+if (x instanceof C) {
+    cx = (C) x;
+} else {
+    evasiveAction();
+}</FONT></PRE>
+<P>   
+<P><I>Rationale </I>
+<P>This forces you to consider what to do if the object is not an instance of the intended class rather than just generating a ClassCastException. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<A NAME="E11E13"></A>
+<H3>
+<FONT COLOR="#000080"><B>Documentation</B></FONT></H3>
+<H4>
+<FONT COLOR="#000080"><A NAME="I85"></A><B><I>Make code self documenting before commenting it</I></B></FONT></H4>
+<UL>
+<P>Try to make code as self document as possible before resorting to commenting it.  This can both to improve the design and better describe an existing design than using comments.
+</UL>
+<P><I>Rationale </I>
+<P>Specifications and code within a programming language are always more precise and useful than comments.  If the code can describe itself better, this provides a constant reinforcement to future development (the clients and maintainers of this code).  Comments are just auxiliary information and (although useful) should be a second choice.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e, McConnell 92</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I86"></A><B><I>Provide comments</I></B><B><I> that augment, not repeat, program code</I></B></FONT></H4>
+<UL>
+<P>Make comments augment, not repeat, information available in Java syntax itself.
+</UL>
+<P><I>Rationale </I>
+<P>Statements made in the programming language are precise, communicative, and guaranteed to be &quot;true&quot; (the program does what it says it does).  If comments repeat information already specified they provide nothing and they are likely to become out of date and incorrect.
+<P><I>Details and Examples </I>
+<P>Place the JavaDoc comments for methods immediately above and inset relative to the method declaration.  This is so it is easy to read the method declaration <B><I>before</I></B> reading the comment.  A method should have a good, intention revealing operator name, good parameter names, and a suitable return value type.  This implies that the declaration itself is the best first source for documentation of the public use of the method.
+<PRE>
+<FONT FACE="Courier">       /**
+        * Find a person with the particular name.
+        *@return null if can not find the person
+        */
+    public Person findName(String name);</FONT></PRE>
+<P>Consider method comments to be inside and subservient to the declaration (although JavaDoc requires it to be before the declaration).
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e, McConnell 92</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I87"></A><A NAME="I88"></A><A NAME="I89"></A><A NAME="I90"></A><B><I>Use Interfaces for Public Documentation</I></B></FONT></H4>
+<UL>
+<P>If you &quot;Interface with Interfaces&quot;, put public documentation in the Interface and implementation documentation in the class.  Do not repeat documentation between the two files.
+</UL>
+<P><I>Rationale </I>
+<P>Clients should only be looking at the public documentation and then the Class file can focus on implementation needs.  Repeating information just makes it likely to get out of synch.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <A NAME="I91"></A><A NAME="I92"></A><A NAME="I93"></A><I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I94"></A><B><I>Specify a standard keyword order</I></B></FONT></H4>
+<UL>
+<P>Specify a standard keyword order for your method modifiers.  
+</UL>
+<P><I>Rationale </I>
+<P>This is mostly a programming convention, but it can help team members to quickly understand other members programs.  It can also help the mental classification of methods and reinforce other guidelines (e.g. avoid &#145;static&#146;).
+<P><I>Details and Examples </I>
+<P>The following is a suggested order.  Static methods are a completely different kind of method (they are actually statically bound functions and procedures), so this is the first qualifier mentioned.  After this comes the access control (including the comment specifying more specific access than Java currently provides).  This is followed by all the not-elsewhere-mentioned qualifiers.  Finally we have the type specification.
+<OL>
+<LI>[&#145;static&#146;]
+<LI>&#145;public&#146; | &#145;/*subsystem*/ public&#146; | &#145;/*package*/ public&#146; | &#145;/*package*/&#146; | &#145;protected&#146; | &#145;/*progeny*/ protected&#146; | &#145;private&#146;
+<LI>[&#145;abstract&#146;], [&#145;synchronized&#146;], [&#145;final&#146;], [&#145;native&#146;], [&#145;transient&#146;], [&#145;volatile&#146;]
+<LI>&#145;void&#146; | &lt;TypeName&gt;
+</OL>
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I95"></A><B><I>Augment javadoc keywords</I></B></FONT></H4>
+<UL>
+<P>Consider augmenting standard javadoc keywords (author, version, see, param) with additional descriptive keywords (require, ensure).
+</UL>
+<P><I>Rationale </I>
+<P>Provides a more descriptive definition of the contract your class is providing to its clients.  The compiler and running program can not use this information (without additional tools), but it supports the human communication among the developer, the clients, and future developers.  See [Meyer 97] for the principles behind design by contract.
+<P><I>Details and Examples </I>
+<P>If you are using standard javadoc, do not use the same &#145;@&#146; format for the new keywords (they will disappear), but instead capitalize them with a colon.  The following is an example of augmenting keywords.
+<PRE>
+<FONT FACE="Courier">       /**
+        * Remove and return the top element.
+        *&lt;P&gt;REQUIRE: notEmpty()
+        *&lt;P&gt;ENSURE:  NEW(count()) = OLD(count()) - 1
+        */
+   public Object pop();</FONT></PRE>
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<A NAME="E11E14"></A>
+<H3>
+<FONT COLOR="#000080"><B>Class Implementation</B></FONT></H3>
+<H4>
+<FONT COLOR="#000080"><A NAME="I96"></A><A NAME="I97"></A><A NAME="I98"></A><B><I>Never declare instance variables as public</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Never declare instance variables as public. 
+</UL>
+<P><I>Rationale </I>
+<P>The standard OO reasons. Making variables public gives up control over internal class structure. Also, methods cannot assume that variables have valid values. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I99"></A><A NAME="I100"></A><A NAME="I101"></A><B><I>Minimize statics</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Minimize statics (except for static final constants). 
+</UL>
+<P><I>Rationale </I>
+<P>Static variables act like globals in non-OO languages. They make methods more context-dependent, hide possible side-effects, sometimes present synchronized access problems. and are the source of fragile, non-extensible constructions. Also, neither static variables nor methods are overridable in any useful sense in subclasses. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I102"></A><A NAME="I103"></A><A NAME="I104"></A><B><I>Prefer protected to private</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Generally prefer protected to private. 
+</UL>
+<P><I>Rationale </I>
+<P>Unless you have good reason for sealing-in a particular strategy for using a variable or method, you might as well plan for change via subclassing. On the other hand, this almost always entails more work. Basing other code in a base class around protected variables and methods is harder, since you you have to either loosen or check assumptions about their properties. (Note that in Java, protected methods are also accessible from unrelated classes in the same package. There is hardly every any reason to exploit this though.) 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I105"></A><A NAME="I106"></A><A NAME="I107"></A><B><I>Minimize reliance on implicit initializers</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Minimize reliance on implicit initializers for instance variables (such as the fact that reference variables are initialized to null). 
+</UL>
+<P><I>Rationale </I>
+<P>Minimizes initialization errors. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I108"></A><A NAME="I109"></A><A NAME="I110"></A><B><I>Prefer abstract methods to those with default no-op implementations</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Prefer abstract methods in base classes to those with default no-op implementations.  (Also, if there is a common default implementation, consider instead writing it as a protected method so that subclass authors can just write a one-line implementation to call the default.) 
+</UL>
+<P><I>Rationale </I>
+<P>The Java compiler will force subclass authors to implement abstract methods, avoiding problems occurring when they forget to do so but should have. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I111"></A><A NAME="I112"></A><A NAME="I113"></A><B><I>Avoid giving a variable the same name as one in a superclass</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Avoid giving a variable the same name as one in a superclass. 
+</UL>
+<P><I>Rationale </I>
+<P>This is usually an error. If not, explain the intent. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I114"></A><A NAME="I115"></A><A NAME="I116"></A><B><I>Use final and/or comment conventions for instance variables</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Use final and/or comment conventions to indicate whether instance variables that never have their values changed after construction are intended to be constant (immutable) for the lifetime of the object (versus those that just so happen not to get assigned in a class, but could in a subclass). 
+</UL>
+<P><I>Rationale </I>
+<P>Access to immutable instance variables generally does not require any synchronization control, but others generally do. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I117"></A><A NAME="I118"></A><A NAME="I119"></A><B><I>Avoid unnecessary instance variable access and update methods</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Avoid unnecessary instance variable access and update methods. Write get/set-style methods only when they are intrinsic aspects of functionality. 
+</UL>
+<P><I>Rationale </I>
+<P>Most instance variables in most classes must maintain values that are dependent on those of other instance variables. Allowing them to be read or written in isolation makes it harder to ensure that consistent sets of values are always used. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I120"></A><A NAME="I121"></A><A NAME="I122"></A><B><I>Minimize direct internal access to instance variables inside methods</I></B></FONT></H4>
+<UL>
+<P>Minimize direct internal access to instance variables inside methods. Use protected access and update methods instead (or sometimes public ones if they exist anyway). 
+</UL>
+<P><I>Rationale </I>
+<P>While inconvenient and sometimes overkill, this allows you to vary synchronization and notification policies associated with variable access and change in the class and/or its subclasses, which is otherwise a serious impediment to extensibility in concurrent OO programming. (Note: The naming conventions for instance variables serve as an annoying reminder of such issues.) 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I123"></A><A NAME="I124"></A><A NAME="I125"></A><B><I>Ensure that non-private statics have sensible values</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Ensure that non-private statics have sensible values even if no instances are ever created.  (Similarly ensure that static methods can be executed sensibly.) Use static intitializers (static { ... } ) if necessary. 
+</UL>
+<P><I>Rationale </I>
+<P>You cannot assume that non-private statics will be accessed only after instances are constructed. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I126"></A><A NAME="I127"></A><A NAME="I128"></A><B><I>Consider whether any class should implement Cloneable and/or Serializable.</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Consider whether any class should implement Cloneable and/or Serializable. 
+</UL>
+<P><I>Rationale </I>
+<P>These are ``magic'' interfaces in Java, that automatically add possibly-needed functionality only if so requested. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I129"></A><A NAME="I130"></A><A NAME="I131"></A><B><I>Whenever reasonable, define a default (no-argument) constructor</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Whenever reasonable, define a default (no-argument) constructor so objects can be created via Class.newInstance(). 
+</UL>
+<P><I>Rationale </I>
+<P>This allows classes of types unknown at compile time to be dynamically loaded and instantiated (as is done for example when loading unknown Applets from html pages). 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<A NAME="E11E15"></A>
+<H3>
+<FONT COLOR="#000080"><B>Overriding</B></FONT></H3>
+<H4>
+<FONT COLOR="#000080"><A NAME="I132"></A><A NAME="I133"></A><A NAME="I134"></A><B><I>If you override Object.equals, also override Object.hashCode</I></B></FONT></H4>
+<UL>
+<P>If you override Object.equals, also override Object.hashCode, and vice-versa. 
+</UL>
+<P><I>Rationale </I>
+<P>Essentially all containers and other utilities that group or compare objects in ways depending on equality rely on hashcodes to indicate possible equality. For further guidance see Taligent's Java Cookbook
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I135"></A><A NAME="I136"></A><A NAME="I137"></A><B><I>Override readObject and WriteObject if a Serializable class relies on process state</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Override readObject and WriteObject if a Serializable class relies on any state that could differ across processes, including, in particular, hashCodes and transient fields. 
+</UL>
+<P><I>Rationale </I>
+<P>Otherwise, objects of the class will not transport properly. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I138"></A><A NAME="I139"></A><A NAME="I140"></A><B><I>Explicitly define clone()</I></B></FONT></H4>
+<UL>
+<P>If you think that clone() may be called in a class you write, then explicitly define it (and declare the class to implement Cloneable). 
+</UL>
+<P><I>Rationale </I>
+<P>The default shallow-copy version of clone might not do what you want. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<A NAME="E11E16"></A>
+<H3>
+<FONT COLOR="#000080"><B>Miscellaneous</B></FONT></H3>
+<H4>
+<FONT COLOR="#000080"><A NAME="I141"></A><A NAME="I142"></A><A NAME="I143"></A><B><I>Generally prefer long to int, and double to float</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Generally prefer long to int, and double to float.  But use int for compatibility with standard Java constructs and classes (for the major example, array indexing, and all of the things this implies, for example about maximum sizes of arrays, etc). 
+</UL>
+<P><I>Rationale </I>
+<P>Arithmetic overflow and underflow can be 4 billion times less likely with longs than ints; similarly, fewer precision problems occur with doubles than floats. On the other hand, because of limitations in Java atomicity guarantees, use of longs and doubles must be synchronized in cases where use of ints and floats sometimes would not be. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I144"></A><A NAME="I145"></A><A NAME="I146"></A><B><I>Use method equals instead of operator == when comparing objects</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Use method equals instead of operator == when comparing objects. In particular, do not use == to compare Strings. 
+</UL>
+<P><I>Rationale </I>
+<P>If someone defined an equals method to compare objects, then they want you to use it. Otherwise, the default implementation of Object.equals is just to use ==. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I147"></A><A NAME="I148"></A><A NAME="I149"></A><B><I>Prefer declaring arrays as Type[] arrayName rather than Type arrayName[].</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Prefer declaring arrays as Type[] arrayName rather than Type arrayName[]. 
+</UL>
+<P><I>Rationale </I>
+<P>The second form is just for incorrigible C programmers. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<A NAME="E11E17"></A>
+<H3>
+<FONT COLOR="#000080"><B>Concurrent Programming</B></FONT></H3>
+<P>Doug Lea specializes in Concurrent Programming.  See his book [Lea 96] for more information on Concurrent Programming in Java.
+<H4>
+<FONT COLOR="#000080"><A NAME="I150"></A><A NAME="I151"></A><A NAME="I152"></A><B><I>Declare all public methods as synchronized</I></B></FONT></H4>
+<UL>
+<P>Declare all public methods as synchronized; or if not, describe the assumed invocation context and/or rationale for lack of synchronization. 
+</UL>
+<P><I>Rationale </I>
+<P>In the absence of planning out a set of concurrency control policies, declaring methods as synchronized at least guarantees safety (although not necessarily liveness) in concurrent contexts (every Java program is concurrent to at least some minimal extent). With full synchronization of all methods, the methods may lock up, but the object can never enter in randomly inconsistent states (and thus engage in stupidly or even dangerously wrong behaviors) due to concurrency conflicts. If you are worried about efficiency problems due to synchronization, learn enough about concurrent OO programming to plan out more efficient and/or less deadlock-prone policies. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I153"></A><A NAME="I154"></A><A NAME="I155"></A><B><I>Prefer synchronized methods to synchronized blocks.</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Prefer synchronized methods to synchronized blocks. 
+</UL>
+<P><I>Rationale </I>
+<P>Better encapsulation; less prone to subclassing snags; can be more efficient. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I156"></A><A NAME="I157"></A><A NAME="I158"></A><B><I>Always embed wait statements in while loops that re-wait</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Always embed wait statements in while loops that re-wait if the condition being waited for does not hold. 
+</UL>
+<P><I>Rationale </I>
+<P>When a wait wakes up, it does not know if the condition it is waiting for is true or not. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I159"></A><A NAME="I160"></A><A NAME="I161"></A><B><I>Use notifyAll instead of notify or resume.</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Use notifyAll instead of notify or resume. 
+</UL>
+<P><I>Rationale </I>
+<P>Classes that use only notify can normally only support at most one kind of wait condition across all methods in the class and all possible subclasses. And unguarded suspends/resumes are even more fragile. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I162"></A><A NAME="I163"></A><A NAME="I164"></A><B><I>Always document the fact that a method invokes wait</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Always document the fact that a method invokes wait 
+</UL>
+<P><I>Rationale </I>
+<P>Clients may need to take special actions to avoid nested monitor calls. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+<A NAME="E10E15"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Methodology, Notation, and CASE Guidelines</I></B></FONT></H2>
+<P>The following are some guidelines for working with methodologies, notations and CASE tools.
+<H4>
+<FONT COLOR="#000080"><A NAME="I165"></A><B><I>Use UML</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Use UML because it is the standard for OO notation.
+</UL>
+<P><I>Rationale </I>
+<P>With deference to all the great work by other methodologists, engineers, and &quot;thinkers&quot;, UML has won.  The probability that someone understands what you are doing is significantly enhanced by having a (good-enough) core shared notation.  Start with UML and then enhance it for needs it does not address.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I166"></A><A NAME="I167"></A><B><I>Go beyond UML</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>If UML does not express a concept well, extend it or modify it and then document how your extension relates to UML and other methods.
+</UL>
+<P><I>Rationale </I>
+<P>Communication is the most important part of any notation.  Make sure a standard does not hinder communicating concepts that are important to building good OO software.  Although UML incorporates several peoples&#146; work together, other important concepts were left out (e.g. UI, Coordinator, Entity, Interface, Extensions, etc.) and should not be lost if they are important to your development process.
+<P><I>Details and Examples </I>
+<P>UML is extendable via the stereotype functionality: you can further refine UML concepts by annotating a UML object with a guillemot surrounded phrase (&#171;coordinator&#187;).  Further, you can then define a new icon for the new refined concept.  This, for example, allows you to use Jacobson concepts by adding &#171;interface&#187;, &#171;control&#187;, &#171;entity&#187; stereotypes and then using Jacobson icons for these new concepts.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I168"></A><A NAME="I169"></A><B><I>Don&#146;t draw models for everything</I></B></FONT></H4>
+<UL>
+<P>Don&#146;t draw models for everything; instead, concentrate on the key areas.  It is better to have a few diagrams that you use and keep up-to-date than to have many forgotten, obsolete models.
+</UL>
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Fowler 97b</I></FONT>
+<H4>
+<FONT COLOR="#000080"><B><I>Link your design diagrams to javadoc</I></B></FONT></H4>
+<UL>
+<P>If you create a diagram to explain an important concept for your design, connect the diagram into the Javadoc documentation.
+</UL>
+<P><I>Rationale </I>
+<P>Javadoc is THE standard reference source for Java programming, so any documentation available within it will be much more likely to find.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-2</I></FONT>
+<H4>
+<FONT COLOR="#000080"><B><I>Use a smart drawing tool</I></B></FONT></H4>
+<UL>
+<P>Use a smart drawing tool to make UML and other software design diagrams easier to create and modify.  
+</UL>
+<P><I>Rationale </I>
+<P>Smart drawing tools are the first logical step for creating software models above the simplicity and flexibility of the simple pen.  They provide excellent support for creating, modifying, and printing readable diagrams quickly through their stencils, smart line connectors, and excellent drawing capabilities.  Most smart diagram tools now have stencils for UML, Objectory, ER Diagrams, UI widgets, and many other types of software notations.  Some tools even have a simple understanding of UML notation rules.  
+<P><I>Details</I>
+<P>There are many smart drawing tools available, and listings of them can be found on the web at:
+<UL>
+<LI>http://www.yahoo.com/Computers_and_Internet/Software/Reviews/Titles/Business/Flow_Chart/
+<LI>http://www.yahoo.com/Business_and_Economy/Companies/Computers/Software/Graphics/
+<LI>http://www.yahoo.com/Business_and_Economy/Companies/Computers/Software/Graphics/Flow_Charting/
+</UL>
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <A NAME="I170"></A><I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I171"></A><B><I>Use a CASE tool</I></B></FONT></H4>
+<UL>
+<P>If your diagramming needs go beyond a smart drawing tool, carefully consider the different CASE tools on the market and decide which (if any) meet your needs the best compared to the drawing tools.
+</UL>
+<P><I>Rationale</I>
+<P>For some projects, smart drawing tools will not be enough and CASE tools may be a more appropriate solution.  Smart drawing tools are very powerful but they do not understand the meaning of what they portray.  This restricts their abilities to:
+<UL>
+<LI>Guide/enforce the user to create correct diagrams
+<LI>Update changes between different diagrams
+<LI>Support creating new diagrams based on the existing knowledge
+<LI>Create automatic reports
+<LI>Forward generate to code
+</UL>
+<P>All of these items might be useful for the project team to maintain its models.  Be aware that all tools that are smarter are also less flexible and are never &quot;smart enough&quot;, so you need to make a very careful consideration of the tradeoffs with each tool and which of the above items are actually useful (in practice) to your project.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I172"></A><B><I>Avoid taking liberties with a CASE tool</I></B></FONT></H4>
+<UL>
+<P>Avoid taking liberties with a CASE tool or using it as a general diagramming tool.
+</UL>
+<P><I>Rationale </I>
+<P>All CASE tool diagrams impact the conceptual model in the &quot;repository&quot;, and if even one diagram is done strangely/loosely that model will be damaged.  This could prevent others from understanding the model, or lead to a severe misunderstanding of the model.  Make sure the repository is correct from all views.
+<P><I>Details </I>
+<P>It is better to capture information that the CASE tool can not in a different (external to the tool) form.  Put as much in the tool as possible and then organize and refer to this external information.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I173"></A><B><I>Recognize the limits of CASE tools</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Make sure you recognize what a CASE tool prevents you from expressing and determine when that is and is not acceptable.  Use hand drawings, drawing tools, or just text when you your CASE tool would hinder important communication.
+</UL>
+<P><I>Rationale </I>
+<P>CASE tools provide many benefits but they can sometimes interfere with the goal of good communication.  No CASE tool can completely support all of UML, let alone all the useful ways to communicate precisely.  The communication is more important than the tool.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I174"></A><B><I>Drive CASE tools from the appropriate direction</I></B></FONT></H4>
+<UL>
+<P>Drive CASE tools from the appropriate direction.  Before a significant amount of code is written, CASE tools can be driven forward (requirements to analysis to design to implementation).  After code exists, drive design information from the code.
+</UL>
+<P><I>Rationale </I>
+<P>The forward direction is the ideal, but a CASE repository is of no use later in a project if it does not reflect reality.  Code is the reality; so CASE information must be generated from the code.  The changes can then be reviewed as part of code review and acceptance.  Previous designs can be kept as snapshots and new future designs can again drive code changes.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<A NAME="E10E16"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Final </I></B><B><I>Guidelines</I></B></FONT></H2>
+<H4>
+<FONT COLOR="#000080"><A NAME="I175"></A><A NAME="I176"></A><A NAME="I177"></A><B><I>Try it out</I></B></FONT></H4>
+<UL>
+<P>Live with a guideline for a while before deciding to scrap or change it.  Let the goals of a guideline grow into your habits so you fully understand its value to you.
+</UL>
+<P><I>Rationale </I>
+<P>Only by trying a guideline can you really understand how and whether it benefits you.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I178"></A><A NAME="I179"></A><A NAME="I180"></A><B><I>Prove Performance</I></B></FONT></H4>
+<UL>
+<P>Do not sacrifice a guideline for performance reasons until you see the profiling numbers.  Only optimize when it will quantifiably be worth the maintenance penalty.
+</UL>
+<P><I>Rationale </I>
+<P>Optimization is always harmful and rarely beneficial unless you have numbers to back it up.  A better design (which these guideline try to encourage) will allow more precise and effective optimizations later when the numbers come in.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I181"></A><A NAME="I182"></A><A NAME="I183"></A><B><I>Take out the trash</I></B></FONT></H4>
+<UL>
+<P>If a standard does not work for your team, create a new one or let the issue be context and programmer dependent until a new standard emerges.
+</UL>
+<P><I>Rationale </I>
+<P>Having standards that interfere with good system design is worse than no standard at all.
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>ChiMu 97e</I></FONT>
+<H4>
+<FONT COLOR="#000080"><A NAME="I184"></A><A NAME="I185"></A><A NAME="I186"></A><B><I>Do not require 100% conformance to rules of thumb!</I></B><B><I> </I></B></FONT></H4>
+<UL>
+<P>Do not require 100% conformance to rules of thumb such as the ones listed here! 
+</UL>
+<P><I>Rationale </I>
+<P>Java allows you program in ways that do not conform to these rules for good reason. Sometimes they provide the only reasonable ways to implement things. And some of these rules make programs less efficient than they might otherwise be, so are meant to be conscientiously broken when performance is an issue. 
+<P ALIGN=RIGHT>
+<FONT SIZE="-1"> <I>Lea-1</I></FONT>
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Publications</a>&nbsp;&nbsp;<A href="index.html"><B>ChiMu OO and Java Development</B></A></TD><TD valign=top><A href="part0002.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0002.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0004.html">Next</A>&nbsp;<A href="part0004.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR><TD width="100%" align=left>&nbsp;&nbsp;&nbsp;&nbsp;<FONT SIZE="-1"><A href="http://www.chimu.com/copyright.html">Copyright (c) 1997</A>, ChiMu Corporation. All Rights Reserved.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

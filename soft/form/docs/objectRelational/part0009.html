@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Standard Definitions</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0010.html">
+    <LINK REL="Prev" HREF="part0008.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html">Object-Relational Mapping</FONT></A></TD><TD valign=top align=right><A href="part0008.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0008.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0010.html">Next</A>&nbsp;<A href="part0010.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E9"></A>
+<H1>
+<FONT COLOR="#000080"><B>Standard Definitions</B></FONT></H1>
+
+<P>
+<CENTER><TABLE ><TR></A>
+</TD></TR></TABLE>
+</CENTER>
+<P>This section collects definitions of terms needed for general Object-Relational mapping.
+
+<CENTER><TABLE >
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Object
+</TD><TD WIDTH=474 VALIGN=top >
+<P>An identifiable, encapsulated entity that is interacted with by sending messages.  Objects have behavior, state, and identity (but see ValueObject for a variation).</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Type
+</TD><TD WIDTH=474 VALIGN=top >
+<P>Specifies the public behavior and a conceptual grouping for objects that are members of the Type</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Protocol
+</TD><TD WIDTH=474 VALIGN=top >
+<P>Specifies a collection of methods that together provide a higher level interface to an object.  An object can <B>be</B> a Type, an object can <B>support</B> a Protocol, and a Type can <B>specify</B> <B>support for</B> a Protocol.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Class
+</TD><TD WIDTH=474 VALIGN=top >
+<P>Describes the types and the implementation for a set of objects.  </TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Factory
+</TD><TD WIDTH=474 VALIGN=top >
+<P>An object that can create other objects. </TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top ><BR></TD>
+<TD WIDTH=474 VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Identity
+</TD><TD WIDTH=474 VALIGN=top >
+<P>The ability to tell an object apart from another object independently of whether their type and state is equal.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Immutable
+</TD><TD WIDTH=474 VALIGN=top >
+<P>Can not be changed after being created.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>ValueObject
+</TD><TD WIDTH=474 VALIGN=top >
+<P>An object that does not have identity independent of its value.  A ValueObject is immutable and should be considered identical to anything that it is equal to.  Primitive data types in Smalltalk (most numbers, Symbols) are ValueObjects. Java Strings are very close to ValueObjects except they are not guaranteed to be identical for the same value (they would be if they did an automatic &quot;intern()&quot;).  Java primitive types are not Objects.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top ><BR></TD>
+<TD WIDTH=474 VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Attribute
+</TD><TD WIDTH=474 VALIGN=top >
+<P>A public property of an object that shows the state of the object.  Frequently there is a minimal collection of attributes that uniquely determine the state of the object.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>BasicAttribute
+</TD><TD WIDTH=474 VALIGN=top >
+<P>An attribute that takes its value from ValueObjects.  This is as opposed to associations which connect two or more objects with identity.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Association
+</TD><TD WIDTH=474 VALIGN=top >
+<P>A defined relationship between two objects with identity.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top ><BR></TD>
+<TD WIDTH=474 VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Instance Variable
+</TD><TD WIDTH=474 VALIGN=top >
+<P>A private implementation to remember part of an object's state.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top ><BR></TD>
+<TD WIDTH=474 VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>ObjectShadow
+</TD><TD WIDTH=474 VALIGN=top >
+<P>The information needed to see that an object exists without any true representation of the real object.  Relational databases could be considered to work with ObjectShadows: they record the information about an object but never have a real object to interact with.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top ><BR></TD>
+<TD WIDTH=474 VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Proxy
+</TD><TD WIDTH=474 VALIGN=top >
+<P>An object that stands in for another object (the RealObject) and manages the client interaction with the RealObject.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Forwarder
+</TD><TD WIDTH=474 VALIGN=top >
+<P>A proxy which immediately forwards messages, possibly over process and machine boundaries, to the RealSubject.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Replicate
+</TD><TD WIDTH=474 VALIGN=top >
+<P>A proxy which holds local state and performs local operations which are later propagated to the RealSubject</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Stub
+</TD><TD WIDTH=474 VALIGN=top >
+<P>A proxy which acts as a placeholder for the RealObject and must become another type of proxy (for example, forwarder or replicate) when interacted with by a client.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>RealIdentity
+</TD><TD WIDTH=474 VALIGN=top >
+<P>The identity of the RealObject that a proxy represents instead of the proxy&#146;s independent identity.  For proxies we are rarely interested in their own identity, we just want to know the identity of the RealObject on the server.</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>IdentityKey
+</TD><TD WIDTH=474 VALIGN=top >
+<P>A value that defines the RealIdentity of a Proxy. </TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Binding
+</TD><TD WIDTH=474 VALIGN=top >
+<P>Associating a client object to a database object, which turns the client object into a Proxy</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top ><BR></TD>
+<TD WIDTH=474 VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Builder
+</TD><TD WIDTH=474 VALIGN=top >
+<P>Builds up another object that can later be extracted</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Writer
+</TD><TD WIDTH=474 VALIGN=top >
+<P>Writes information directly to another object (usually another writer or a Stream)</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Reader
+</TD><TD WIDTH=474 VALIGN=top >
+<P>Reads information from another object (another Reader or a Stream)</TD>
+</TR>
+<TR>
+<TD WIDTH=127 VALIGN=top >
+<P>Stream
+</TD><TD WIDTH=474 VALIGN=top >
+<P>Able to sequentially retrieve or store information</TD></TR></TABLE></CENTER><P> .
+
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Documentation</a>&nbsp;&nbsp;<A href="index.html"><B>Object-Relational Mapping</B></A></TD><TD valign=top><A href="part0008.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0008.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0010.html">Next</A>&nbsp;<A href="part0010.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR>
+<TD width="100%" valign = bottom align=left>&nbsp;&nbsp;<FONT SIZE="-1"><A href="../copyright.html">Copyright (c) 1997</A>, ChiMu Corporation.  All Rights Reserved.
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;Confidential and Proprietary.  Version R1.0.1.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

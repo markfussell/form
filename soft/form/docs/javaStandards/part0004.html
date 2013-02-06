@@ -1,0 +1,981 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+    <TITLE>Definitions</TITLE>
+    <META NAME="Author" CONTENT="Mark L. Fussell">
+    <LINK REL="ToC" HREF="httoc.htm">
+    <LINK REL="Index" HREF="htindex.htm">
+    <LINK REL="Next" HREF="part0005.html">
+    <LINK REL="Prev" HREF="part0003.html">
+</HEAD>
+
+<BODY TEXT="#000000" BACKGROUND="../../images/backgrounds/marb18.jpg" BGCOLOR="#F0F0F0" LINK="#0000EE" VLINK="#551A8B" ALINK="#FF0000">
+<TABLE width="100%">
+<TR><TD valign=top><FONT size="-1"><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Publications</a>&nbsp;&nbsp;<A href="index.html">ChiMu OO and Java Development</FONT></A></TD><TD valign=top align=right><A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0003.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0005.html">Next</A>&nbsp;<A href="part0005.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+</TABLE>
+<A NAME="E9E4"></A>
+<H1>
+<FONT COLOR="#000080"><B>Definitions</B></FONT></H1>
+<P><A NAME="I2"></A><A NAME="I3"></A>Having a common glossary of terms is important for accurate, precise, and concise communication among team members.  The following definitions are ChiMu&#146;s distilling and reconciliation of the many great concepts and work that have been contributed to OO.  Many of the sources for these terms are mentioned in the References section of this document.  A few particularly notable sources are:
+<UL>
+<LI>The Dictionary of Object Technology [Firesmith+E 95].
+<LI>UML: The Unified Modeling Language [Rational 98]
+<LI>Design Patterns, especially [Gamma+HJV 96]
+</UL>
+<A NAME="E10E17"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Categorized</I></B></FONT></H2>
+<P>The following sections categorize definitions by starting with the core OO concepts (Objects) and growing to more domain-specific definitions.
+<A NAME="E11E18"></A>
+<H3>
+<FONT COLOR="#000080"><B>Object</B></FONT></H3>
+<P>The core concept to OO is Objects.  Everything else in OO is to make understanding, managing, or implementing Objects easier.  The definition of Object is the foundation for all other definitions.
+<H4><A NAME="I4"></A><A NAME="I5"></A><B><I>Definitions</I></B></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Object</B>
+</TD><TD VALIGN=top >
+<P>An identifiable, encapsulated entity that can only be interacted with by sending messages.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Message</B>
+</TD><TD VALIGN=top >
+<P>A stimulus sent to an object with a name and any parameters (as Objects) that the message requires.  A message will cause the receiver Object to return an answer or nothing.  In most Object Languages, the sender has to wait for the answer before continuing.</TD>
+</TR>
+<TR>
+<TD VALIGN=top ><BR></TD>
+<TD VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Identity</B>
+</TD><TD VALIGN=top >
+<P>The ability to tell one object from another object independently of whether their appearance (behavior) is identical.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Behavior</B>
+</TD><TD VALIGN=top >
+<P>The response of an object to a stimulus.  An object&#146;s behavior is the answers it gives to messages both now and in the future.  (See State).</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>State</B>
+</TD><TD VALIGN=top >
+<P>An abstraction to describe and simplify understanding an object&#146;s behavior.  An object&#146;s behavior can be described as the answers it gives to current messages (which are determined by the current state) and the changes to its state caused by these messages.</TD></TR></TABLE></CENTER><H4><A NAME="I6"></A><A NAME="I7"></A><B><I>More Information</I></B></H4>
+<P>The best source for the concept of Object is Alan Kay&#146;s writings [Kay 95] and Smalltalk itself [Goldberg+R 83, Squeak].  You could also look at Simula (the progenitor of Smalltalk), but it has other concepts mixed into the language besides Objects.  Some methodologies focus on Objects more than others [Wirfs-Brock+WW 90, Wilkinson 95], but all of the main OO methodology books (e.g. [Booch 95, Rumbaugh+BPEL 91, Jacobson+CJO 92]) have objects at the core.
+<A NAME="E11E19"></A>
+<H3>
+<FONT COLOR="#000080"><B>Type</B></FONT></H3>
+<P>Types allow you to think about the commonality of objects&#146; exteriors.  They are the first conceptual abstraction above Objects and immediately provide an enormous amount of ability to reasoning about Objects.  The amount of abstraction and formality associated with Types can depend on of the project or the current perspective.
+<H4>
+<FONT COLOR="#000080"><A NAME="I8"></A><A NAME="I9"></A><A NAME="I10"></A><A NAME="I11"></A><A NAME="I12"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Type</B>
+</TD><TD VALIGN=top >
+<P>Describes a common exterior (public behavior) of a set of Objects.  Can also be used to conceptually group and understand objects by their similar behavior.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Operation</B>
+</TD><TD VALIGN=top >
+<P>A description of the ability for an object to respond to a particular message and the contract/requirement for that message.  </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Interface</B>
+</TD><TD VALIGN=top >
+<P>A description of a Type focused on the Operations that the objects can respond to. </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Is-A</B>
+</TD><TD VALIGN=top >
+<P>An object is a Type if an Object supports all the exterior requirements of that Type.</TD>
+</TR>
+<TR>
+<TD VALIGN=top ><BR></TD>
+<TD VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Extend</B>
+</TD><TD VALIGN=top >
+<P>To define a new Type (called a Subtype) in terms of an existing type (called a Supertype).  The new Subtype will have the same contract (operations) as the Supertype but can add new functionality: as either new operations or enhancement in capability to existing operations.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Subtype</B>
+</TD><TD VALIGN=top >
+<P>A Type that extends another Type (called the Supertype).</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Supertype</B>
+</TD><TD VALIGN=top >
+<P>A Type that has been extended by another Type.</TD></TR></TABLE></CENTER><H4>
+<FONT COLOR="#000080"><A NAME="I13"></A><A NAME="I14"></A><A NAME="I15"></A><A NAME="I16"></A><A NAME="I17"></A><B><I>More Information</I></B></FONT></H4>
+<P>Many methodologies and authors do not make a clear distinction between Type and Class (usually referring to both a &quot;Class&quot; and the context determines what was really meant), so this can cause confusion.  The following discuss Types independently of Classes [Kilov+R 94, Fowler 97, Jacobson+CJO 92, Cook+D 94], but all of the main methodology books do focus on Types during analysis [Booch 94, Fowler 97, Rumbaugh+BPEL 91].  The description of contracts and interfaces in [Meyer 97] is the standard and an excellent reference on formal Types and their integration into OOP (but you have to be willing to accept many differences in terminology).  Java supports the separation of Type from Class through interfaces and classes, see [Coad+M 96, Gosling+JS 96].
+<A NAME="E11E20"></A>
+<H3>
+<FONT COLOR="#000080"><B>Class</B></FONT></H3>
+<P>Classes provide a common implementation for similar objects.  They describe the interior of objects so it is easier to work with many objects of many different Types.  It is important to conceptually separate Classes from Types even though it is a common (bad) practice to use Class for both ideas.  
+<H4>
+<FONT COLOR="#000080"><A NAME="I18"></A><A NAME="I19"></A><A NAME="I20"></A><A NAME="I21"></A><A NAME="I22"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Class</B>
+</TD><TD VALIGN=top >
+<P>Provides a common implementation for a set of objects.  </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Method</B>
+</TD><TD VALIGN=top >
+<P>An implementation of an operation for a particular object/class.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Instance Variable</B>
+</TD><TD VALIGN=top >
+<P>A way to store encapsulated state information for a particular object.  Instance variables are completely hidden within the Object, but they enable two objects of the same Class to have different external Behavior.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Instance</B>
+</TD><TD VALIGN=top >
+<P>An object is an Instance of a Type if an object supports all the exterior requirements of that type (see &quot;Is-A&quot;).  An object is an instance of a Class if it is implemented by that class.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Extent</B>
+</TD><TD VALIGN=top >
+<P>The collection of all instances of a Type or Class.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Inherit</B>
+</TD><TD VALIGN=top >
+<P>To define a new Class in terms of an Existing Class (the Superclass) by starting with the Superclass&#146;s implementation and overiding or adding to it.</TD></TR></TABLE></CENTER><H4>
+<FONT COLOR="#000080"><A NAME="I23"></A><A NAME="I24"></A><A NAME="I25"></A><A NAME="I26"></A><A NAME="I27"></A><B><I>More Information</I></B></FONT></H4>
+<P>All the methodologies focus on Classes, so any of them would be good for more information.  Many are bad at separating the concept of Class from Type (see above under &quot;Type&quot;).  Class is the most common term in OO Design and Analysis 
+<A NAME="E11E21"></A>
+<H3>
+<FONT COLOR="#000080"><B>Relationship Modeling</B></FONT></H3>
+<P>The above Type and Class concepts are just the beginning of the tools that can be used to reason about and implement objects.  Relationship Modeling adds on the ability to describe relationships among Objects and Types of Objects.
+<H4>
+<FONT COLOR="#000080"><A NAME="I28"></A><A NAME="I29"></A><A NAME="I30"></A><A NAME="I31"></A><A NAME="I32"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Link</B>
+</TD><TD VALIGN=top >
+<P>A connection between two objects which allows one or both to know about the other object.  By default links are assumed to be bidirectional in analysis, but they can be defined to be only traversable in one direction. </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Traverse</B>
+</TD><TD VALIGN=top >
+<P>To move from one object to another by a Link.  If a Link is traversable from an Object than that Object can get to (knows about) the other Object.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Association</B><B><SUB>1</SUB></B>
+</TD><TD VALIGN=top >
+<P>A relationship between two Types that allows or requires Objects of those Types to be Linked.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Role</B>
+</TD><TD VALIGN=top >
+<P>The name of the &quot;position&quot; within a relationship an Object or Type holds.  For example, a binary association has two roles that distinguish the two participants in the relationship.</TD>
+</TR>
+<TR>
+<TD VALIGN=top ><BR></TD>
+<TD VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Association</B><B><SUB>2</SUB></B>
+</TD><TD VALIGN=top >
+<P>An Association<SUB>1</SUB>, but must be between Types which have Objects with Identity.  See Attribute and ValueObject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>ValueObject</B>
+</TD><TD VALIGN=top >
+<P>An object that does not have identity independent of its value.  A ValueObject is immutable and should be considered identical to anything that it is equal to.  Primitive data types in Smalltalk (most numbers, Symbols) are ValueObjects. Java Strings are very close to ValueObjects except they are not guaranteed to be identical for the same value (they would be if they did an automatic &quot;intern()&quot;).  Java primitive types are not Objects.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Immutable</B>
+</TD><TD VALIGN=top >
+<P>Can not be changed after being created.  Immutable objects can not be changed after they are created and fully initialized.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Attribute</B><B><SUB>1</SUB></B>
+</TD><TD VALIGN=top >
+<P>A public property of an object that shows an aspect of the state of the object.  Frequently there is a minimal collection of attributes that uniquely determine the state of the object.  See also Property.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Attribute</B><B><SUB>2</SUB></B>
+</TD><TD VALIGN=top >
+<P>See BasicAttribute.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Attribute</B><B><SUB>3</SUB></B>
+</TD><TD VALIGN=top >
+<P>See Instance Variable.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>BasicAttribute</B>
+</TD><TD VALIGN=top >
+<P>An Attribute<SUB>1</SUB> that takes its value from ValueObjects.  This is as opposed to associations, which connect two or more objects with identity.  A BasicAttribute is traversable only from the Object to the ValueObject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Property</B>
+</TD><TD VALIGN=top >
+<P>Synonym for Attribute<SUB>1</SUB> and sometimes for Attribute<SUB>2</SUB>.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Feature</B>
+</TD><TD VALIGN=top >
+<P>The Eiffel term for Operation where Operation includes both methods and attributes<SUB>1</SUB>.</TD></TR></TABLE></CENTER><H4>
+<FONT COLOR="#000080"><A NAME="I33"></A><A NAME="I34"></A><A NAME="I35"></A><A NAME="I36"></A><A NAME="I37"></A><B><I>More Information</I></B></FONT></H4>
+<P>UML [Fowler 97, Rational 98] is now the primary source for the base concepts of Relationship Modeling in OO.  More detailed modeling is done in other methods (for example, see [Kilov+R 95]).  Many sources provide concepts for and examples of relationship modeling in particular domain areas (see the Patterns references).  The biggest problem with Relationship modeling terminology is the overloaded and fuzzy meaning of &quot;attribute&quot;, so be careful to consider what meaning was intended in a given context.
+<A NAME="E11E22"></A>
+<H3>
+<FONT COLOR="#000080"><B>Patterns</B></FONT></H3>
+<P>The following list has definitions for terms that were codified into OO language through well-known Design Patterns.  There are many more Patterns than the following definitions, but these are among the most common and accepted terms.
+<H4>
+<FONT COLOR="#000080"><A NAME="I38"></A><A NAME="I39"></A><A NAME="I40"></A><A NAME="I41"></A><A NAME="I42"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Adapter</B>
+</TD><TD VALIGN=top >
+<P>An object that can convert an Interface of one Class to the interface another Object expects.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Factory</B>
+</TD><TD VALIGN=top >
+<P>An object that can create other objects. </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Functor</B>
+</TD><TD VALIGN=top >
+<P>An object that models an operation.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Observable</B>
+</TD><TD VALIGN=top >
+<P>An object that can be Observed.  See Observer.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Observer</B>
+</TD><TD VALIGN=top >
+<P>An object that &quot;looks at&quot; another object (the Observable) and can respond to events in the Observable without the Observable being knowledgeable about the Observer.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Prototype</B>
+</TD><TD VALIGN=top >
+<P>An object that is used as a template for creating other Objects.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Proxy</B>
+</TD><TD VALIGN=top >
+<P>An object that stands in for another object (the RealObject) and manages the client interaction with the RealObject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Singleton</B>
+</TD><TD VALIGN=top >
+<P>An object that is the only instance of a Class.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Strategy</B>
+</TD><TD VALIGN=top >
+<P>An object that encapsulates an algorithm to be used with an Object.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Visitor</B>
+</TD><TD VALIGN=top >
+<P>An object that represents an operation that can be performed on the elements of an Object structure (frequently a hierarchy or sequence).</TD></TR></TABLE></CENTER><H4>
+<FONT COLOR="#000080"><A NAME="I43"></A><A NAME="I44"></A><A NAME="I45"></A><A NAME="I46"></A><A NAME="I47"></A><B><I>More Information</I></B></FONT></H4>
+<P>See [Gamma+HJV 96] for the full patterns to most of these definitions.  Some definitions may also be covered in other Pattern resources and Patterns are frequently the source of new terminology.
+<A NAME="E11E23"></A>
+<H3>
+<FONT COLOR="#000080"><B>Pattern: Proxy</B></FONT></H3>
+<P>The Proxy pattern is important to Information Systems, so the following provides some more details.
+<H4>
+<FONT COLOR="#000080"><A NAME="I48"></A><A NAME="I49"></A><A NAME="I50"></A><A NAME="I51"></A><A NAME="I52"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Proxy</B>
+</TD><TD VALIGN=top >
+<P>An object that stands in for another object (the RealObject) and manages the client interaction with the RealObject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Forwarder</B>
+</TD><TD VALIGN=top >
+<P>A proxy which immediately forwards messages, possibly over process and machine boundaries, to the RealSubject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Replicate</B>
+</TD><TD VALIGN=top >
+<P>A proxy which holds local state and performs local operations which are later propagated to the RealSubject</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Stub</B>
+</TD><TD VALIGN=top >
+<P>A proxy which acts as a placeholder for the RealObject and must become another type of proxy (for example, forwarder or replicate) when interacted with by a client.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>RealIdentity</B>
+</TD><TD VALIGN=top >
+<P>The identity of the RealObject that a proxy represents instead of the proxy&#146;s independent identity.  For proxies we are rarely interested in their own identity, we just want to know the identity of the RealObject on the server.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>IdentityKey</B>
+</TD><TD VALIGN=top >
+<P>A value that defines the RealIdentity of a Proxy. </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Binding</B>
+</TD><TD VALIGN=top >
+<P>Associating a client object to a database object, which turns the client object into a Proxy</TD></TR></TABLE></CENTER><H4>
+<FONT COLOR="#000080"><A NAME="I53"></A><A NAME="I54"></A><A NAME="I55"></A><A NAME="I56"></A><A NAME="I57"></A><B><I>More Information</I></B></FONT></H4>
+<P>See [Gamma+HJV 96] for the basic proxy concept.  See information on distributed processing (e.g. [GemStone 95]) and Object-Relational Mapping (e.g. [Fussell 96, Fussell 97a]) for details on the Proxy variations.
+<A NAME="E11E24"></A>
+<H3>
+<FONT COLOR="#000080"><B>Pattern: Functor</B></FONT></H3>
+<P>The Functor pattern is common to all types of OO Systems.  The following provide some more definitions.
+<H4>
+<FONT COLOR="#000080"><A NAME="I58"></A><A NAME="I59"></A><A NAME="I60"></A><A NAME="I61"></A><A NAME="I62"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Functor</B>
+</TD><TD VALIGN=top >
+<P>&quot;An object that models an operation&quot; [Firesmith+E 95].  For a Java implementation, a basic functor is an Interface with a single, generic, operation.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Procedure</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that does not return a value</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Function</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that returns an Object</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Predicate</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that returns a boolean</TD>
+</TR>
+<TR>
+<TD VALIGN=top ><BR></TD>
+<TD VALIGN=top ><BR></TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Getter</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that is designed to retrieve a value from an object (the first parameter)</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Setter</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that stores into an object (the first parameter) a value (the second parameter) </TD></TR></TABLE></CENTER><H4>
+<FONT COLOR="#000080"><A NAME="I63"></A><A NAME="I64"></A><A NAME="I65"></A><A NAME="I66"></A><A NAME="I67"></A><B><I>More Information</I></B></FONT></H4>
+<P>Note that almost all of the definitions above also have a more general meaning, so to be specific you would need to append &quot;Functor&quot; to the end to be precise (e.g. &quot;a Predicate Functor is a functor that returns a boolean&quot;)
+<A NAME="E11E25"></A>
+<H3>
+<FONT COLOR="#000080"><B>Architecture</B></FONT></H3>
+<P>The following terms are related to system architecture.
+<H4>
+<FONT COLOR="#000080"><A NAME="I68"></A><A NAME="I69"></A><A NAME="I70"></A><A NAME="I71"></A><A NAME="I72"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Architecture</B>
+</TD><TD VALIGN=top >
+<P>A system&#146;s concepts, structures, and interactions.  Also, the description of a system&#146;s desired architecture before construction.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Framework</B>
+</TD><TD VALIGN=top >
+<P>A strong partition of generalized functionality common to many parts of an application.  Also, more formally, a collection of interacting classes that describes most of the behavior a client requires and can be subclassed and parameterized to customize and complete the functionality.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Layer</B>
+</TD><TD VALIGN=top >
+<P>A logical, horizontal division of a system that provides a particular system abstraction to the client above the layer.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Module</B>
+</TD><TD VALIGN=top >
+<P>A base level subsystem: one which does not contain any other subsystems</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Partition</B>
+</TD><TD VALIGN=top >
+<P>A vertical division of a system into areas of related functionality.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Subsystem</B>
+</TD><TD VALIGN=top >
+<P>A division of a system into a cohesive unit of functionality (tightly related classes and internal subsystems) with a public interface and a private implementation.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Tier</B>
+</TD><TD VALIGN=top >
+<P>A level on a hierarchy of processes over which a system is divided.</TD></TR></TABLE></CENTER><H4>
+<FONT COLOR="#000080"><A NAME="I73"></A><A NAME="I74"></A><A NAME="I75"></A><A NAME="I76"></A><A NAME="I77"></A><B><I>More Information</I></B></FONT></H4>
+<P>See the resources under Architecture (e.g. [Shaw+G 96, Fussell 96]) and also some of the large-picture methodology and project-management books (e.g. [Booch 96, Jacobson+CJO 92]).
+<A NAME="E11E26"></A>
+<H3>
+<FONT COLOR="#000080"><B>Object-Oriented Information Systems</B></FONT></H3>
+<P>Object-Oriented Information Systems use Objects (called DomainObjects, BusinessObjects, or EntityObjects) to capture the knowledge, operations, and rules about a business within a computer.  
+<H4>
+<FONT COLOR="#000080"><A NAME="I78"></A><A NAME="I79"></A><A NAME="I80"></A><A NAME="I81"></A><A NAME="I82"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>ObjectBase</B>
+</TD><TD VALIGN=top >
+<P>.An ObjectBase captures the knowledge, operations, and rules required to usefully represent a particular part of the world in a computer.  An ObjectBase contains all the objects that represent a particular state of your DomainModel and all the knowledge contained therein.  Also called an ObjectSpace.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>DomainModel</B>
+</TD><TD VALIGN=top >
+<P>All the static rules, constraints, and operations that apply to DomainObjects.  The DomainModel can either be conceptual to help understand the behavior of DomainObjects or it can be implemented as DomainClasses.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>DomainObject</B>
+</TD><TD VALIGN=top >
+<P>An object which captures knowledge about a domain.  DomainObjects allow a computer to inspect, imply, modify, and &quot;reason&quot; about that information in either very simple ways (the facts) or more complex ways (the rules and implications).  </TD></TR></TABLE></CENTER><H4>
+<FONT COLOR="#000080"><A NAME="I83"></A><A NAME="I84"></A><A NAME="I85"></A><A NAME="I86"></A><A NAME="I87"></A><B><I>More Information</I></B></FONT></H4>
+<P>See [Fussell 96].
+<A NAME="E11E27"></A>
+<H3>
+<FONT COLOR="#000080"><B>Other Terms</B></FONT></H3>
+<P>The following are some currently unclassified terms.
+<H4>
+<FONT COLOR="#000080"><A NAME="I88"></A><A NAME="I89"></A><A NAME="I90"></A><A NAME="I91"></A><A NAME="I92"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Registry</B>
+</TD><TD VALIGN=top >
+<P>An object that remembers other objects and can search through and retrieve them through one or more properties.  Usually the objects within a Registry are all of the same type.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Container</B>
+</TD><TD VALIGN=top >
+<P>A Registry but without the implication of a primary registration property (e.g. a &quot;key&quot;).</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>ExtentRegistry</B>
+</TD><TD VALIGN=top >
+<P>A Registry that contains all the objects of a Type (the Extent of the Type).  An ExtentRegistry is a close equivalent to a RelVar or Table in the context of Objects.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>ObjectShadow</B>
+</TD><TD VALIGN=top >
+<P>The information needed to see that an object exists without any true representation of the real object.  Relational databases could be considered to work with ObjectShadows: they record the information about an object but never have a real object to interact with.</TD></TR></TABLE></CENTER><A NAME="E11E28"></A>
+<H3>
+<FONT COLOR="#000080"><B>Java Terms</B></FONT></H3>
+<P>The following terms are very common in Java and not mentioned elsewhere.
+<H4>
+<FONT COLOR="#000080"><A NAME="I93"></A><A NAME="I94"></A><A NAME="I95"></A><A NAME="I96"></A><A NAME="I97"></A><B><I>Definitions</I></B></FONT></H4>
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Bean</B>
+</TD><TD VALIGN=top >
+<P>An Object that knows about its own properties (can introspect) and has several other capabilities.  Any Java Object can be a Bean but some Objects have more Bean functionality.</TD></TR></TABLE></CENTER><H4>
+<FONT COLOR="#000080"><A NAME="I98"></A><A NAME="I99"></A><A NAME="I100"></A><A NAME="I101"></A><A NAME="I102"></A><B><I>More Information</I></B></FONT></H4>
+<P>See the Java JDKs and information
+<A NAME="E10E18"></A>
+<H2>
+<FONT COLOR="#000080"><B><I>Alphabetical</I></B></FONT></H2>
+<P>The following table contains all the previous mentioned definitions combined and sorted alphabetically.
+
+<CENTER><TABLE >
+<TR>
+<TD VALIGN=top >
+<P><B>Adapter</B>
+</TD><TD VALIGN=top >
+<P>An object that can convert an Interface of one Class to the interface another Object expects.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Architecture</B>
+</TD><TD VALIGN=top >
+<P>A system&#146;s concepts, structures, and interactions.  Also, the description of a system&#146;s desired architecture before construction.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Association</B><B><SUB>1</SUB></B>
+</TD><TD VALIGN=top >
+<P>A relationship between two Types that allows or requires Objects of those Types to be Linked.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Association</B><B><SUB>2</SUB></B>
+</TD><TD VALIGN=top >
+<P>An Association<SUB>1</SUB>, but must be between Types which have Objects with Identity.  See Attribute and ValueObject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Attribute</B><B><SUB>1</SUB></B>
+</TD><TD VALIGN=top >
+<P>A public property of an object that shows an aspect of the state of the object.  Frequently there is a minimal collection of attributes that uniquely determine the state of the object.  See also Property.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Attribute</B><B><SUB>2</SUB></B>
+</TD><TD VALIGN=top >
+<P>See BasicAttribute.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Attribute</B><B><SUB>3</SUB></B>
+</TD><TD VALIGN=top >
+<P>See Instance Variable.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>BasicAttribute</B>
+</TD><TD VALIGN=top >
+<P>An Attribute<SUB>1</SUB> that takes its value from ValueObjects.  This is as opposed to associations, which connect two or more objects with identity.  A BasicAttribute is traversable only from the Object to the ValueObject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Bean</B>
+</TD><TD VALIGN=top >
+<P>An Object that knows about its own properties (can introspect) and has several other capabilities.  Any Java Object can be a Bean but some Objects have more Bean functionality.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Behavior</B>
+</TD><TD VALIGN=top >
+<P>The response of an object to a stimulus.  An object&#146;s behavior is the answers it gives to messages both now and in the future.  (See State).</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Binding</B>
+</TD><TD VALIGN=top >
+<P>Associating a client object to a database object, which turns the client object into a Proxy</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Class</B>
+</TD><TD VALIGN=top >
+<P>Provides a common implementation for a set of objects.  </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Container</B>
+</TD><TD VALIGN=top >
+<P>A Registry but without the implication of a primary registration property (e.g. a &quot;key&quot;).</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>DomainModel</B>
+</TD><TD VALIGN=top >
+<P>All the static rules, constraints, and operations that apply to DomainObjects.  The DomainModel can either be conceptual to help understand the behavior of DomainObjects or it can be implemented as DomainClasses.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>DomainObject</B>
+</TD><TD VALIGN=top >
+<P>An object which captures knowledge about a domain.  DomainObjects allow a computer to inspect, imply, modify, and &quot;reason&quot; about that information in either very simple ways (the facts) or more complex ways (the rules and implications).  </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Extend</B>
+</TD><TD VALIGN=top >
+<P>To define a new Type (called a Subtype) in terms of an existing type (called a Supertype).  The new Subtype will have the same contract (operations) as the Supertype but can add new functionality: as either new operations or enhancement in capability to existing operations.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Extent</B>
+</TD><TD VALIGN=top >
+<P>The collection of all instances of a Type or Class.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>ExtentRegistry</B>
+</TD><TD VALIGN=top >
+<P>A Registry that contains all the objects of a Type (the Extent of the Type).  An ExtentRegistry is a close equivalent to a RelVar or Table in the context of Objects.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Factory</B>
+</TD><TD VALIGN=top >
+<P>An object that can create other objects. </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Feature</B>
+</TD><TD VALIGN=top >
+<P>The Eiffel term for Operation where Operation includes both methods and attributes<SUB>1</SUB>.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Forwarder</B>
+</TD><TD VALIGN=top >
+<P>A proxy which immediately forwards messages, possibly over process and machine boundaries, to the RealSubject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Framework</B>
+</TD><TD VALIGN=top >
+<P>A strong partition of generalized functionality common to many parts of an application.  Also, more formally, a collection of interacting classes that describes most of the behavior a client requires and can be subclassed and parameterized to customize and complete the functionality.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Function</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that returns an Object</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Functor</B>
+</TD><TD VALIGN=top >
+<P>An object that models an operation.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Functor</B>
+</TD><TD VALIGN=top >
+<P>&quot;An object that models an operation&quot; [Firesmith+E 95].  For a Java implementation, a basic functor is an Interface with a single, generic, operation.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Getter</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that is designed to retrieve a value from an object (the first parameter)</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Identity</B>
+</TD><TD VALIGN=top >
+<P>The ability to tell one object from another object independently of whether their appearance (behavior) is identical.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>IdentityKey</B>
+</TD><TD VALIGN=top >
+<P>A value that defines the RealIdentity of a Proxy. </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Immutable</B>
+</TD><TD VALIGN=top >
+<P>Can not be changed after being created.  Immutable objects can not be changed after they are created and fully initialized.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Inherit</B>
+</TD><TD VALIGN=top >
+<P>To define a new Class in terms of an Existing Class (the Superclass) by starting with the Superclass&#146;s implementation and overiding or adding to it.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Instance</B>
+</TD><TD VALIGN=top >
+<P>An object is an Instance of a Type if an object supports all the exterior requirements of that type (see &quot;Is-A&quot;).  An object is an instance of a Class if it is implemented by that class.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Instance Variable</B>
+</TD><TD VALIGN=top >
+<P>A way to store encapsulated state information for a particular object.  Instance variables are completely hidden within the Object, but they enable two objects of the same Class to have different external Behavior.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Interface</B>
+</TD><TD VALIGN=top >
+<P>A description of a Type focused on the Operations that the objects can respond to. </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Is-A</B>
+</TD><TD VALIGN=top >
+<P>An object is a Type if an Object supports all the exterior requirements of that Type.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Layer</B>
+</TD><TD VALIGN=top >
+<P>A logical, horizontal division of a system that provides a particular system abstraction to the client above the layer.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Link</B>
+</TD><TD VALIGN=top >
+<P>A connection between two objects which allows one or both to know about the other object.  By default links are assumed to be bidirectional in analysis, but they can be defined to be only traversable in one direction. </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Message</B>
+</TD><TD VALIGN=top >
+<P>A stimulus sent to an object with a name and any parameters (as Objects) that the message requires.  A message will cause the receiver Object to return an answer or nothing.  In most Object Languages, the sender has to wait for the answer before continuing.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Method</B>
+</TD><TD VALIGN=top >
+<P>An implementation of an operation for a particular object/class.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Module</B>
+</TD><TD VALIGN=top >
+<P>A base level subsystem: one which does not contain any other subsystems</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Object</B>
+</TD><TD VALIGN=top >
+<P>An identifiable, encapsulated entity that can only be interacted with by sending messages.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>ObjectBase</B>
+</TD><TD VALIGN=top >
+<P>.An ObjectBase captures the knowledge, operations, and rules required to usefully represent a particular part of the world in a computer.  An ObjectBase contains all the objects that represent a particular state of your DomainModel and all the knowledge contained therein.  Also called an ObjectSpace.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>ObjectShadow</B>
+</TD><TD VALIGN=top >
+<P>The information needed to see that an object exists without any true representation of the real object.  Relational databases could be considered to work with ObjectShadows: they record the information about an object but never have a real object to interact with.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Observable</B>
+</TD><TD VALIGN=top >
+<P>An object that can be Observed.  See Observer.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Observer</B>
+</TD><TD VALIGN=top >
+<P>An object that &quot;looks at&quot; another object (the Observable) and can respond to events in the Observable without the Observable being knowledgeable about the Observer.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Operation</B>
+</TD><TD VALIGN=top >
+<P>A description of the ability for an object to respond to a particular message and the contract/requirement for that message.  </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Partition</B>
+</TD><TD VALIGN=top >
+<P>A vertical division of a system into areas of related functionality.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Predicate</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that returns a boolean</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Procedure</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that does not return a value</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Property</B>
+</TD><TD VALIGN=top >
+<P>Synonym for Attribute<SUB>1</SUB> and sometimes for Attribute<SUB>2</SUB>.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Prototype</B>
+</TD><TD VALIGN=top >
+<P>An object that is used as a template for creating other Objects.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Proxy</B>
+</TD><TD VALIGN=top >
+<P>An object that stands in for another object (the RealObject) and manages the client interaction with the RealObject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Proxy</B>
+</TD><TD VALIGN=top >
+<P>An object that stands in for another object (the RealObject) and manages the client interaction with the RealObject.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>RealIdentity</B>
+</TD><TD VALIGN=top >
+<P>The identity of the RealObject that a proxy represents instead of the proxy&#146;s independent identity.  For proxies we are rarely interested in their own identity, we just want to know the identity of the RealObject on the server.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Registry</B>
+</TD><TD VALIGN=top >
+<P>An object that remembers other objects and can search through and retrieve them through one or more properties.  Usually the objects within a Registry are all of the same type.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Replicate</B>
+</TD><TD VALIGN=top >
+<P>A proxy which holds local state and performs local operations which are later propagated to the RealSubject</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Role</B>
+</TD><TD VALIGN=top >
+<P>The name of the &quot;position&quot; within a relationship an Object or Type holds.  For example, a binary association has two roles that distinguish the two participants in the relationship.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Setter</B><B><SUB>f</SUB></B>
+</TD><TD VALIGN=top >
+<P>A functor that stores into an object (the first parameter) a value (the second parameter) </TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Singleton</B>
+</TD><TD VALIGN=top >
+<P>An object that is the only instance of a Class.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>State</B>
+</TD><TD VALIGN=top >
+<P>An abstraction to describe and simplify understanding an object&#146;s behavior.  An object&#146;s behavior can be described as the answers it gives to current messages (which are determined by the current state) and the changes to its state caused by these messages.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Strategy</B>
+</TD><TD VALIGN=top >
+<P>An object that encapsulates an algorithm to be used with an Object.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Stub</B>
+</TD><TD VALIGN=top >
+<P>A proxy which acts as a placeholder for the RealObject and must become another type of proxy (for example, forwarder or replicate) when interacted with by a client.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Subsystem</B>
+</TD><TD VALIGN=top >
+<P>A division of a system into a cohesive unit of functionality (tightly related classes and internal subsystems) with a public interface and a private implementation.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Subtype</B>
+</TD><TD VALIGN=top >
+<P>A Type that extends another Type (called the Supertype).</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Supertype</B>
+</TD><TD VALIGN=top >
+<P>A Type that has been extended by another Type.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Tier</B>
+</TD><TD VALIGN=top >
+<P>A level on a hierarchy of processes over which a system is divided.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Traverse</B>
+</TD><TD VALIGN=top >
+<P>To move from one object to another by a Link.  If a Link is traversable from an Object than that Object can get to (knows about) the other Object.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Type</B>
+</TD><TD VALIGN=top >
+<P>Describes a common exterior (public behavior) of a set of Objects.  Can also be used to conceptually group and understand objects by their similar behavior.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>ValueObject</B>
+</TD><TD VALIGN=top >
+<P>An object that does not have identity independent of its value.  A ValueObject is immutable and should be considered identical to anything that it is equal to.  Primitive data types in Smalltalk (most numbers, Symbols) are ValueObjects. Java Strings are very close to ValueObjects except they are not guaranteed to be identical for the same value (they would be if they did an automatic &quot;intern()&quot;).  Java primitive types are not Objects.</TD>
+</TR>
+<TR>
+<TD VALIGN=top >
+<P><B>Visitor</B>
+</TD><TD VALIGN=top >
+<P>An object that represents an operation that can be performed on the elements of an Object structure (frequently a hierarchy or sequence).</TD></TR></TABLE></CENTER>
+<P>
+<TABLE width="100%" border=0>
+<TR><TD valign=bottom rowspan=2><A href="http://www.chimu.com/"><IMG src="../../images/chimu/pyrs1b2t.gif" border=0></A></TD>
+<TD width="100%" valign=top align=left>
+<P><a href="http://www.chimu.com/">ChiMu</a>&nbsp;&nbsp;<a href="../index.html">Publications</a>&nbsp;&nbsp;<A href="index.html"><B>ChiMu OO and Java Development</B></A></TD><TD valign=top><A href="part0003.html"><IMG BORDER=0 src="../../images/arrows/larr1ct.gif"></A>&nbsp;<A href="part0003.html">Previous</A>&nbsp;<A href="index.html#TOC">TOC</A>&nbsp;<A href="part0005.html">Next</A>&nbsp;<A href="part0005.html"><IMG BORDER=0 src="../../images/arrows/rarr1ct.gif"></A> </TD></TR>
+<TR><TD width="100%" align=left>&nbsp;&nbsp;&nbsp;&nbsp;<FONT SIZE="-1"><A href="http://www.chimu.com/copyright.html">Copyright (c) 1997</A>, ChiMu Corporation. All Rights Reserved.</FONT></TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

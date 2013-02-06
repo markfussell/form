@@ -1,0 +1,11 @@
+id	integer	F
+person_name	varchar	T	70
+distinguisher	varchar	T	70
+email	varchar		70
+height	Integer	T
+employer_id	Integer	T
+hired_date	Date	T
+base	Integer	T
+percentage	Float	T	8
+annual_salary	Integer	T
+

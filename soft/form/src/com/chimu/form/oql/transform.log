@@ -1,0 +1,72 @@
+.\ConditionNode.java
+.\Node.java
+.\SimpleNode.java
+.\OqlParser.java
+.\ParseError.java
+.\OqlParserTokenManager.java
+.\Token.java
+.\OqlParserConstants.java
+.\OqlPack.java
+.\OqlQuery.java
+.\OqlQueryClass.java
+.\ASTWhereQuery.java
+.\ASTWhereClause.java
+    public void createQueryInto(QueryDescription query) {->    public void buildQueryFor_into(OqlQueryPi oql, QueryDescription query) {
+        Condition condition = conditionNode.createConditionFor(query);->        Condition condition = conditionNode.newConditionFor_using(oql,query);
+.\ASTUnboundName.java
+    public QueryExpression createQueryExpressionFor(Oql oqlQuery) {->    public QueryExpression newExpressionFor_using(oql,Oql oqlQuery) {
+.\ASTUnboundIndex.java
+.\ASTUnarySignExpression.java
+.\ASTUnaryNotCondition.java
+.\ASTSelectQuery.java
+.\ASTSelectClause.java
+.\ASTRangeList.java
+    public void createQueryInto(QueryDescription query) {->    public void buildQueryFor_into(OqlQueryPi oql, QueryDescription query) {
+        	n.createQueryInto(query);->        	n.buildQueryFor_into(oql,query);
+.\ASTRange.java
+    public void createQueryInto(QueryDescription query) {->    public void buildQueryFor_into(OqlQueryPi oql, QueryDescription query) {
+.\ASTNullLiteral.java
+.\ASTName.java
+.\ASTMultiplicativeExpression.java
+.\ASTMessageSequence.java
+    public QueryExpression createQueryExpressionFor(QueryDescription query) {->    public QueryExpression newExpressionFor_using(OqlQueryPi oql, QueryDescription query) {
+.\ASTMessage.java
+.\ASTLiteral.java
+    public QueryExpression createQueryExpressionFor(QueryDescription query) {->    public QueryExpression newExpressionFor_using(OqlQueryPi oql, QueryDescription query) {
+.\ASTLabeledExpression.java
+.\ASTInclusiveOrCondition.java
+    public Condition createConditionFor(QueryDescription query) {->    public Condition newConditionFor_using(OqlQueryPi oql, QueryDescription query) {
+        Condition result = ((SimpleNode) children.elementAt(0)).createConditionFor(query);->        Condition result = ((SimpleNode) children.elementAt(0)).newConditionFor_using(oql,query);
+                    ((SimpleNode) children.elementAt(i)).createConditionFor(query)->                    ((SimpleNode) children.elementAt(i)).newConditionFor_using(oql,query)
+.\ASTFromQuery.java
+.\ASTFromClause.java
+.\ASTExclusiveOrCondition.java
+.\ASTComparisonCondition.java
+        QueryExpression left   = ((SimpleNode) children.elementAt(0)).createQueryExpressionFor(query);->        QueryExpression left   = ((SimpleNode) children.elementAt(0)).newExpressionFor_using(oql,query);
+        QueryExpression right  = ((SimpleNode) children.elementAt(1)).createQueryExpressionFor(query);->        QueryExpression right  = ((SimpleNode) children.elementAt(1)).newExpressionFor_using(oql,query);
+.\ASTBooleanLiteral.java
+.\ASCII_UCodeESC_CharStream.java
+.\ASTArgumentList.java
+.\ASTAndCondition.java
+        Condition result = ((SimpleNode) children.elementAt(0)).createConditionFor(query);->        Condition result = ((SimpleNode) children.elementAt(0)).newConditionFor_using(oql,query);
+                    ((SimpleNode) children.elementAt(i)).createConditionFor(query)->                    ((SimpleNode) children.elementAt(i)).newConditionFor_using(oql,query)
+.\ASTAdditiveExpression.java
+.\ASTArguments.java
+.\ASTIntegerLiteral.java
+    public QueryExpression createQueryExpressionFor(QueryDescription query) {->    public QueryExpression newExpressionFor_using(OqlQueryPi oql, QueryDescription query) {
+.\ASTFloatingPointLiteral.java
+.\ASTCharacterLiteral.java
+.\ASTStringLiteral.java
+    public QueryExpression createQueryExpressionFor(QueryDescription query) {->    public QueryExpression newExpressionFor_using(OqlQueryPi oql, QueryDescription query) {
+.\NamedNodeAbsClass.java
+.\ConditionCreator.java
+    public abstract Condition createConditionFor(QueryDescription description);->    public abstract Condition newConditionFor_using(OqlQueryPi oql, QueryDescription description);
+.\ExpressionCreator.java
+    public abstract QueryExpression createQueryExpressionFor(QueryDescription description);->    public abstract QueryExpression newExpressionFor_using(OqlQueryPi oql, QueryDescription description);
+.\QueryCreator.java
+    public abstract void createQueryInto(QueryDescription description);->    public abstract void buildQueryFor_into(OqlQueryPi oql, QueryDescription description);
+.\ConditionNodeAbsClass.java
+    public abstract Condition createConditionFor(QueryDescription description);->    public abstract Condition newConditionFor_using(OqlQueryPi oql, QueryDescription description);
+    public QueryExpression createQueryExpressionFor(QueryDescription query) {->    public QueryExpression newExpressionFor_using(OqlQueryPi oql, QueryDescription query) {
+        return createConditionFor(description);->        return newConditionFor_using(oql,description);
+.\OqlQueryPi.java

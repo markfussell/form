@@ -1,0 +1,4 @@
+id	Integer	T
+person_name	varchar	T	60
+email	varchar	T	30
+height	Integer	T

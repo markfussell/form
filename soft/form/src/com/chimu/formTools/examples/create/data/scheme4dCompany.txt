@@ -1,0 +1,5 @@
+id	integer	F
+name	varchar	T	80
+revenue_cur	varchar	T	40
+revenue	Decimal	T	13
+city	varchar	T	50

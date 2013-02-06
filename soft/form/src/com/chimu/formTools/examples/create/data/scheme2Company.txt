@@ -1,0 +1,4 @@
+id	integer	F
+name	varchar	T	70
+revenue	Decimal	T	13
+

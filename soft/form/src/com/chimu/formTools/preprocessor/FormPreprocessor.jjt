@@ -1,0 +1,1619 @@
+/**
+Mark
+
+
+**/
+
+
+
+options {
+  MULTI = true;
+  NODE_DEFAULT_VOID = true;
+  JAVA_UNICODE_ESCAPE = true;
+  STATIC = true;
+}
+
+PARSER_BEGIN(FormPreprocessor)
+package com.chimu.formTools.preprocessor;
+import java.io.*;
+import java.util.Vector;
+
+/**
+The FormPreprocessor parses a java source file and annotates it with FORM
+relevant information.  Currently this information includes 'unstubbing'
+objects when referenced and FORM specific method to initialize and extract
+state information.
+
+<P>The FormPreprocessor is a command line utility.
+Execute 'java com.chimu.formTools.preprocessor.FormPreprocessor' for the
+most current usage information.  The following is an example:
+
+<PRE>
+* FORM Preprocessor Version 1.7
+* Usage:
+*     FormPreprocessor [options] (file | directory)*
+* or
+*     java com.chimu.formTools.preprocessor.FormPreprocessor ...
+*
+* Options:
+*     -s  <directory>   Source directory
+*     -d  <directory>   Destination directory
+*     -sx <extension>   Source file extension
+*     -dx <extension>   Destination file extension
+*
+*     -slotConstants <visibility>? Generate constants for slot names
+*                           Visibility: public, protected, package, private
+*
+*     -haveImports      Do not generate full class path names
+*     -getters          Generate getter functors for instance variables
+*     -setters          Generate setter functors for instance variables
+*
+*     -formInfo         Generate a FormInfo file
+*     -builder <class>  Use <class> to generate the FormInfo file
+*
+*     -safe             Do not overwrite existing destination or backup files
+*     -f                Force operation even if destination or backup exist
+</PRE>
+**/
+
+public class FormPreprocessor {
+
+    static public FormPreprocessor parser = null;
+    static public boolean overwrite = true;
+    static public boolean force = true;
+    static public boolean force2 = false;  //Second level of forcefulness ... lose originals
+    static public String destinationDirectory = null;
+    static public String sourceDirectory = null;
+    static public String defaultExtension = null;
+    static public String sourceExtension = null;
+    static public String destinationExtension = null;
+
+    static public String infoBuilderClassName = null;
+
+    static public boolean wantGetters = false;
+    static public boolean wantSetters = false;
+    static public boolean wantMarkDirties = false;  //put in markDirties?
+    static public int constructorType = 0;
+    static public boolean haveImports = false;
+    static public boolean formConstructor = true;
+    static public boolean generateFormInfo = false;
+
+    static public boolean useSlotConstants = false;
+    static public String slotConstantVisibility = "protected";
+
+    static public String versionString = "1.8";
+
+    static public SourceConverterPrinter currentOstr;
+
+    static String[] getArguments(String[] args) {
+        Vector files = new Vector();
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i].toLowerCase();
+            if (arg.equals("-d")) {
+                if (i < args.length) {
+                    destinationDirectory = args[++i];
+                    overwrite = false;
+                } else {
+                    System.out.println("No destination directory for -d.");
+                    System.exit(1);
+                };
+            } else if (arg.equals("-slotconstants")) {
+                if (i < args.length) {
+                    String nextArgument = args[i+1].toLowerCase();
+                    if (nextArgument.equals("public")) {
+                        slotConstantVisibility = "public";
+                        i++;
+                    } else if (nextArgument.equals("protected")) {
+                        slotConstantVisibility = "protected";
+                        i++;
+                    } else if (nextArgument.equals("package")) {
+                        slotConstantVisibility = "";
+                        i++;
+                    } else if (nextArgument.equals("private")) {
+                        slotConstantVisibility = "private";
+                        i++;
+                    };
+                }
+                useSlotConstants = true;
+            } else if (arg.equals("-haveimports")) {
+                haveImports = true;
+            } else if (arg.equals("-constructor")) {
+                if (i < args.length) {
+                    String constructorName = args[++i].toLowerCase();
+                    if (constructorName.equals("form")) {
+                        formConstructor = true;
+                    } else if (constructorName.equals("blank")) {
+                        System.out.println("Blank constructor is now not valid");
+                        System.exit(1);
+                    } else {
+                        System.out.println("Unrecognized constructor type "+constructorName);
+                        System.exit(1);
+                    }
+                } else {
+                    System.out.println("No type for -constructor");
+                    System.exit(1);
+                };
+            } else if (arg.equals("-getters")) {
+                wantGetters = true;
+            } else if (arg.equals("-setters")) {
+                wantSetters = true;
+            } else if (arg.equals("-s")) {
+                if (i < args.length) {
+                    sourceDirectory = args[++i];
+                } else {
+                    System.out.println("No source directory for -s.");
+                    System.exit(1);
+                };
+            } else if (arg.equals("-sx")) {
+                if (i < args.length) {
+                    sourceExtension = args[++i];
+                } else {
+                    System.out.println("No filename source extension for -sx.");
+                    System.exit(1);
+                };
+            } else if (arg.equals("-builder")) {
+                if (i < args.length) {
+                    infoBuilderClassName = args[++i];
+                } else {
+                    System.out.println("No info builder class name with '-builder'.");
+                    System.exit(1);
+                };
+            } else if (arg.equals("-dx")) {
+                if (i < args.length) {
+                    destinationExtension = args[++i];
+                    overwrite = false;
+                } else {
+                    System.out.println("No filename destination extension for -dx.");
+                    System.exit(1);
+                };
+            } else if (arg.equals("-forminfo")) {
+                generateFormInfo = true;
+            } else if (arg.equals("-f")) {
+                force = true;
+                force2 = true;
+            } else if (arg.equals("-o")) {
+                overwrite = true;
+            } else if (arg.equals("-safe")) {
+                force = false;
+            } else {
+                files.addElement(args[i]);
+            };
+        };
+        String[] result = new String[files.size()];
+        files.copyInto(result);
+        return result;
+         }
+
+        /**
+         * See the main comment for a description on how to
+         * run this class
+         */
+    public static void main(String args[]) {
+        args = getArguments(args);
+        if (args.length >= 1) {
+            FILE_LOOP:
+            for (int i = 0; i < args.length; i++) {
+                File file = new File(sourceDirectory,args[i]);
+                if (!file.exists()) {
+                    System.out.println("File " + args[i] + " not found.");
+                    continue FILE_LOOP;
+                } else {
+                    if (file.isDirectory()) {
+                        String[] files = file.list();
+                        for (int j = 0; j < files.length; j++) {
+                            try {
+                                preprocess(new File(file,files[j]));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        };
+                    } else {
+                        preprocess(file);
+                    };
+                };
+            };
+        } else  if(sourceDirectory != null) {
+            File file = new File(sourceDirectory);
+            if (!file.exists()) {
+                System.out.println("Source directory does not exist");
+                System.exit(1);
+            } else {
+                if (file.isDirectory()) {
+                    String[] files = file.list();
+                    for (int j = 0; j < files.length; j++) {
+                        preprocess(new File(file,files[j]));
+                    };
+                } else {
+                    preprocess(file);
+                };
+            };
+        } else {
+            System.out.println("FORM Preprocessor Version "+versionString);
+            System.out.println("Usage:");
+            System.out.println("    FormPreprocessor [options] (file | directory)*");
+            System.out.println("or");
+            System.out.println("    java com.chimu.formTools.preprocessor.FormPreprocessor ...");
+            System.out.println();
+            System.out.println("Options:");
+//            System.out.println("  -o                Overwrite the source file (after backing up to ~.bak)");
+//            System.out.println();
+//            System.out.println("  -compatible       Generate compatibility");
+//            System.out.println();
+//            System.out.println("    -setters          Generate setter functors for instance variables");
+            System.out.println("    -s  <directory>   Source directory");
+            System.out.println("    -d  <directory>   Destination directory");
+            System.out.println("    -sx <extension>   Source file extension");
+            System.out.println("    -dx <extension>   Destination file extension");
+            System.out.println();
+            System.out.println("    -slotConstants <visibility>? Generate constants for slot names");
+            System.out.println("                          Visibility: public, protected, package, private");
+            System.out.println();
+            System.out.println("    -haveImports      Do not generate full class path names");
+            System.out.println("    -getters          Generate getter functors for instance variables");
+            System.out.println("    -setters          Generate setter functors for instance variables");
+            System.out.println();
+            System.out.println("    -formInfo         Generate a FormInfo file");
+            System.out.println("    -builder <class>  Use <class> to generate the FormInfo file");
+            System.out.println();
+            System.out.println("    -f                Force operation even if destination or backup exist");
+            System.out.println("    -safe             Do not overwrite existing destination or backup files");
+            return;
+        }
+    }
+
+    static void setClassName(String name) {
+        currentOstr.setOuterClassName(name);
+    }
+
+    static void setPackageName(String name) {
+        currentOstr.setPackageName(name);
+    }
+
+    static void setClassModifier(String name) {
+        if (name.equals("abstract")) {
+            currentOstr.setOuterClassToAbstract();
+        };
+    }
+
+    static void preprocess(File inFile) {
+        System.gc();  //Memory leak or lousy GC
+        System.out.print("Processing: "+inFile+"  ");
+        String fileName = inFile.getName();
+        if (sourceExtension != null) {
+            if (!fileName.endsWith(sourceExtension)) {
+                return;
+            };
+        };
+        File outfile;
+        if (overwrite) {
+            String extension = destinationExtension;
+
+            // if sourceExtension then chop off extension
+            if (extension == null) extension = ".bak";
+            File newInFile = new File(inFile.getPath()+extension);
+
+            if (inFile.renameTo(newInFile)) {
+                // System.out.println("Renamed "+file+".");
+                // Success
+            } else {
+                if (force) {
+                    if (newInFile.delete() && inFile.renameTo(newInFile)) {
+                        // Success
+                    } else {
+                        System.out.println("Could not remove "+newInFile.getPath()+" and rename "+inFile+" to "+newInFile.getPath()+".");
+                        return;
+                    };
+                } else {
+                    System.out.println("Could not rename "+inFile+" to "+newInFile.getPath()+".");
+                    return; // failed to rename...
+                }
+            };
+            outfile = inFile;
+            inFile  = newInFile;
+        } else {
+            String extension = destinationExtension;
+            if (destinationDirectory != null) {
+                if (extension == null) extension = "";
+                outfile = new File(destinationDirectory,inFile.getName()+extension);
+            } else {
+                // if sourceExtension then chop off extension
+                if (extension == null) extension = ".out";
+                outfile = new File(inFile.getPath()+extension);
+            };
+        };
+
+        File formInfoFile = null;
+        if (generateFormInfo) {
+            String extension = sourceExtension;
+            if (extension == null) extension = ".java";
+
+            String outfilePath = outfile.getPath();
+            int dotIndex = outfilePath.lastIndexOf(".");
+
+            if (dotIndex < 0) {
+                formInfoFile = new File(outfilePath+"_FormInfo");
+            } else {
+                formInfoFile = new File(
+                        outfilePath.substring(0,dotIndex)+"_FormInfo"+
+                        outfilePath.substring(dotIndex)
+                    );
+            };
+            if (formInfoFile.exists() && !force2) {
+                //if (reallyForce) {
+                System.out.println("FormInfo file "+formInfoFile.getPath()+" already exists.  Use '-f' to force overwriting ");
+                formInfoFile = null;
+            };
+
+        }
+
+
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(inFile);
+            if (parser == null) {
+                parser = new FormPreprocessor(fis);
+            } else {
+                parser.ReInit(fis);
+            };
+        } catch (Exception e) {
+            System.out.println("File " + inFile + " can not be opened.");
+            return;
+        }
+
+        PrintWriter pw = null;
+        PrintWriter infoFilePw = null;
+        try {
+            pw = new PrintWriter(new FileOutputStream(outfile));
+
+            if (formInfoFile != null) {
+                currentOstr = new SourceConverterPrinter(pw,formInfoFile);
+            } else {
+                currentOstr = new SourceConverterPrinter(pw);
+            }
+
+            if (infoBuilderClassName != null) {
+                try {
+                    Class infoBuilderClass = Class.forName(infoBuilderClassName);
+                    InfoBuilder infoBuilder = (InfoBuilder) infoBuilderClass.newInstance();
+                    currentOstr.setupInfoBuilder(infoBuilder);
+                } catch (Exception e2) {
+                    System.out.println("Could not use InfoBuilder: "+infoBuilderClassName);
+                    e2.printStackTrace();
+                    System.out.println("Using default builder");
+                }
+                //currentOstr.setupInfoBuilder(null);
+            }
+
+            currentOstr.doneSetup();
+
+
+
+
+            ASTCompilationUnit node;
+            node = parser.CompilationUnit();
+
+            node.process(currentOstr);
+
+            pw.close();
+            fis.close();
+            currentOstr.close();
+
+            if (currentOstr.ignoredFile()) {
+                System.out.println("IGNORED "+outfile+".");
+            } else {
+                System.out.println("SUCCESSFUL transformation of "+inFile+" into "+outfile+".");
+            }
+        } catch (IOException e) {
+            System.out.println("Could not write to " + outfile);
+        } catch (ParseError e) {
+            System.out.print("Could not parse "+inFile);
+            if (overwrite) {
+                try {
+                    pw.close();
+                    fis.close();
+                } catch (Exception e2) {
+                    System.out.println("Could not close the files");
+                };
+                outfile.delete();
+                inFile.renameTo(outfile);
+                System.out.println(" restored original "+outfile);
+            };
+            System.out.println();
+        } catch (Throwable e) {
+            System.out.print("General Error "+e);
+            if (overwrite) {
+                try {
+                    pw.close();
+                    fis.close();
+                } catch (Exception e2) {
+                    System.out.println("Could not close the files");
+                };
+                outfile.delete();
+                inFile.renameTo(outfile);
+                System.out.println(" restored original "+outfile);
+            };
+            System.out.println();
+        } finally {
+            try {
+                pw.close();
+                fis.close();
+                if (infoFilePw != null) {
+                    infoFilePw.close();
+                }
+            } catch (Exception e) {
+                System.out.println("Could not close the files");
+            };
+        };
+
+    };
+}
+
+PARSER_END(FormPreprocessor)
+
+
+SPECIAL_TOKEN : /* WHITE SPACE */
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f"
+}
+
+SPECIAL_TOKEN : /* COMMENTS */
+{
+  <SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
+| <FORMAL_COMMENT: "/**" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+| <MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+}
+
+TOKEN : /* RESERVED WORDS AND LITERALS */
+{
+  < ABSTRACT: "abstract" >
+| < BOOLEAN: "boolean" >
+| < BREAK: "break" >
+| < BYTE: "byte" >
+| < CASE: "case" >
+| < CATCH: "catch" >
+| < CHAR: "char" >
+| < CLASS: "class" >
+| < CONST: "const" >
+| < CONTINUE: "continue" >
+| < _DEFAULT: "default" >
+| < DO: "do" >
+| < DOUBLE: "double" >
+| < ELSE: "else" >
+| < EXTENDS: "extends" >
+| < FALSE: "false" >
+| < FINAL: "final" >
+| < FINALLY: "finally" >
+| < FLOAT: "float" >
+| < FOR: "for" >
+| < GOTO: "goto" >
+| < IF: "if" >
+| < IMPLEMENTS: "implements" >
+| < IMPORT: "import" >
+| < INSTANCEOF: "instanceof" >
+| < INT: "int" >
+| < INTERFACE: "interface" >
+| < LONG: "long" >
+| < NATIVE: "native" >
+| < NEW: "new" >
+| < NULL: "null" >
+| < PACKAGE: "package">
+| < PRIVATE: "private" >
+| < PROTECTED: "protected" >
+| < PUBLIC: "public" >
+| < RETURN: "return" >
+| < SHORT: "short" >
+| < STATIC: "static" >
+| < SUPER: "super" >
+| < SWITCH: "switch" >
+| < SYNCHRONIZED: "synchronized" >
+| < THIS: "this" >
+| < THROW: "throw" >
+| < THROWS: "throws" >
+| < TRANSIENT: "transient" >
+| < TRUE: "true" >
+| < TRY: "try" >
+| < VOID: "void" >
+| < VOLATILE: "volatile" >
+| < WHILE: "while" >
+}
+
+TOKEN : /* LITERALS */
+{
+  < INTEGER_LITERAL:
+        <DECIMAL_LITERAL> (["l","L"])?
+      | <HEX_LITERAL> (["l","L"])?
+      | <OCTAL_LITERAL> (["l","L"])?
+  >
+|
+  < #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >
+|
+  < #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >
+|
+  < #OCTAL_LITERAL: "0" (["0"-"7"])* >
+|
+  < FLOATING_POINT_LITERAL:
+        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)? (["f","F","d","D"])?
+      | "." (["0"-"9"])+ (<EXPONENT>)? (["f","F","d","D"])?
+      | (["0"-"9"])+ <EXPONENT> (["f","F","d","D"])?
+      | (["0"-"9"])+ (<EXPONENT>)? ["f","F","d","D"]
+  >
+|
+  < #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >
+|
+  < CHARACTER_LITERAL:
+      "'"
+      (   (~["'","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )
+      "'"
+  >
+|
+  < STRING_LITERAL:
+      "\""
+      (   (~["\"","\\","\n","\r"])
+        | ("\\"
+            ( ["n","t","b","r","f","\\","'","\""]
+            | ["0"-"7"] ( ["0"-"7"] )?
+            | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+            )
+          )
+      )*
+      "\""
+  >
+}
+
+TOKEN : /* IDENTIFIERS */
+{
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+  < #LETTER:
+      [
+       "\u0024",
+       "\u0041"-"\u005a",
+       "\u005f",
+       "\u0061"-"\u007a",
+       "\u00c0"-"\u00d6",
+       "\u00d8"-"\u00f6",
+       "\u00f8"-"\u00ff",
+       "\u0100"-"\u1fff",
+       "\u3040"-"\u318f",
+       "\u3300"-"\u337f",
+       "\u3400"-"\u3d2d",
+       "\u4e00"-"\u9fff",
+       "\uf900"-"\ufaff"
+      ]
+  >
+|
+  < #DIGIT:
+      [
+       "\u0030"-"\u0039",
+       "\u0660"-"\u0669",
+       "\u06f0"-"\u06f9",
+       "\u0966"-"\u096f",
+       "\u09e6"-"\u09ef",
+       "\u0a66"-"\u0a6f",
+       "\u0ae6"-"\u0aef",
+       "\u0b66"-"\u0b6f",
+       "\u0be7"-"\u0bef",
+       "\u0c66"-"\u0c6f",
+       "\u0ce6"-"\u0cef",
+       "\u0d66"-"\u0d6f",
+       "\u0e50"-"\u0e59",
+       "\u0ed0"-"\u0ed9",
+       "\u1040"-"\u1049"
+      ]
+  >
+}
+
+TOKEN : /* SEPARATORS */
+{
+  < LPAREN: "(" >
+| < RPAREN: ")" >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < LBRACKET: "[" >
+| < RBRACKET: "]" >
+| < SEMICOLON: ";" >
+| < COMMA: "," >
+| < DOT: "." >
+}
+
+TOKEN : /* OPERATORS */
+{
+  < ASSIGN: "=" >
+| < GT: ">" >
+| < LT: "<" >
+| < BANG: "!" >
+| < TILDE: "~" >
+| < HOOK: "?" >
+| < COLON: ":" >
+| < EQ: "==" >
+| < LE: "<=" >
+| < GE: ">=" >
+| < NE: "!=" >
+| < SC_OR: "||" >
+| < SC_AND: "&&" >
+| < INCR: "++" >
+| < DECR: "--" >
+| < PLUS: "+" >
+| < MINUS: "-" >
+| < STAR: "*" >
+| < SLASH: "/" >
+| < BIT_AND: "&" >
+| < BIT_OR: "|" >
+| < XOR: "^" >
+| < REM: "%" >
+| < LSHIFT: "<<" >
+| < RSIGNEDSHIFT: ">>" >
+| < RUNSIGNEDSHIFT: ">>>" >
+| < PLUSASSIGN: "+=" >
+| < MINUSASSIGN: "-=" >
+| < STARASSIGN: "*=" >
+| < SLASHASSIGN: "/=" >
+| < ANDASSIGN: "&=" >
+| < ORASSIGN: "|=" >
+| < XORASSIGN: "^=" >
+| < REMASSIGN: "%=" >
+| < LSHIFTASSIGN: "<<=" >
+| < RSIGNEDSHIFTASSIGN: ">>=" >
+| < RUNSIGNEDSHIFTASSIGN: ">>>=" >
+}
+
+
+/*****************************************
+ * THE JAVA LANGUAGE GRAMMAR STARTS HERE *
+ *****************************************/
+
+/*
+ * Program structuring syntax follows.
+ */
+
+ASTCompilationUnit CompilationUnit() #CompilationUnit :
+{}
+{
+		{
+		  jjtThis.firstToken=getToken(1);
+		}
+  [ PackageDeclaration() ]
+  ( ImportDeclaration() )*
+  ( TypeDeclaration() )*
+  <EOF>
+		{
+		  return jjtThis;
+		}
+}
+
+void PackageDeclaration() #PackageDeclaration:
+{}
+{
+  "package" Name() ";"
+}
+
+void ImportDeclaration() :
+{}
+{
+  "import" Name() [ "." "*" ] ";"
+}
+
+void TypeDeclaration() :
+{}
+{
+  LOOKAHEAD( ( "abstract" | "final" | "public" )* "class" )
+  ClassDeclaration()
+|
+  InterfaceDeclaration()
+|
+  ";"
+}
+
+
+/*
+ * Declaration syntax follows.
+ */
+
+void ClassDeclaration() :
+		{
+		  Token   t;
+		}
+{
+  (( "abstract" | "final" | "public" )
+    {
+		t = getToken(0);
+        setClassModifier(t.image);
+    }
+  )*
+  UnmodifiedClassDeclaration()
+}
+
+void UnmodifiedClassDeclaration() :
+{   Token t; }
+{
+  "class" t=<IDENTIFIER>
+        { setClassName(t.image);}
+  [ "extends" Name() ] [ "implements" NameList() ]
+  ClassBody()
+}
+
+void ClassBody() #ClassBody :
+		{
+		  Token   firstToken;
+		}
+{
+        {
+        	firstToken = getToken(1);
+        }
+  "{"
+      ( ClassBodyDeclaration() )*
+  "}"
+		{
+		  jjtThis.firstToken = firstToken;
+		  jjtThis.lastToken  = getToken(0);
+		}
+}
+
+void NestedClassDeclaration() :
+{}
+{
+  ( "static" | "abstract" | "final" | "public" | "protected" | "private" )*
+  UnmodifiedClassDeclaration()
+}
+
+void ClassBodyDeclaration() :
+{}
+{
+  LOOKAHEAD(2)
+  Initializer()
+|
+  LOOKAHEAD( ( "static" | "abstract" | "final" | "public" | "protected" | "private" )* "class" )
+  NestedClassDeclaration()
+|
+  LOOKAHEAD( ( "static" | "abstract" | "final" | "public" | "protected" | "private" )* "interface" )
+  NestedInterfaceDeclaration()
+|
+  LOOKAHEAD( [ "public" | "protected" | "private" ] Name() "(" )
+  ConstructorDeclaration()
+|
+  LOOKAHEAD( MethodDeclarationLookahead() )
+  MethodDeclaration()
+|
+  FieldDeclaration()
+}
+
+// This production is to determine lookahead only.
+void MethodDeclarationLookahead() :
+{}
+{
+  ( "public" | "protected" | "private" | "static" | "abstract" | "final" | "native" | "synchronized" )*
+  ResultType() <IDENTIFIER> "("
+}
+
+void InterfaceDeclaration() :
+{}
+{
+  ( "abstract" | "public" )*
+  UnmodifiedInterfaceDeclaration()
+}
+
+void NestedInterfaceDeclaration() :
+{}
+{
+  ( "static" | "abstract" | "final" | "public" | "protected" | "private" )*
+  UnmodifiedInterfaceDeclaration()
+}
+
+void UnmodifiedInterfaceDeclaration() :
+{}
+{
+  "interface" <IDENTIFIER> [ "extends" NameList() ]
+  "{" ( InterfaceMemberDeclaration() )* "}"
+}
+
+void InterfaceMemberDeclaration() :
+{}
+{
+  LOOKAHEAD( ( "static" | "abstract" | "final" | "public" | "protected" | "private" )* "class" )
+  NestedClassDeclaration()
+|
+  LOOKAHEAD( ( "static" | "abstract" | "final" | "public" | "protected" | "private" )* "interface" )
+  NestedInterfaceDeclaration()
+|
+  LOOKAHEAD( MethodDeclarationLookahead() )
+  MethodDeclaration()
+|
+  FieldDeclaration()
+}
+
+void FieldDeclaration() #FieldDeclaration:
+		{
+		  Token   t,firstToken;
+		  Vector modifiers = new Vector();
+		}
+{
+    {
+		firstToken = getToken(1);
+    }
+  (( "public" | "protected" | "private" | "static" | "final" | "transient" | "volatile" )
+    {
+		t = getToken(0);
+        modifiers.addElement(t.image);
+    }
+  )*
+		{
+		  t = getToken(1);
+		}
+  Type() VariableDeclarator() ( "," VariableDeclarator() )*
+		{
+		  jjtThis.firstTypeVariableToken =t;
+		  jjtThis.lastTypeVariableToken  =getToken(0);
+		  jjtThis.setModifiers(modifiers);
+		}
+  ";"
+		{
+		  jjtThis.firstToken = firstToken;
+		  jjtThis.lastToken  = getToken(0);
+		}
+}
+
+void VariableDeclarator() :
+{}
+{
+  VariableDeclaratorId() [ "=" VariableInitializer() ]
+}
+
+void VariableDeclaratorId() :
+{}
+{
+  <IDENTIFIER> ( "[" "]" )*
+}
+
+void VariableInitializer() :
+{}
+{
+  ArrayInitializer()
+|
+  Expression()
+}
+
+void ArrayInitializer() :
+{}
+{
+  "{" [ VariableInitializer() ( LOOKAHEAD(2) "," VariableInitializer() )* ] [ "," ] "}"
+}
+
+void MethodDeclaration():
+		{
+		  Token   t;
+		  boolean protectedFlag = false;
+		  boolean hasSpecialFlag = false;
+		  Vector modifiers = new Vector();
+		}
+{
+  (( "public" | "protected" | "private" | "static" | "abstract" | "final" | "native" | "synchronized" )
+    {
+		t = getToken(0);
+        modifiers.addElement(t.image);
+    }
+  )*
+  ResultType() MethodDeclarator() [ "throws" NameList() ]
+  (
+    (
+		{
+		  t = getToken(1);
+		}
+    Block()
+    [
+        (
+          ( "catch" "(" FormalParameter() ")" Block() )+
+          [ "finally" Block() ]
+        |
+          "finally" Block()
+        )
+            {
+                hasSpecialFlag = true;
+            }
+    ]
+		{
+		  jjtThis.firstToken =t;
+		  jjtThis.lastToken  =getToken(0);
+		  jjtThis.setModifiers(modifiers);
+		  jjtThis.setHasSpecialFlag(hasSpecialFlag);
+		}
+    [";"]       //MLF960404 - Not actually in language spec, but parser acceptable
+    ) #SpecialBlock
+  |
+    ";"
+  )
+}
+
+void MethodDeclarator() :
+{}
+{
+  <IDENTIFIER> FormalParameters() ( "[" "]" )*
+}
+
+void FormalParameters() :
+{}
+{
+  "(" [ FormalParameter() ( "," FormalParameter() )* ] ")"
+}
+
+void FormalParameter() :
+{}
+{
+  [ "final" ] Type() VariableDeclaratorId()
+}
+
+void ConstructorDeclaration() :
+{}
+{
+  [ "public" | "protected" | "private" ]
+  <IDENTIFIER> FormalParameters() [ "throws" NameList() ]
+  "{"
+    [ LOOKAHEAD(ExplicitConstructorInvocation()) ExplicitConstructorInvocation() ]
+    ( BlockStatement() )*
+  "}"
+  [";"]       //MLF970624 - Not actually in language spec, but common and compiler acceptable
+}
+
+void ExplicitConstructorInvocation() :
+{}
+{
+  LOOKAHEAD("this" Arguments() ";")
+  "this" Arguments() ";"
+|
+  [ LOOKAHEAD(2) PrimaryExpression() "." ] "super" Arguments() ";"
+}
+
+void Initializer() :
+{}
+{
+  [ "static" ] Block()
+}
+
+
+/*
+ * Type, name and expression syntax follows.
+ */
+
+void Type() :
+{}
+{
+  ( PrimitiveType() | Name() ) ( "[" "]" )*
+}
+
+void PrimitiveType() #PrimitiveType :
+{}
+{
+  "boolean"
+|
+  "char"
+|
+  "byte"
+|
+  "short"
+|
+  "int"
+|
+  "long"
+|
+  "float"
+|
+  "double"
+}
+
+void ResultType() :
+{}
+{
+  "void"
+|
+  Type()
+}
+
+void Name() #Name :
+/*
+ * A lookahead of 2 is required below since "Name" can be followed
+ * by a ".*" when used in the context of an "ImportDeclaration".
+ */
+{ Token t; }
+{
+  t = <IDENTIFIER>
+    {jjtThis.appendName(t.image);}
+  ( LOOKAHEAD(2) "." t=<IDENTIFIER>
+    {jjtThis.appendName("."+t.image);}
+  )*
+}
+
+void NameList() :
+{}
+{
+  Name()
+  ( "," Name()
+  )*
+}
+
+
+/*
+ * Expression syntax follows.
+ */
+
+void Expression() :
+{}
+{
+  LOOKAHEAD( PrimaryExpression() AssignmentOperator() )
+  Assignment()
+|
+  ConditionalExpression()
+}
+
+void Assignment() :
+{}
+{
+  PrimaryExpression() AssignmentOperator() Expression()
+}
+
+void AssignmentOperator() :
+{}
+{
+  "=" | "*=" | "/=" | "%=" | "+=" | "-=" | "<<=" | ">>=" | ">>>=" | "&=" | "^=" | "|="
+}
+
+void ConditionalExpression() :
+{}
+{
+  ConditionalOrExpression() [ "?" Expression() ":" ConditionalExpression() ]
+}
+
+void ConditionalOrExpression() :
+{}
+{
+  ConditionalAndExpression() ( "||" ConditionalAndExpression() )*
+}
+
+void ConditionalAndExpression() :
+{}
+{
+  InclusiveOrExpression() ( "&&" InclusiveOrExpression() )*
+}
+
+void InclusiveOrExpression() :
+{}
+{
+  ExclusiveOrExpression() ( "|" ExclusiveOrExpression() )*
+}
+
+void ExclusiveOrExpression() :
+{}
+{
+  AndExpression() ( "^" AndExpression() )*
+}
+
+void AndExpression() :
+{}
+{
+  EqualityExpression() ( "&" EqualityExpression() )*
+}
+
+void EqualityExpression() :
+{}
+{
+  InstanceOfExpression() ( ( "==" | "!=" ) InstanceOfExpression() )*
+}
+
+void InstanceOfExpression() :
+{}
+{
+  RelationalExpression() [ "instanceof" Type() ]
+}
+
+void RelationalExpression() :
+{}
+{
+  ShiftExpression() ( ( "<" | ">" | "<=" | ">=" ) ShiftExpression() )*
+}
+
+void ShiftExpression() :
+{}
+{
+  AdditiveExpression() ( ( "<<" | ">>" | ">>>" ) AdditiveExpression() )*
+}
+
+void AdditiveExpression() :
+{}
+{
+  MultiplicativeExpression() ( ( "+" | "-" ) MultiplicativeExpression() )*
+}
+
+void MultiplicativeExpression() :
+{}
+{
+  UnaryExpression() ( ( "*" | "/" | "%" ) UnaryExpression() )*
+}
+
+void UnaryExpression() :
+{}
+{
+  ( "+" | "-" ) UnaryExpression()
+|
+  PreIncrementExpression()
+|
+  PreDecrementExpression()
+|
+  UnaryExpressionNotPlusMinus()
+}
+
+void PreIncrementExpression() :
+{}
+{
+  "++" PrimaryExpression()
+}
+
+void PreDecrementExpression() :
+{}
+{
+  "--" PrimaryExpression()
+}
+
+void UnaryExpressionNotPlusMinus() :
+{}
+{
+  ( "~" | "!" ) UnaryExpression()
+|
+  LOOKAHEAD( CastLookahead() )
+  CastExpression()
+|
+  PostfixExpression()
+}
+
+// This production is to determine lookahead only.  The LOOKAHEAD specifications
+// below are not used, but they are there just to indicate that we know about
+// this.
+void CastLookahead() :
+{}
+{
+  LOOKAHEAD(2)
+  "(" PrimitiveType()
+|
+  LOOKAHEAD("(" Name() "[")
+  "(" Name() "[" "]"
+|
+  "(" Name() ")" ( "~" | "!" | "(" | <IDENTIFIER> | "this" | "super" | "new" | "[" | Literal() )
+}
+//MLF960327  added the "[" in the cast expression
+
+void PostfixExpression() :
+{}
+{
+  PrimaryExpression() [ "++" | "--" ]
+}
+
+void CastExpression() :
+{}
+{
+  LOOKAHEAD("(" PrimitiveType())
+  "(" Type() ")" UnaryExpression()
+|
+  LOOKAHEAD("(" Name())
+  "(" Type() ")" UnaryExpressionNotPlusMinus()
+}
+
+void PrimaryExpression() :
+{}
+{
+  PrimaryPrefix() ( LOOKAHEAD(2) PrimarySuffix() )*
+}
+
+void PrimaryPrefix() :
+{}
+{
+  Literal()
+|
+  Name()
+|
+  "this"
+|
+  "super" "." <IDENTIFIER>
+|
+  "(" Expression() ")"
+|
+   FunctorBlock()
+|
+  AllocationExpression()
+}
+
+//MLF Added the functor block
+//*************************************************
+
+void FunctorBlock() #FunctorBlock :
+{   Token t; }
+{
+		{
+		  jjtThis.firstToken=getToken(1);
+		}
+    "["
+    [ FunctorParameterList() ]
+    "|"
+    (
+    		{
+    		  jjtThis.startBlockStatements=getToken(1);
+    		}
+        ( BlockStatement() )*
+    		{
+    		  jjtThis.endBlockStatements=getToken(0);
+    		}
+    )
+    "]"
+		{
+		  jjtThis.lastToken=getToken(0);
+		}
+}
+
+void FunctorParameterList() #FunctorParameterList :
+{}
+{
+  FunctorParameter()
+  ( "," FunctorParameter()
+  )*
+}
+
+void FunctorParameter() :
+{}
+{
+    FunctorType()
+    |
+    FunctorInputParameter()
+    |
+    FunctorResultType()
+}
+
+void FunctorInputParameter() #FunctorInputParameter :
+{   Token startToken; }
+{
+        {
+            jjtThis.startNameToken=getToken(1);
+        }
+    (
+    LOOKAHEAD(Type() <IDENTIFIER> )
+    FormalParameter()
+    |
+    Name()
+    )
+        {
+            jjtThis.endNameToken=getToken(0);
+        }
+    ["="
+        {
+            jjtThis.startPrimaryPrefix=getToken(1);
+        }
+    PrimaryPrefix()
+        {
+            jjtThis.endPrimaryPrefix=getToken(0);
+            jjtThis.setHasEquals(true);
+        }
+    ]
+}
+
+void FunctorType() #FunctorType :
+{}
+{
+    "("
+        {
+            jjtThis.startNameToken=getToken(1);
+        }
+    Type()
+        {
+            jjtThis.endNameToken=getToken(0);
+        }
+    ")"
+}
+
+void FunctorResultType() #FunctorResultType :
+{}
+{
+    "^"
+        {
+            jjtThis.startNameToken=getToken(1);
+        }
+    (
+        ResultType()
+    )
+        {
+            jjtThis.endNameToken=getToken(0);
+        }
+}
+
+
+//*************************************************
+
+void PrimarySuffix() :
+{}
+{
+  LOOKAHEAD(2)
+  "." "this"
+|
+  LOOKAHEAD(2)
+  "." "class"
+|
+  LOOKAHEAD(2)
+  "." AllocationExpression()
+|
+  "[" Expression() "]"
+|
+  "." <IDENTIFIER>
+|
+  Arguments()
+}
+
+void Literal() :
+{}
+{
+  <INTEGER_LITERAL>
+|
+  <FLOATING_POINT_LITERAL>
+|
+  <CHARACTER_LITERAL>
+|
+  <STRING_LITERAL>
+|
+  BooleanLiteral()
+|
+  NullLiteral()
+}
+
+void BooleanLiteral() :
+{}
+{
+  "true"
+|
+  "false"
+}
+
+void NullLiteral() :
+{}
+{
+  "null"
+}
+
+void Arguments() :
+{}
+{
+  "(" [ ArgumentList() ] ")"
+}
+
+void ArgumentList() :
+{}
+{
+  Expression() ( "," Expression() )*
+}
+
+void AllocationExpression() :
+{}
+{
+  LOOKAHEAD(2)
+  "new" PrimitiveType() ArrayDimensions() [ ArrayInitializer() ]
+|
+  "new" Name()
+    (
+      ArrayDimensions() [ ArrayInitializer() ]
+    |
+      Arguments() [ ClassBody() ]
+    )
+}
+
+/*
+ * The second LOOKAHEAD specification below is to parse to PrimarySuffix
+ * if there is an expression between the "[...]".
+ */
+void ArrayDimensions() :
+{}
+{
+  ( LOOKAHEAD(2) "[" Expression() "]" )+ ( LOOKAHEAD(2) "[" "]" )*
+}
+
+
+/*
+ * Statement syntax follows.
+ */
+
+void Statement() :
+{}
+{
+  LOOKAHEAD(2)
+  LabeledStatement()
+|
+  Block()
+|
+  EmptyStatement()
+|
+  StatementExpression() ";"
+|
+  SwitchStatement()
+|
+  IfStatement()
+|
+  WhileStatement()
+|
+  DoStatement()
+|
+  ForStatement()
+|
+  BreakStatement()
+|
+  ContinueStatement()
+|
+  ReturnStatement()
+|
+  ThrowStatement()
+|
+  SynchronizedStatement()
+|
+  TryStatement()
+}
+
+void LabeledStatement() :
+{}
+{
+  <IDENTIFIER> ":" Statement()
+}
+
+void Block() :
+{}
+{
+  "{" ( BlockStatement() )* "}"
+}
+
+void BlockStatement() :
+{}
+{
+  LOOKAHEAD([ "final" ] Type() <IDENTIFIER>)
+  LocalVariableDeclaration() ";"
+|
+  Statement()
+|
+  UnmodifiedClassDeclaration()
+}
+
+void LocalVariableDeclaration() :
+{}
+{
+  [ "final" ] Type() VariableDeclarator() ( "," VariableDeclarator() )*
+}
+
+void EmptyStatement() :
+{}
+{
+  ";"
+}
+
+void StatementExpression() :
+/*
+ * The last expansion of this production accepts more than the legal
+ * Java expansions for StatementExpression.
+ */
+{}
+{
+  PreIncrementExpression()
+|
+  PreDecrementExpression()
+|
+  LOOKAHEAD( PrimaryExpression() AssignmentOperator() )
+  Assignment()
+|
+  PostfixExpression()
+}
+
+void SwitchStatement() :
+{}
+{
+  "switch" "(" Expression() ")" "{"
+    ( SwitchLabel() ( BlockStatement() )* )*
+  "}"
+}
+
+void SwitchLabel() :
+{}
+{
+  "case" Expression() ":"
+|
+  "default" ":"
+}
+
+void IfStatement() :
+/*
+ * The disambiguating algorithm of JavaCC automatically binds dangling
+ * else's to the innermost if statement.  The LOOKAHEAD specification
+ * is to tell JavaCC that we know what we are doing.
+ */
+{}
+{
+  "if" "(" Expression() ")" Statement() [ LOOKAHEAD(1) "else" Statement() ]
+}
+
+void WhileStatement() :
+{}
+{
+  "while" "(" Expression() ")" Statement()
+}
+
+void DoStatement() :
+{}
+{
+  "do" Statement() "while" "(" Expression() ")" ";"
+}
+
+void ForStatement() :
+{}
+{
+  "for" "(" [ ForInit() ] ";" [ Expression() ] ";" [ ForUpdate() ] ")" Statement()
+}
+
+void ForInit() :
+{}
+{
+  LOOKAHEAD( [ "final" ] Type() <IDENTIFIER> )
+  LocalVariableDeclaration()
+|
+  StatementExpressionList()
+}
+
+void StatementExpressionList() :
+{}
+{
+  StatementExpression() ( "," StatementExpression() )*
+}
+
+void ForUpdate() :
+{}
+{
+  StatementExpressionList()
+}
+
+void BreakStatement() :
+{}
+{
+  "break" [ <IDENTIFIER> ] ";"
+}
+
+void ContinueStatement() :
+{}
+{
+  "continue" [ <IDENTIFIER> ] ";"
+}
+
+void ReturnStatement() :
+{}
+{
+  "return" [ Expression() ] ";"
+}
+
+void ThrowStatement() :
+{}
+{
+  "throw" Expression() ";"
+}
+
+void SynchronizedStatement() :
+{}
+{
+  "synchronized" "(" Expression() ")" Block()
+}
+
+void TryStatement() :
+/*
+ * Semantic check required here to make sure that at least one
+ * finally/catch is present.
+ */
+{}
+{
+  "try" Block()
+  ( "catch" "(" FormalParameter() ")" Block() )*
+  [ "finally" Block() ]
+}

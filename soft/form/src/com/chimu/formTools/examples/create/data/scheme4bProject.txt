@@ -1,0 +1,7 @@
+id	integer	F
+name	varchar	T	60
+company_ID	Integer	T
+start_date	Date	T
+budgeted	Bit	F
+profit_margin	Decimal	F	13
+

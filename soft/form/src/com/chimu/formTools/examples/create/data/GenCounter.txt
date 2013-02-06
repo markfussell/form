@@ -1,0 +1,2 @@
+counter_id	varchar	F	4
+counter_value	integer	F

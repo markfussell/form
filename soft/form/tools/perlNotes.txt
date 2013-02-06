@@ -1,0 +1,40 @@
+
+
+    while (<>) {
+              if ($ARGV ne $oldargv) {
+                  rename($ARGV, $ARGV . '.bak');
+                  open(ARGVOUT, ">$ARGV");
+                  select(ARGVOUT);
+                  $oldargv = $ARGV;
+              }
+              s/foo/bar/;
+          }
+          continue {
+              print;  # this prints to original filename
+          }
+          select(STDOUT);
+
+
+foreach
+grep "COM.chimu.util
+sub main'expandTags {
+	local ($inFileHandle, $outFileHandle, $localDocumentName) =@_;
+	select ($outFileHandle);
+
+$documentName = $localDocumentName;  #put into the broader scope
+$lexState = 1;
+
+main:
+
+open (INPUT, "<$filename");
+&doStuff();
+close (INPUT);
+
+
+sub doStuff {
+    while (<INPUT>) {
+        $line = $_;
+        $line =~ s/COM\.chimu\.util/COM.chimu/o;
+        print $line;
+    };
+};

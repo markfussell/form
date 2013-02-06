@@ -1,0 +1,5 @@
+1	'Generic Company, Inc.'	'USD'	$5000000.00	'Los Angeles'	1
+2	'Comfy Cat, Inc.'	'USD'	$45000000.00	'Sunnyvale'	2
+3	'The Pace Makers'	'FF'	$3400000.00	'San Francisco'	3
+4	'Red Hat Manufacturing, Inc.'	'USD'	$3500000.00	'New York'	4
+5	'Sennheiser'	'DEM'	$350000000.00	'Munich'	5

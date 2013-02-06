@@ -1,0 +1,7 @@
+id	integer	F
+person_name	varchar	T	60
+email	varchar	T	60
+height	Integer	T
+employer_id	integer	T
+hired_date	Date	T
+

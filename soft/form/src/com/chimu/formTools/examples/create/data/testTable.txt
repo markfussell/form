@@ -1,0 +1,24 @@
+Id	varchar	F	5
+TypeBit	bit	F
+TypeBoolean	boolean	F
+TypeBigInt	bigint	T
+TypeInteger	integer	T
+TypeTinyInt	tinyint	F
+TypeSmallInt	smallint	F
+TypeFloat	float	T	4
+TypeDouble	double	T	6
+TypeReal	real	F	8
+TypeMoney	money	F
+TypeNumeric	numeric	T	4
+TypeDecimal	decimal	T	13	2
+TypeDate	date	F
+TypeTime	time	F
+TypeTimestamp	timestamp	T
+TypeBinary	binary	T
+TypeVarbinary	varbinary	F	50
+TypeLongVarBinary	longvarbinary	F	35
+TypeChar	varchar	T	10
+TypeString	varchar	T	50
+TypeLongVarChar	longvarchar	F	233
+TypeVarChar	varchar	F	50
+

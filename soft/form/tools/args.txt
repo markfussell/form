@@ -1,0 +1,5 @@
+-author
+-version 
+-footer "Copyright (c) 1997-1999, ChiMu Corporation" 
+-classpath .
+-use -doctitle Foo 
